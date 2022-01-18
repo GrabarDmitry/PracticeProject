@@ -46,6 +46,17 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>8.4.1</version>
+                <configuration>
+                    <user></user>
+                    <password></password>
+                    <url>jdbc:mysql://localhost:3306/app?serverTimezone=UTC</url>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
