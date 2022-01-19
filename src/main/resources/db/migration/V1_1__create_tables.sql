@@ -62,7 +62,7 @@ CREATE TABLE `user`
     email    VARCHAR(45),
     name     VARCHAR(45),
     surname  VARCHAR(45),
-    password VARCHAR(45),
+    password VARCHAR(512),
     balance  DECIMAL
 );
 
@@ -114,7 +114,7 @@ CREATE TABLE comment
 CREATE TABLE bookmark
 (
     id      BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    user_id BIGINT,
+    user_id BIGINT UNIQUE,
     CONSTRAINT bookmark_user_id_fk FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
@@ -125,4 +125,3 @@ CREATE TABLE bookmark_announcements
     CONSTRAINT bookmark_announcements_bookmark_id_fk FOREIGN KEY (bookmark_id) REFERENCES bookmark (id),
     CONSTRAINT bookmark_announcements_announcement_id_fk FOREIGN KEY (announcement_id) REFERENCES announcement (id)
 );
-
