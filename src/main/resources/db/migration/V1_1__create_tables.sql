@@ -4,20 +4,20 @@ CREATE TABLE auto_brand
     title VARCHAR(45)
 );
 
-CREATE TABLE auto_model
-(
-    id            BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    title         VARCHAR(45),
-    auto_brand_id BIGINT,
-    CONSTRAINT auto_model_auto_brand_id_fk FOREIGN KEY (auto_brand_id) REFERENCES auto_brand (id)
-);
-
 CREATE TABLE auto_released_year
 (
     id            BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    released_year DATETIME,
-    auto_model_id BIGINT,
-    CONSTRAINT auto_released_year_auto_model_id_fk FOREIGN KEY (auto_model_id) REFERENCES auto_model (id)
+    released_year DATETIME
+);
+
+CREATE TABLE auto_model
+(
+    id                    BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    title                 VARCHAR(45),
+    auto_brand_id         BIGINT,
+    auto_released_year_id BIGINT,
+    CONSTRAINT auto_model_auto_brand_id_fk FOREIGN KEY (auto_brand_id) REFERENCES auto_brand (id),
+    CONSTRAINT auto_model_auto_released_year_id_fk FOREIGN KEY (auto_released_year_id) REFERENCES auto_released_year (id)
 );
 
 CREATE TABLE auto_transmission
@@ -38,14 +38,10 @@ CREATE TABLE auto
     mileage               INT,
     engine_capacity       INT,
     VIM                   VARCHAR(17),
-    auto_brand_id         BIGINT,
     auto_model_id         BIGINT,
-    auto_released_year_id BIGINT,
     auto_transmission_id  BIGINT,
     auto_engine_id        BIGINT,
-    CONSTRAINT auto_auto_brand_id_fk FOREIGN KEY (auto_brand_id) REFERENCES auto_brand (id),
     CONSTRAINT auto_auto_model_id_fk FOREIGN KEY (auto_model_id) REFERENCES auto_model (id),
-    CONSTRAINT auto_auto_released_year_id_fk FOREIGN KEY (auto_released_year_id) REFERENCES auto_released_year (id),
     CONSTRAINT auto_transmission_id_fk FOREIGN KEY (auto_transmission_id) REFERENCES auto_transmission (id),
     CONSTRAINT auto_engine_id_fk FOREIGN KEY (auto_engine_id) REFERENCES auto_engine (id)
 );

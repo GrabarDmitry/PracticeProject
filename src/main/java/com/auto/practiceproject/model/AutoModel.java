@@ -20,4 +20,8 @@ public class AutoModel extends AbstractEntity {
     @JoinColumn(name = "autoBrandId")
     private AutoBrand autoBrand;
 
+    @ManyToOne
+    @JoinColumn(name = "autoReleasedYearId")
+    private AutoReleasedYear autoReleasedYear;
+
 }

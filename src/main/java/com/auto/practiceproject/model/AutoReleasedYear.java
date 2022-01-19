@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -18,10 +15,7 @@ import java.util.Date;
 @Table(name = "auto_released_year")
 public class AutoReleasedYear extends AbstractEntity {
 
+    @Column
     private Date releasedYear;
-
-    @ManyToOne
-    @JoinColumn(name = "autoModelId")
-    private AutoModel autoModel;
 
 }

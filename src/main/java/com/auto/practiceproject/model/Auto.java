@@ -23,16 +23,8 @@ public class Auto extends AbstractEntity {
     private String VIM;
 
     @ManyToOne
-    @JoinColumn(name = "autoBrandId")
-    private AutoBrand autoBrand;
-
-    @ManyToOne
     @JoinColumn(name = "autoModelId")
     private AutoModel autoModel;
-
-    @ManyToOne
-    @JoinColumn(name = "autoReleasedYearId")
-    private AutoReleasedYear autoReleasedYear;
 
     @ManyToOne
     @JoinColumn(name = "autoEngineId")

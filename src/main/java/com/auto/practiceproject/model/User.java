@@ -37,4 +37,8 @@ public class User extends AbstractEntity {
     )
     private Set<Role> roles;
 
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "bookmarkId")
+    private Bookmark bookmark;
+
 }
