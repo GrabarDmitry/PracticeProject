@@ -15,7 +15,7 @@ CREATE TABLE auto_model
 CREATE TABLE auto_released_year
 (
     id            BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    year          DATETIME,
+    released_year DATETIME,
     auto_model_id BIGINT,
     CONSTRAINT auto_released_year_auto_model_id_fk FOREIGN KEY (auto_model_id) REFERENCES auto_model (id)
 );
@@ -59,11 +59,11 @@ CREATE TABLE region
 CREATE TABLE `user`
 (
     id       BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    email    VARCHAR(45),
+    email    VARCHAR(255) UNIQUE,
     name     VARCHAR(45),
     surname  VARCHAR(45),
     password VARCHAR(512),
-    balance  DECIMAL
+    balance  DOUBLE
 );
 
 CREATE TABLE role
@@ -83,16 +83,16 @@ CREATE TABLE user_roles
 CREATE TABLE announcement
 (
     id             BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    title          VARCHAR(90),
+    title          VARCHAR(255),
     description    VARCHAR(1024),
     phone_number   VARCHAR(13),
-    price          DECIMAL,
-    active         TINYINT,
-    moderation     TINYINT,
+    price          DOUBLE,
+    is_active      TINYINT,
+    is_moderation  TINYINT,
     rating         INT,
     last_rating_up DATETIME,
-    exchange       TINYINT,
-    customs_duty   DECIMAL,
+    is_exchange    TINYINT,
+    customs_duty   DOUBLE,
     user_id        BIGINT,
     region_id      BIGINT,
     auto_id        BIGINT UNIQUE,

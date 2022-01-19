@@ -33,7 +33,7 @@ WHERE id <> 0;
 ALTER TABLE app.auto_released_year
     AUTO_INCREMENT = 1;
 
-INSERT INTO auto_released_year(year, auto_model_id)
+INSERT INTO auto_released_year(released_year, auto_model_id)
 VALUES ('2020-01-01', 1),
        ('2014-01-01', 2),
        ('2017-01-01', 3),
@@ -130,7 +130,7 @@ WHERE id <> 0;
 ALTER TABLE app.announcement
     AUTO_INCREMENT = 1;
 
-INSERT INTO announcement(title, description, phone_number, price, active, moderation, rating, last_rating_up, exchange,
+INSERT INTO announcement(title, description, phone_number, price, is_active, is_moderation, rating, last_rating_up, is_exchange,
                          customs_duty, user_id, region_id, auto_id)
 VALUES ('BMW X5', 'BMW X5 description', +371231834, 5000, true, false, 0, '2022-01-19', false, 0, 3, 1, 1),
        ('AUDI Q5', 'AUDI Q5 description', +3712318424, 9000, true, false, 10, '2022-01-19', true, 0, 2, 3, 2),
