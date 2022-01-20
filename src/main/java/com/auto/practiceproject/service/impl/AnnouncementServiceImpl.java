@@ -1,5 +1,7 @@
 package com.auto.practiceproject.service.impl;
 
+import com.auto.practiceproject.controller.filter.AnnouncementFilter;
+import com.auto.practiceproject.controller.filter.FilteredService;
 import com.auto.practiceproject.dao.AnnouncementDAO;
 import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.Announcement;
@@ -16,14 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 @Slf4j
 @RequiredArgsConstructor
-public class AnnouncementServiceImpl implements AnnouncementService {
+public class AnnouncementServiceImpl implements AnnouncementService, FilteredService {
 
     private final AnnouncementDAO announcementDAO;
+    private final AnnouncementFilter announcementFilter;
 
-    @Override
-    public Page<Announcement> findAllAnnouncement(Pageable pageable) {
+    public Page<Announcement> findAllAnnouncement(Pageable pageable, String filter) {
         log.trace("Service method called to find all Announcement with params: {}", pageable);
-        return announcementDAO.findAll(pageable);
+        return announcementDAO.findAll(applyFilter(announcementFilter, decodeStringFilter(filter)), pageable);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.auto.practiceproject.exception.handler;
 
+import com.auto.practiceproject.exception.FilterException;
 import com.auto.practiceproject.exception.ResourceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,8 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler({
             BadCredentialsException.class,
-            ResourceException.class
+            ResourceException.class,
+            FilterException.class
     })
     public ResponseEntity<ExceptionInfo> badCredentialsExceptionHandle(Exception ex) {
         log.error("{}: {}", ex.getClass(), ex.getMessage());
