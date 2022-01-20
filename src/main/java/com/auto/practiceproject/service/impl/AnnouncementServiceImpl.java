@@ -69,7 +69,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
         }
         announcement.setRating(announcement.getRating() + 1);
         announcement.setLastRatingUp(LocalDateTime.now());
-        return announcementDAO.saveAndFlush(announcement);
+        return updateAnnouncement(announcement);
     }
 
 
