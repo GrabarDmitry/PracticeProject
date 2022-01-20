@@ -9,23 +9,34 @@ import java.util.List;
 //TODO
 public interface FilteredService {
 
-    default <T> Specification<T> applyFilter(Filter filter, List<String> filters) {
+    default <T> Specification<T> applyFilter(Filter filterClass, List<String> filters) {
 
-        if (filters.isEmpty()) {
-            return null;
+        if (filters == null) {
+            filters = Collections.emptyList();
         }
 
-        return filter.filter(filters.get(0),filters.get(1));
+        Specification<T> result = null;
+
+        for (int i = 0; i < filters.size(); i++) {
+
+            String field = filterClass.decodeStringFilterToFilterDTO(filters.get(i)).getField();
+            String value = filterClass.decodeStringFilterToFilterDTO(filters.get(i)).getValue();
+
+            if (result == null) {
+                result = Specification.where(
+                        filterClass.filter(field, value));
+            } else {
+                result = result.and(filterClass.filter(field, value));
+            }
+        }
+
+        return result;
 
     }
 
     default List<String> decodeStringFilter(String filter) {
         if (filter != null) {
-            List<String> params = Arrays.asList(filter.trim().split(".eq"));
-            return List.of(
-                    params.get(0),
-                    params.get(1).replaceAll("[\\(\\)]", "")
-            );
+            return Arrays.asList(filter.trim().split(";"));
         } else return Collections.emptyList();
     }
 

@@ -1,11 +1,12 @@
 package com.auto.practiceproject.controller.filter;
 
+import com.auto.practiceproject.exception.FilterException;
 import com.auto.practiceproject.model.Announcement;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.JoinType;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class AnnouncementFilter extends Filter<Announcement> {
         put("price", Double.class);
         put("brand", String.class);
         put("model", String.class);
-        put("releasedYear", Date.class);
+        put("releasedYear", LocalDate.class);
         put("mileage", Integer.class);
         put("engineType", String.class);
         put("engineCapacity", Integer.class);
@@ -32,24 +33,28 @@ public class AnnouncementFilter extends Filter<Announcement> {
 
     @Override
     public Specification<Announcement> filter(String field, String value) {
-        if (field.equals("price") || field.equals("isExchange") || field.equals("customsDuty")) {
-            return toSpecification(field, parser(fieldsType, field, value));
-        } else if (field.equals("mileage") || field.equals("engineCapacity")) {
-            return filterByAnnouncementAuto(field, parser(fieldsType, field, value));
-        } else if (field.equals("brand")) {
-            return filterByAnnouncementAutoBrand(DB_FIELD_TITLE, parser(fieldsType, field, value));
-        } else if (field.equals("releasedYear")) {
-            return filterByAnnouncementAutoReleaseYear(field, parser(fieldsType, field, value));
-        } else if (field.equals("model")) {
-            return filterByAnnouncementAutoModel(DB_FIELD_TITLE, parser(fieldsType, field, value));
-        } else if (field.equals("engineType")) {
-            return filterByAnnouncementAutoEngineType(DB_FIELD_TYPE, parser(fieldsType, field, value));
-        } else if (field.equals("transmission")) {
-            return filterByAnnouncementAutoTransmissionType(DB_FIELD_TYPE, parser(fieldsType, field, value));
-        } else if (field.equals("region")) {
-            return filterByAnnouncementRegion(DB_FIELD_TITLE, parser(fieldsType, field, value));
+        try {
+            if (field.equals("price") || field.equals("isExchange") || field.equals("customsDuty")) {
+                return toSpecification(field, parser(fieldsType, field, value));
+            } else if (field.equals("mileage") || field.equals("engineCapacity")) {
+                return filterByAnnouncementAuto(field, parser(fieldsType, field, value));
+            } else if (field.equals("brand")) {
+                return filterByAnnouncementAutoBrand(DB_FIELD_TITLE, parser(fieldsType, field, value));
+            } else if (field.equals("releasedYear")) {
+                return filterByAnnouncementAutoReleaseYear(field, parser(fieldsType, field, value));
+            } else if (field.equals("model")) {
+                return filterByAnnouncementAutoModel(DB_FIELD_TITLE, parser(fieldsType, field, value));
+            } else if (field.equals("engineType")) {
+                return filterByAnnouncementAutoEngineType(DB_FIELD_TYPE, parser(fieldsType, field, value));
+            } else if (field.equals("transmission")) {
+                return filterByAnnouncementAutoTransmissionType(DB_FIELD_TYPE, parser(fieldsType, field, value));
+            } else if (field.equals("region")) {
+                return filterByAnnouncementRegion(DB_FIELD_TITLE, parser(fieldsType, field, value));
+            }
+            return null;
+        } catch (Exception exception) {
+            throw new FilterException("Filter parameter is incorrect");
         }
-        return null;
     }
 
     private Specification<Announcement> filterByAnnouncementAutoBrand(String field, Object value) {
@@ -64,7 +69,7 @@ public class AnnouncementFilter extends Filter<Announcement> {
         return ((root, criteriaQuery, criteriaBuilder) -> {
             return criteriaBuilder.equal(root.join("auto", JoinType.LEFT).
                     join("autoModel", JoinType.LEFT).
-                    join("autoReleased").get(field), value);
+                    join("autoReleasedYear").get(field), value);
         });
     }
 

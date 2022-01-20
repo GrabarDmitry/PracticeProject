@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -15,7 +15,7 @@ public class AnnouncementResponseDTO {
     private Double price;
     private String brand;
     private String model;
-    private Date releasedYear;
+    private LocalDate releasedYear;
     private String transmission;
     private String engine;
     private Integer engineCapacity;

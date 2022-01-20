@@ -4,19 +4,20 @@ import com.auto.practiceproject.exception.FilterException;
 import com.auto.practiceproject.model.Announcement;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Filter<T> {
+
+    public abstract Specification<Announcement> filter(String field, String value);
 
     protected Specification<T> toSpecification(String field, Object value) {
         return ((root, criteriaQuery, criteriaBuilder) -> {
             return criteriaBuilder.equal(root.get(field), value);
         });
     }
-
-    public abstract Specification<Announcement> filter(String field, String value);
 
     protected Object parser(Map<String, Class> types, String field, String value) {
         try {
@@ -28,12 +29,25 @@ public abstract class Filter<T> {
                 return Boolean.valueOf(value);
             } else if (types.get(field).equals(Double.class)) {
                 return Double.valueOf(value);
-            } else if (types.get(field).equals(Date.class)) {
-                return new SimpleDateFormat("yyyy/MM/dd").parse(value);
+            } else if (types.get(field).equals(LocalDate.class)) {
+                return LocalDate.parse(value);
             }
             return value;
         } catch (Exception exception) {
-            System.out.println(exception);
+            throw new FilterException("Filter parameter is incorrect");
+        }
+    }
+
+    protected FilterDTO decodeStringFilterToFilterDTO(String filter) {
+        try {
+            if (filter != null) {
+                List<String> params = Arrays.asList(filter.trim().split(".eq"));
+                return new FilterDTO(
+                        params.get(0),
+                        params.get(1).replaceAll("[\\(\\)]", "")
+                );
+            } else return null;
+        } catch (Exception exception) {
             throw new FilterException("Filter parameter is incorrect");
         }
     }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -20,7 +21,7 @@ public class FullAnnouncementResponseDTO {
     private Double customsDuty;
     private String brand;
     private String model;
-    private Date releasedYear;
+    private LocalDate releasedYear;
     private String transmission;
     private String engine;
     private Integer mileage;
