@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -40,5 +41,8 @@ public class User extends AbstractEntity {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "bookmarkId")
     private Bookmark bookmark;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Announcement> announcements;
 
 }
