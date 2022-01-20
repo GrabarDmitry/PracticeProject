@@ -33,6 +33,7 @@ public abstract class Filter<T> {
             }
             return value;
         } catch (Exception exception) {
+            System.out.println(exception);
             throw new FilterException("Filter parameter is incorrect");
         }
     }

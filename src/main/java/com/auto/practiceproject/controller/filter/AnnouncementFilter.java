@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.JoinType;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
-
-import static java.util.Map.entry;
 
 //TODO
 @Component
@@ -17,19 +16,19 @@ public class AnnouncementFilter extends Filter<Announcement> {
     private final String DB_FIELD_TITLE = "title";
     private final String DB_FIELD_TYPE = "type";
 
-    private Map<String, Class> fieldsType = Map.ofEntries(
-            entry("price", Double.class),
-            entry("brand", String.class),
-            entry("model", String.class),
-            entry("releasedYear", Date.class),
-            entry("mileage", Integer.class),
-            entry("engineType", String.class),
-            entry("engineCapacity", Integer.class),
-            entry("transmission", String.class),
-            entry("region", String.class),
-            entry("isExchange", Boolean.class),
-            entry("customsDuty", Double.class)
-    );
+    private Map<String, Class> fieldsType = new HashMap<>() {{
+        put("price", Double.class);
+        put("brand", String.class);
+        put("model", String.class);
+        put("releasedYear", Date.class);
+        put("mileage", Integer.class);
+        put("engineType", String.class);
+        put("engineCapacity", Integer.class);
+        put("transmission", String.class);
+        put("region", String.class);
+        put("isExchange", Boolean.class);
+        put("customsDuty", Double.class);
+    }};
 
     @Override
     public Specification<Announcement> filter(String field, String value) {
@@ -38,17 +37,17 @@ public class AnnouncementFilter extends Filter<Announcement> {
         } else if (field.equals("mileage") || field.equals("engineCapacity")) {
             return filterByAnnouncementAuto(field, parser(fieldsType, field, value));
         } else if (field.equals("brand")) {
-            return filterByAnnouncementAutoBrand(DB_FIELD_TITLE, parser(fieldsType, DB_FIELD_TITLE, value));
+            return filterByAnnouncementAutoBrand(DB_FIELD_TITLE, parser(fieldsType, field, value));
         } else if (field.equals("releasedYear")) {
             return filterByAnnouncementAutoReleaseYear(field, parser(fieldsType, field, value));
         } else if (field.equals("model")) {
-            return filterByAnnouncementAutoModel(DB_FIELD_TITLE, parser(fieldsType, DB_FIELD_TITLE, value));
+            return filterByAnnouncementAutoModel(DB_FIELD_TITLE, parser(fieldsType, field, value));
         } else if (field.equals("engineType")) {
-            return filterByAnnouncementAutoEngineType(DB_FIELD_TYPE, parser(fieldsType, DB_FIELD_TYPE, value));
+            return filterByAnnouncementAutoEngineType(DB_FIELD_TYPE, parser(fieldsType, field, value));
         } else if (field.equals("transmission")) {
-            return filterByAnnouncementAutoTransmissionType(DB_FIELD_TYPE, parser(fieldsType, DB_FIELD_TYPE, value));
+            return filterByAnnouncementAutoTransmissionType(DB_FIELD_TYPE, parser(fieldsType, field, value));
         } else if (field.equals("region")) {
-            return filterByAnnouncementRegion(DB_FIELD_TITLE, parser(fieldsType, DB_FIELD_TITLE, value));
+            return filterByAnnouncementRegion(DB_FIELD_TITLE, parser(fieldsType, field, value));
         }
         return null;
     }
