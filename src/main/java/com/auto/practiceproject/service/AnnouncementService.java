@@ -6,8 +6,12 @@ import org.springframework.data.domain.Pageable;
 
 public interface AnnouncementService {
 
-    Page<Announcement> findAllAnnouncement(Pageable pageable, String filter);
+    Page<Announcement> findAllModerationAnnouncement(Pageable pageable, String filter);
 
     Announcement findAnnouncementById(Long id);
+
+    Announcement updateAnnouncement(Announcement announcement);
+
+    Announcement announcementRatingUp(Long id);
 
 }
