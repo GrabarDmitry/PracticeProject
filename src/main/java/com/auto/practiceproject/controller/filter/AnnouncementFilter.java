@@ -29,6 +29,7 @@ public class AnnouncementFilter extends Filter<Announcement> {
         put("transmission", String.class);
         put("region", String.class);
         put("isExchange", Boolean.class);
+        put("isModeration", Boolean.class);
         put("customsDuty", Double.class);
         put("userId", Long.class);
     }};
@@ -36,7 +37,8 @@ public class AnnouncementFilter extends Filter<Announcement> {
     @Override
     public Specification<Announcement> filter(String field, String value) {
         try {
-            if (field.equals("price") || field.equals("isExchange") || field.equals("customsDuty")) {
+            if (field.equals("price") || field.equals("isExchange")
+                    || field.equals("customsDuty") || field.equals("isModeration")) {
                 return toSpecification(field, parser(fieldsType, field, value));
             } else if (field.equals("mileage") || field.equals("engineCapacity")) {
                 return filterByAnnouncementAuto(field, parser(fieldsType, field, value));

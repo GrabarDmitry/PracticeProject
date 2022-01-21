@@ -30,7 +30,11 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Page<Announcement> findAllModerationAnnouncement(Pageable pageable, String filter) {
         log.trace("Service method called to find all moderation Announcement with params: {}", pageable);
-        return announcementDAO.findAll(applyFilter(announcementFilter, decodeStringFilter(filter)), pageable);
+        return announcementDAO.findAll(applyFilter(
+                announcementFilter,
+                decodeStringFilter(filter),
+                List.of(new FilterDTO("isModeration", String.valueOf(false)))),
+                pageable);
     }
 
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
@@ -64,8 +68,6 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
         log.info("Service method called to update Announcement rating with id: {}", announcement.getId());
         Duration duration = Duration.between(announcement.getLastRatingUp(), LocalDateTime.now());
         if ((duration.toDays() == 0 && duration.toHours() < 5) || (duration.toDays() > 0)) {
-            System.out.println(duration.toDays());
-            System.out.println(duration.toHours());
             log.warn("Announcement with Id: {} can't up rating", announcement.getId());
             throw new ResourceException("Announcement with Id: " + announcement.getId() + " can't up rating" +
                     ",last Announcement rating up at:" + announcement.getLastRatingUp());
