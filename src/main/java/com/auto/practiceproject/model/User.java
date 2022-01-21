@@ -30,7 +30,7 @@ public class User extends AbstractEntity {
     @Column
     private Double balance;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = {@JoinColumn(name = "userId")},
@@ -41,8 +41,5 @@ public class User extends AbstractEntity {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "bookmarkId")
     private Bookmark bookmark;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Announcement> announcements;
 
 }

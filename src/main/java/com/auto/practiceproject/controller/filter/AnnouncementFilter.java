@@ -16,6 +16,7 @@ public class AnnouncementFilter extends Filter<Announcement> {
 
     private final String DB_FIELD_TITLE = "title";
     private final String DB_FIELD_TYPE = "type";
+    private final String DB_FIELD_Id = "id";
 
     private Map<String, Class> fieldsType = new HashMap<>() {{
         put("price", Double.class);
@@ -29,6 +30,7 @@ public class AnnouncementFilter extends Filter<Announcement> {
         put("region", String.class);
         put("isExchange", Boolean.class);
         put("customsDuty", Double.class);
+        put("userId", Long.class);
     }};
 
     @Override
@@ -50,6 +52,8 @@ public class AnnouncementFilter extends Filter<Announcement> {
                 return filterByAnnouncementAutoTransmissionType(DB_FIELD_TYPE, parser(fieldsType, field, value));
             } else if (field.equals("region")) {
                 return filterByAnnouncementRegion(DB_FIELD_TITLE, parser(fieldsType, field, value));
+            } else if (field.equals("userId")) {
+                return filterByAnnouncementUser(DB_FIELD_Id, parser(fieldsType, field, value));
             }
             return null;
         } catch (Exception exception) {
@@ -103,6 +107,12 @@ public class AnnouncementFilter extends Filter<Announcement> {
     private Specification<Announcement> filterByAnnouncementRegion(String field, Object value) {
         return ((root, criteriaQuery, criteriaBuilder) -> {
             return criteriaBuilder.equal(root.join("region", JoinType.LEFT).get(field), value);
+        });
+    }
+
+    private Specification<Announcement> filterByAnnouncementUser(String field, Object value) {
+        return ((root, criteriaQuery, criteriaBuilder) -> {
+            return criteriaBuilder.equal(root.join("user", JoinType.LEFT).get(field), value);
         });
     }
 

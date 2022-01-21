@@ -1,5 +1,6 @@
 package com.auto.practiceproject.config;
 
+import com.auto.practiceproject.security.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtConfig config;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -37,6 +39,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .cors()
+                .and()
+                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
                 .and()
                 .apply(config);
     }

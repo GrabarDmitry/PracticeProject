@@ -53,7 +53,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         }
     }
 
-    public String convertObjectToJson(Object object) throws JsonProcessingException {
+    private String convertObjectToJson(Object object) throws JsonProcessingException {
         if (object == null) {
             return null;
         }

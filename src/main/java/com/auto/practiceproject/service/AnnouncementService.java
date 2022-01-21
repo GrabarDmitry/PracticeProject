@@ -12,6 +12,8 @@ public interface AnnouncementService {
 
     Announcement updateAnnouncement(Announcement announcement);
 
-    Announcement announcementRatingUp(Long id);
+    Announcement announcementRatingUp(Announcement announcement);
+
+    Page<Announcement> findAnnouncementByUserId(String id, Pageable pageable, String filter);
 
 }

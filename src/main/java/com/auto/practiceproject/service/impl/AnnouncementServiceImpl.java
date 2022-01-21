@@ -1,6 +1,7 @@
 package com.auto.practiceproject.service.impl;
 
 import com.auto.practiceproject.controller.filter.AnnouncementFilter;
+import com.auto.practiceproject.controller.filter.FilterDTO;
 import com.auto.practiceproject.controller.filter.FilteredService;
 import com.auto.practiceproject.dao.AnnouncementDAO;
 import com.auto.practiceproject.exception.ResourceException;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -58,18 +60,29 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public Announcement announcementRatingUp(Long id) {
-        Announcement announcement = findAnnouncementById(id);
-        log.info("Service method called to update Announcement rating with id: {}", id);
+    public Announcement announcementRatingUp(Announcement announcement) {
+        log.info("Service method called to update Announcement rating with id: {}", announcement.getId());
         Duration duration = Duration.between(announcement.getLastRatingUp(), LocalDateTime.now());
-        if (duration.toDays() == 0 || duration.toHours() < 5) {
-            log.warn("Announcement with Id: {} can't up rating", id);
-            throw new ResourceException("Announcement with Id: " + id + " can't up rating" +
+        if ((duration.toDays() == 0 && duration.toHours() < 5) || (duration.toDays() > 0)) {
+            System.out.println(duration.toDays());
+            System.out.println(duration.toHours());
+            log.warn("Announcement with Id: {} can't up rating", announcement.getId());
+            throw new ResourceException("Announcement with Id: " + announcement.getId() + " can't up rating" +
                     ",last Announcement rating up at:" + announcement.getLastRatingUp());
         }
         announcement.setRating(announcement.getRating() + 1);
         announcement.setLastRatingUp(LocalDateTime.now());
         return updateAnnouncement(announcement);
+    }
+
+    @Override
+    public Page<Announcement> findAnnouncementByUserId(String id, Pageable pageable, String filter) {
+        log.trace("Service method called to find all moderation user announcement with params: {}", pageable);
+        return announcementDAO.findAll(applyFilter(
+                        announcementFilter,
+                        decodeStringFilter(filter),
+                        List.of(new FilterDTO("userId", id))),
+                pageable);
     }
 
 

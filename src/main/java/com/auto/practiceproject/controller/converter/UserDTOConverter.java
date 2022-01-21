@@ -43,8 +43,7 @@ public class UserDTOConverter {
                         //TODO
                         roleService.findRoleByTitle("USER").get()
                 ),
-                new Bookmark(),
-                null
+                new Bookmark()
         );
     }
 
