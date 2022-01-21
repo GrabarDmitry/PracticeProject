@@ -28,12 +28,14 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
     private final AnnouncementFilter announcementFilter;
 
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
+    @Override
     public Page<Announcement> findAllModerationAnnouncement(Pageable pageable, String filter) {
         log.trace("Service method called to find all moderation Announcement with params: {}", pageable);
-        return announcementDAO.findAll(applyFilter(
-                announcementFilter,
-                decodeStringFilter(filter),
-                List.of(new FilterDTO("isModeration", String.valueOf(false)))),
+        return announcementDAO.findAll(
+                applyFilter(
+                        announcementFilter,
+                        decodeStringFilter(filter),
+                        List.of(new FilterDTO("isModeration", String.valueOf(false)))),
                 pageable);
     }
 
@@ -77,10 +79,12 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
         return updateAnnouncement(announcement);
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     @Override
     public Page<Announcement> findAnnouncementByUserId(String id, Pageable pageable, String filter) {
         log.trace("Service method called to find all moderation user announcement with params: {}", pageable);
-        return announcementDAO.findAll(applyFilter(
+        return announcementDAO.findAll(
+                applyFilter(
                         announcementFilter,
                         decodeStringFilter(filter),
                         List.of(new FilterDTO("userId", id))),
