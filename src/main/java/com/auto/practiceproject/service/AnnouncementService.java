@@ -8,6 +8,8 @@ public interface AnnouncementService {
 
     Page<Announcement> findAllModerationAnnouncement(Pageable pageable, String filter);
 
+    Announcement createAnnouncement(Announcement announcement);
+
     Announcement findAnnouncementById(Long id);
 
     Announcement updateAnnouncement(Announcement announcement);

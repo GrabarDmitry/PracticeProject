@@ -40,8 +40,8 @@ public class UserDTOConverter {
                 passwordEncoder.encode(createDTO.getPassword()),
                 0D,
                 Set.of(
-                        //TODO
-                        roleService.findRoleByTitle("USER").get()
+                        roleService.findRoleByTitle("USER").
+                                orElse(null)
                 ),
                 new Bookmark()
         );

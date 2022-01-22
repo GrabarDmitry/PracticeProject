@@ -1,6 +1,7 @@
 package com.auto.practiceproject.controller;
 
 import com.auto.practiceproject.controller.converter.AnnouncementDTOConverter;
+import com.auto.practiceproject.controller.dto.request.AnnouncementCreateDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
 import com.auto.practiceproject.controller.dto.response.FullAnnouncementResponseDTO;
 import com.auto.practiceproject.service.AnnouncementService;
@@ -13,6 +14,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RestController
@@ -47,5 +50,17 @@ public class AnnouncementController {
                 HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<AnnouncementResponseDTO> createAnnouncement(@RequestBody @Valid AnnouncementCreateDTO createDTO) {
+        log.trace("Controller method called to create Announcement with title: {}"
+                , createDTO.getBrand() + "" + createDTO.getModel());
+        return new ResponseEntity<>(
+                announcementDTOConverter.toDTO(
+                        announcementService.createAnnouncement(
+                                announcementDTOConverter.toEntity(createDTO)
+                        )
+                )
+                , HttpStatus.CREATED);
+    }
 
 }

@@ -39,6 +39,14 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
                 pageable);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Override
+    public Announcement createAnnouncement(Announcement announcement) {
+        log.trace("Service method called to create Announcement with title, creator is userID : {}",
+                announcement.getTitle(), announcement.getUser().getId());
+        return announcementDAO.save(announcement);
+    }
+
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     @Override
     public Announcement findAnnouncementById(Long id) {

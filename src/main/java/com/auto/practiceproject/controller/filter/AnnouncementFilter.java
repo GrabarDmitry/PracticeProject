@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO
 @Component
 public class AnnouncementFilter extends Filter<Announcement> {
 
