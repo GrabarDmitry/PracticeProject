@@ -51,11 +51,11 @@ public class AnnouncementController {
     }
 
     @PostMapping
-    public ResponseEntity<AnnouncementResponseDTO> createAnnouncement(@RequestBody @Valid AnnouncementCreateDTO createDTO) {
+    public ResponseEntity<FullAnnouncementResponseDTO> createAnnouncement(@RequestBody @Valid AnnouncementCreateDTO createDTO) {
         log.trace("Controller method called to create Announcement with title: {}"
                 , createDTO.getBrand() + "" + createDTO.getModel());
         return new ResponseEntity<>(
-                announcementDTOConverter.toDTO(
+                announcementDTOConverter.toFullDTO(
                         announcementService.createAnnouncement(
                                 announcementDTOConverter.toEntity(createDTO)
                         )

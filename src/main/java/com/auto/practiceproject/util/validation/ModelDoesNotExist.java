@@ -1,6 +1,6 @@
 package com.auto.practiceproject.util.validation;
 
-import com.auto.practiceproject.service.UserService;
+import com.auto.practiceproject.service.AutoModelService;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.Constraint;
@@ -16,28 +16,31 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = UserExistWithEmail.Validator.class)
-public @interface UserExistWithEmail {
+@Constraint(validatedBy = ModelDoesNotExist.Validator.class)
+public @interface ModelDoesNotExist {
 
-    String message() default "user with installed email already exists";
+    String message() default "Models with installed title don't exist";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
     @RequiredArgsConstructor
-    class Validator implements ConstraintValidator<UserExistWithEmail, String> {
+    class Validator implements ConstraintValidator<ModelDoesNotExist, String> {
 
-        private final UserService userService;
+        private final AutoModelService autoModelService;
 
         @Override
-        public void initialize(UserExistWithEmail constraintAnnotation) {
+        public void initialize(ModelDoesNotExist modelDoesNotExist) {
 
         }
 
         @Override
-        public boolean isValid(String email, ConstraintValidatorContext context) {
-            return userService.findUserByEmail(email).isEmpty();
+        public boolean isValid(String title, ConstraintValidatorContext context) {
+            return autoModelService.findAutoModelByTitle(title)
+                    .isPresent();
         }
+
     }
+
 }

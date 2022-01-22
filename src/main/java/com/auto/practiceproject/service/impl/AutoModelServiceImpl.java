@@ -22,6 +22,13 @@ public class AutoModelServiceImpl implements AutoModelService {
 
     @Override
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
+    public Optional<AutoModel> findAutoModelByTitle(String title) {
+        log.trace("Service method called to view auto model with title: {}", title);
+        return autoModelDAO.findAutoModelByTitle(title);
+    }
+
+    @Override
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Optional<AutoModel> findAutoModelByTitleAndAutoBrandAndAutoReleasedYear(
             String title,
             AutoBrand brand,
