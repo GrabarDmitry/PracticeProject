@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -77,7 +78,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
     public Announcement announcementRatingUp(Announcement announcement) {
         log.info("Service method called to update Announcement rating with id: {}", announcement.getId());
         Duration duration = Duration.between(announcement.getLastRatingUp(), LocalDateTime.now());
-        if ((duration.toDays() == 0 && duration.toHours() < 5) || (duration.toDays() > 0)) {
+        if (duration.toDays() == 0 && duration.toHours() < 5) {
             log.warn("Announcement with Id: {} can't up rating", announcement.getId());
             throw new ResourceException("Announcement with Id: " + announcement.getId() + " can't up rating" +
                     ",last Announcement rating up at:" + announcement.getLastRatingUp());
@@ -97,6 +98,13 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
                         decodeStringFilter(filter),
                         List.of(new FilterDTO("userId", id))),
                 pageable);
+    }
+
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public Optional<Announcement> findAnnouncement(Long id) {
+        log.trace("Service method called to view Announcement with id : {}", id);
+        return announcementDAO.findById(id);
     }
 
 

@@ -11,9 +11,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.nio.file.AccessDeniedException;
+import javax.validation.ConstraintViolation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @ControllerAdvice
-public class CustomExceptionHandler{
+public class CustomExceptionHandler {
 
     @ExceptionHandler({
             BadCredentialsException.class,
@@ -39,18 +38,34 @@ public class CustomExceptionHandler{
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidateExceptionInfo> validateExceptionHandle(MethodArgumentNotValidException ex) {
-
+    public ResponseEntity<ValidateExceptionInfo> handleValidateConflicts(MethodArgumentNotValidException ex) {
         log.error("{}: {}", ex.getClass(), ex.getMessage());
 
         Map<String, List<String>> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            if (errors.containsKey(((FieldError) error).getField())) {
-                errors.get(((FieldError) error).getField()).add(((FieldError) error).getDefaultMessage());
+            if (error instanceof FieldError) {
+                ConstraintViolation<?> o = error.unwrap(ConstraintViolation.class);
+                String errorField = ((FieldError) error).getField();
+                if (o.getConstraintDescriptor().getAttributes().containsKey("field")) {
+                    errorField += "." + o.getConstraintDescriptor().getAttributes().get("field");
+                }
+                if (errors.containsKey(errorField)) {
+                    errors.get(errorField).add(((FieldError) error).getDefaultMessage());
+                } else {
+                    ArrayList<String> arr = new ArrayList<>();
+                    arr.add(((FieldError) error).getDefaultMessage());
+                    errors.put(errorField, arr);
+                }
             } else {
-                ArrayList<String> arr = new ArrayList<>();
-                arr.add(((FieldError) error).getDefaultMessage());
-                errors.put(((FieldError) error).getField(), arr);
+                ConstraintViolation<?> o = error.unwrap(ConstraintViolation.class);
+                String fieldName = (String) o.getConstraintDescriptor().getAttributes().get("field");
+                if (errors.containsKey(fieldName)) {
+                    errors.get(fieldName).add(error.getDefaultMessage());
+                } else {
+                    ArrayList<String> arr = new ArrayList<>();
+                    arr.add(error.getDefaultMessage());
+                    errors.put(fieldName, arr);
+                }
             }
         });
 
@@ -61,5 +76,6 @@ public class CustomExceptionHandler{
                         HttpStatus.BAD_REQUEST,
                         errors));
     }
+
 
 }

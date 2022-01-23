@@ -1,9 +1,11 @@
 package com.auto.practiceproject.controller;
 
 import com.auto.practiceproject.controller.converter.AnnouncementDTOConverter;
+import com.auto.practiceproject.controller.dto.request.AnnouncementActiveChangeDTO;
 import com.auto.practiceproject.controller.dto.request.AnnouncementCreateDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
 import com.auto.practiceproject.controller.dto.response.FullAnnouncementResponseDTO;
+import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.service.AnnouncementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -61,6 +64,32 @@ public class AnnouncementController {
                         )
                 )
                 , HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasPermission(#announcement,'ALL')")
+    @PostMapping("/{id}/up")
+    public ResponseEntity<FullAnnouncementResponseDTO> announcementRatingUp(
+            @PathVariable("id") Announcement announcement
+    ) {
+        log.trace("Controller method called to update Announcement rating with id: {}", announcement.getId());
+        return new ResponseEntity<>(
+                announcementDTOConverter.toFullDTO(
+                        announcementService.announcementRatingUp(announcement))
+                , HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasPermission(#announcement,'ALL')")
+    @PatchMapping("/{id}")
+    public ResponseEntity<FullAnnouncementResponseDTO> changeAnnouncementActive(
+            @PathVariable("id") Announcement announcement,
+            @RequestBody @Valid AnnouncementActiveChangeDTO activityChangeDTO
+    ) {
+        log.trace("Controller method called to update isExchange announcement field with id: {}", announcement.getId());
+        return new ResponseEntity<>(
+                announcementDTOConverter.toFullDTO(
+                        announcementService.updateAnnouncement(announcementDTOConverter
+                                .toDTOWithEditedIsExchange(announcement, activityChangeDTO)))
+                , HttpStatus.OK);
     }
 
 }

@@ -34,10 +34,7 @@ public class AutoModelServiceImpl implements AutoModelService {
             AutoBrand brand,
             AutoReleasedYear autoReleasedYear
     ) {
-        log.trace("Service method called to view Auto model with brand: {}, model: {}, released year: {}",
-                brand.getTitle(),
-                title,
-                autoReleasedYear.getReleasedYear().getYear());
+        log.trace("Service method called to view Auto model with brand: {}, model: {}, released year: {}");
         return autoModelDAO
                 .findAutoModelByTitleAndAutoBrandAndAutoReleasedYear(
                         title,

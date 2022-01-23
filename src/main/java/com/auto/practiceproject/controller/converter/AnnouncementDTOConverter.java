@@ -1,5 +1,6 @@
 package com.auto.practiceproject.controller.converter;
 
+import com.auto.practiceproject.controller.dto.request.AnnouncementActiveChangeDTO;
 import com.auto.practiceproject.controller.dto.request.AnnouncementCreateDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
 import com.auto.practiceproject.controller.dto.response.FullAnnouncementResponseDTO;
@@ -24,6 +25,7 @@ public class AnnouncementDTOConverter {
     private final AutoModelService autoModelService;
     private final AutoReleasedYearService autoReleasedYearService;
     private final AutoBrandService autoBrandService;
+    private final AnnouncementService announcementService;
 
     public AnnouncementResponseDTO toDTO(Announcement announcement) {
         log.trace("Convert Announcement with id: {}, to AnnouncementResponseDTO", announcement.getId());
@@ -98,6 +100,12 @@ public class AnnouncementDTOConverter {
                 regionService.findRegionByTitle(createDTO.getRegion())
                         .orElse(null)
         );
+    }
+
+    public Announcement toDTOWithEditedIsExchange(Announcement announcement, AnnouncementActiveChangeDTO activeChangeDTO) {
+        log.trace("AnnouncementActivityChangeDTO: {}, to Announcement", activeChangeDTO);
+        announcement.setIsExchange(activeChangeDTO.getIsExchange());
+        return announcement;
     }
 
 }

@@ -2,6 +2,7 @@ package com.auto.practiceproject.controller.dto.request;
 
 import com.auto.practiceproject.util.validation.BrandDoesNotExist;
 import com.auto.practiceproject.util.validation.ModelDoesNotExist;
+import com.auto.practiceproject.util.validation.ModelDoesNotExistWithBrandAndYear;
 import com.auto.practiceproject.util.validation.ReleasedYeasDoesNorExist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,11 +15,11 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-//TODO
 @Setter
 @Getter
 @AllArgsConstructor
 @ToString
+@ModelDoesNotExistWithBrandAndYear(field = "model", message = "Auto model with this brand or released year doesn't exist")
 public class AnnouncementCreateDTO {
 
     @NotEmpty(message = "Brand should not be empty")
