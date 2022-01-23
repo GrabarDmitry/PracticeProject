@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface AnnouncementService {
 
-    Page<Announcement> findAllModerationAnnouncement(Pageable pageable, String filter);
+    Page<Announcement> findAllAnnouncementByModeration(Boolean moderation, Pageable pageable, String filter);
 
     Announcement createAnnouncement(Announcement announcement);
 

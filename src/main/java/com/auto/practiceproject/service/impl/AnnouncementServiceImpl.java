@@ -30,13 +30,13 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
 
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     @Override
-    public Page<Announcement> findAllModerationAnnouncement(Pageable pageable, String filter) {
+    public Page<Announcement> findAllAnnouncementByModeration(Boolean moderation, Pageable pageable, String filter) {
         log.trace("Service method called to find all moderation Announcement with params: {}", pageable);
         return announcementDAO.findAll(
                 applyFilter(
                         announcementFilter,
                         decodeStringFilter(filter),
-                        List.of(new FilterDTO("isModeration", String.valueOf(false)))),
+                        List.of(new FilterDTO("isModeration", String.valueOf(moderation)))),
                 pageable);
     }
 

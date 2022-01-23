@@ -31,6 +31,8 @@ public class PermissionEvaluatorImpl implements PermissionEvaluator {
             return hasPermission(authentication, (Announcement) target, permission);
         } else if (target instanceof ModeratorUserCreateDTO) {
             return hasPermission(authentication, (ModeratorUserCreateDTO) target, permission);
+        } else if (target == null) {
+            return hasPermission(authentication, permission);
         }
 
         return false;
@@ -50,10 +52,16 @@ public class PermissionEvaluatorImpl implements PermissionEvaluator {
         if (createDTO == null) {
             return false;
         }
+        return hasPermission(authentication, role);
+    }
+
+    private boolean hasPermission(Authentication authentication, String role) {
+
         return ((UserDetailsImpl) authentication.getPrincipal()).
                 getUser().getRoles().stream()
                 .filter(role1 -> role1.getTitle().equals(role))
                 .count() > 0;
+
     }
 
 }

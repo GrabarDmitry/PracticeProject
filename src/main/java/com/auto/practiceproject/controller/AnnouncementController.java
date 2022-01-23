@@ -40,7 +40,7 @@ public class AnnouncementController {
             @RequestParam(name = "filter", required = false) String filter) {
         log.trace("Controller method called to view all Announcement with params: {}", pageable);
         return new ResponseEntity<>(
-                announcementService.findAllModerationAnnouncement(pageable, filter)
+                announcementService.findAllAnnouncementByModeration(false, pageable, filter)
                         .map(announcementDTOConverter::toDTO)
                 , HttpStatus.OK);
     }
