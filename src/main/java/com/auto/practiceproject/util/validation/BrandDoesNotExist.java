@@ -1,6 +1,5 @@
 package com.auto.practiceproject.util.validation;
 
-import com.auto.practiceproject.controller.dto.request.AnnouncementCreateDTO;
 import com.auto.practiceproject.service.AutoBrandService;
 import lombok.RequiredArgsConstructor;
 
@@ -8,11 +7,8 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;

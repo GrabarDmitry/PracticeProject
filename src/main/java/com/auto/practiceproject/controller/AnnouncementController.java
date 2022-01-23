@@ -2,7 +2,7 @@ package com.auto.practiceproject.controller;
 
 import com.auto.practiceproject.controller.converter.AnnouncementDTOConverter;
 import com.auto.practiceproject.controller.dto.request.AnnouncementActiveChangeDTO;
-import com.auto.practiceproject.controller.dto.request.AnnouncementCreateDTO;
+import com.auto.practiceproject.controller.dto.request.AnnouncementRequestDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
 import com.auto.practiceproject.controller.dto.response.FullAnnouncementResponseDTO;
 import com.auto.practiceproject.model.Announcement;
@@ -54,7 +54,7 @@ public class AnnouncementController {
     }
 
     @PostMapping
-    public ResponseEntity<FullAnnouncementResponseDTO> createAnnouncement(@RequestBody @Valid AnnouncementCreateDTO createDTO) {
+    public ResponseEntity<FullAnnouncementResponseDTO> createAnnouncement(@RequestBody @Valid AnnouncementRequestDTO createDTO) {
         log.trace("Controller method called to create Announcement with title: {}"
                 , createDTO.getBrand() + "" + createDTO.getModel());
         return new ResponseEntity<>(
@@ -91,5 +91,20 @@ public class AnnouncementController {
                                 .toDTOWithEditedIsExchange(announcement, activityChangeDTO)))
                 , HttpStatus.OK);
     }
+
+    @PreAuthorize("hasPermission(#announcement,'ALL')")
+    @PutMapping("/{id}")
+    public ResponseEntity<FullAnnouncementResponseDTO> updateAnnouncement(
+            @PathVariable("id") Announcement announcement,
+            @RequestBody @Valid AnnouncementRequestDTO requestDTO
+    ) {
+        log.trace("Controller method called to update Announcement with id: {}", announcement.getId());
+        return new ResponseEntity<>(announcementDTOConverter.toFullDTO
+                (announcementService.updateAnnouncement(
+                        announcementDTOConverter.updateToEntity(announcement.getId(), requestDTO))
+                )
+                , HttpStatus.OK);
+    }
+
 
 }

@@ -1,8 +1,8 @@
 package com.auto.practiceproject.controller.converter;
 
 import com.auto.practiceproject.controller.dto.request.AnnouncementActiveChangeDTO;
-import com.auto.practiceproject.controller.dto.request.AnnouncementCreateDTO;
 import com.auto.practiceproject.controller.dto.request.AnnouncementModerationChangeDTO;
+import com.auto.practiceproject.controller.dto.request.AnnouncementRequestDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
 import com.auto.practiceproject.controller.dto.response.FullAnnouncementResponseDTO;
 import com.auto.practiceproject.model.Announcement;
@@ -67,8 +67,8 @@ public class AnnouncementDTOConverter {
         );
     }
 
-    public Announcement toEntity(AnnouncementCreateDTO createDTO) {
-        log.trace("AnnouncementCreateDTO: {}, to Announcement", createDTO);
+    public Announcement toEntity(AnnouncementRequestDTO createDTO) {
+        log.trace("AnnouncementRequestDTO: {}, to Announcement", createDTO);
         return new Announcement(
                 createDTO.getBrand() + createDTO.getModel(),
                 createDTO.getDescription(),
@@ -101,6 +101,16 @@ public class AnnouncementDTOConverter {
                 regionService.findRegionByTitle(createDTO.getRegion())
                         .orElse(null)
         );
+    }
+
+    public Announcement updateToEntity(
+            Long id,
+            AnnouncementRequestDTO updateDTO
+    ) {
+        log.trace("AnnouncementRequestDTO: {}, to Announcement", updateDTO);
+        Announcement announcement = toEntity(updateDTO);
+        announcement.setId(id);
+        return announcement;
     }
 
     public Announcement toDTOWithEditedIsExchange(

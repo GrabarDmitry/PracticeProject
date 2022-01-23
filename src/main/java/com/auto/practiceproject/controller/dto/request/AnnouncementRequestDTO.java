@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 @ModelDoesNotExistWithBrandAndYear(field = "model", message = "Auto model with this brand or released year doesn't exist")
-public class AnnouncementCreateDTO {
+public class AnnouncementRequestDTO {
 
     @NotEmpty(message = "Brand should not be empty")
     @Size(max = 45, message = "Brand must be less than 45 characters")
