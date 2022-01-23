@@ -2,6 +2,7 @@ package com.auto.practiceproject.controller.converter;
 
 import com.auto.practiceproject.controller.dto.request.AnnouncementActiveChangeDTO;
 import com.auto.practiceproject.controller.dto.request.AnnouncementCreateDTO;
+import com.auto.practiceproject.controller.dto.request.AnnouncementModerationChangeDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
 import com.auto.practiceproject.controller.dto.response.FullAnnouncementResponseDTO;
 import com.auto.practiceproject.model.Announcement;
@@ -102,9 +103,21 @@ public class AnnouncementDTOConverter {
         );
     }
 
-    public Announcement toDTOWithEditedIsExchange(Announcement announcement, AnnouncementActiveChangeDTO activeChangeDTO) {
+    public Announcement toDTOWithEditedIsExchange(
+            Announcement announcement,
+            AnnouncementActiveChangeDTO activeChangeDTO
+    ) {
         log.trace("AnnouncementActivityChangeDTO: {}, to Announcement", activeChangeDTO);
         announcement.setIsExchange(activeChangeDTO.getIsExchange());
+        return announcement;
+    }
+
+    public Announcement toDTOWithEditedIsModeration(
+            Announcement announcement,
+            AnnouncementModerationChangeDTO moderationChangeDTO
+    ) {
+        log.trace("AnnouncementModerationChangeDTO: {}, to announcement", moderationChangeDTO);
+        announcement.setIsModeration(moderationChangeDTO.getIsModeration());
         return announcement;
     }
 

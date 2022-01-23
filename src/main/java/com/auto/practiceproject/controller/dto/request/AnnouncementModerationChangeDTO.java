@@ -9,9 +9,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class AnnouncementActiveChangeDTO {
+public class AnnouncementModerationChangeDTO {
 
-    @NotNull(message = "Is exchange should not be null")
-    private Boolean isExchange;
+    @NotNull(message = "Is moderation should not be null")
+    private Boolean isModeration;
 
 }
