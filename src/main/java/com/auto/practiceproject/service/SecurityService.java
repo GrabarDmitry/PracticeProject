@@ -8,4 +8,6 @@ public interface SecurityService {
 
     User registration(User user);
 
+    User createModeratorUser(User user);
+
 }

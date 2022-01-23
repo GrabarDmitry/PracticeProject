@@ -1,5 +1,6 @@
 package com.auto.practiceproject.controller.converter;
 
+import com.auto.practiceproject.controller.dto.request.ModeratorUserCreateDTO;
 import com.auto.practiceproject.controller.dto.request.UserCreateDTO;
 import com.auto.practiceproject.controller.dto.response.UserResponseDTO;
 import com.auto.practiceproject.model.Bookmark;
@@ -41,6 +42,22 @@ public class UserDTOConverter {
                 0D,
                 Set.of(
                         roleService.findRoleByTitle("USER").
+                                orElse(null)
+                ),
+                new Bookmark()
+        );
+    }
+
+    public User toEntityCreate(ModeratorUserCreateDTO createDTO) {
+        log.trace("Convert ModeratorUserCreateDTO with email: {}, to User", createDTO.getEmail());
+        return new User(
+                createDTO.getEmail(),
+                createDTO.getName(),
+                createDTO.getSurname(),
+                null,
+                0D,
+                Set.of(
+                        roleService.findRoleByTitle("MODERATOR").
                                 orElse(null)
                 ),
                 new Bookmark()

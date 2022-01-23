@@ -1,5 +1,6 @@
 package com.auto.practiceproject.security;
 
+import com.auto.practiceproject.controller.dto.request.ModeratorUserCreateDTO;
 import com.auto.practiceproject.model.Announcement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.PermissionEvaluator;
@@ -13,34 +14,46 @@ import java.io.Serializable;
 public class PermissionEvaluatorImpl implements PermissionEvaluator {
 
     @Override
-    public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
-        return getPermission(authentication, targetDomainObject, permission);
+    public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object role) {
+        return getPermission(authentication, targetDomainObject, role);
     }
 
     @Override
-    public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
+    public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object role) {
         return false;
     }
 
-    private boolean getPermission(Authentication authentication, Object target, Object perm) {
+    private boolean getPermission(Authentication authentication, Object target, Object role) {
 
-        final String permission = perm.toString();
+        final String permission = role.toString();
 
         if (target instanceof Announcement) {
             return hasPermission(authentication, (Announcement) target, permission);
+        } else if (target instanceof ModeratorUserCreateDTO) {
+            return hasPermission(authentication, (ModeratorUserCreateDTO) target, permission);
         }
 
         return false;
 
     }
 
-    private boolean hasPermission(Authentication authentication, Announcement announcement, String perm) {
+    private boolean hasPermission(Authentication authentication, Announcement announcement, String role) {
         if (announcement.getId() == null) {
             return false;
         } else {
             return ((UserDetailsImpl) authentication.getPrincipal())
                     .getUser().equals(announcement.getUser());
         }
+    }
+
+    private boolean hasPermission(Authentication authentication, ModeratorUserCreateDTO createDTO, String role) {
+        if (createDTO == null) {
+            return false;
+        }
+        return ((UserDetailsImpl) authentication.getPrincipal()).
+                getUser().getRoles().stream()
+                .filter(role1 -> role1.getTitle().equals(role))
+                .count() > 0;
     }
 
 }
