@@ -25,10 +25,8 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Page<Comment> findAllByAnnouncement(Long announcementId, Pageable pageable) {
         log.trace("Service method called to find all comment announcementId : {}", announcementId);
-
         Announcement announcement = announcementDAO.findById(announcementId)
                 .orElse(null);
-
         return commentDAO.findAllByAnnouncement(announcement, pageable);
     }
 
