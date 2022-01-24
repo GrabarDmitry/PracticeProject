@@ -1,17 +1,18 @@
 package com.auto.practiceproject.controller.dto.request;
 
 import com.auto.practiceproject.util.validation.UserExistWithEmail;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class UserCreateDTO {
 
     @Email(message = "email should be valid")

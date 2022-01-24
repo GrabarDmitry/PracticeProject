@@ -34,13 +34,13 @@ CREATE TABLE auto_engine
 
 CREATE TABLE auto
 (
-    id                    BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    mileage               INT,
-    engine_capacity       INT,
-    VIM                   VARCHAR(17),
-    auto_model_id         BIGINT,
-    auto_transmission_id  BIGINT,
-    auto_engine_id        BIGINT,
+    id                   BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    mileage              INT,
+    engine_capacity      INT,
+    VIM                  VARCHAR(17),
+    auto_model_id        BIGINT,
+    auto_transmission_id BIGINT,
+    auto_engine_id       BIGINT,
     CONSTRAINT auto_auto_model_id_fk FOREIGN KEY (auto_model_id) REFERENCES auto_model (id),
     CONSTRAINT auto_transmission_id_fk FOREIGN KEY (auto_transmission_id) REFERENCES auto_transmission (id),
     CONSTRAINT auto_engine_id_fk FOREIGN KEY (auto_engine_id) REFERENCES auto_engine (id)
@@ -101,6 +101,7 @@ CREATE TABLE comment
 (
     id              BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     text            VARCHAR(512),
+    created         DATETIME,
     user_id         BIGINT,
     announcement_id BIGINT,
     CONSTRAINT comment_user_id_fk FOREIGN KEY (user_id) REFERENCES user (id),

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -15,6 +16,9 @@ public class Comment extends AbstractEntity {
 
     @Column(length = 1024)
     private String text;
+
+    @Column
+    private LocalDateTime created;
 
     @ManyToOne
     @JoinColumn(name = "userId")

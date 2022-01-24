@@ -4,10 +4,7 @@ import com.auto.practiceproject.util.validation.BrandDoesNotExist;
 import com.auto.practiceproject.util.validation.ModelDoesNotExist;
 import com.auto.practiceproject.util.validation.ModelDoesNotExistWithBrandAndYear;
 import com.auto.practiceproject.util.validation.ReleasedYeasDoesNorExist;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @ModelDoesNotExistWithBrandAndYear(field = "model", message = "Auto model with this brand or released year doesn't exist")
 public class AnnouncementRequestDTO {

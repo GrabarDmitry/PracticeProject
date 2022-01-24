@@ -144,9 +144,9 @@ WHERE id <> 0;
 ALTER TABLE app.comment
     AUTO_INCREMENT = 1;
 
-INSERT INTO comment(text, user_id, announcement_id)
-VALUES ('My first comment', 3, 1),
-       ('My second comment', 3, 2);
+INSERT INTO comment(text, created, user_id, announcement_id)
+VALUES ('My first comment', '2022-01-19', 3, 1),
+       ('My second comment', '2022-01-19', 3, 2);
 
 DELETE
 FROM app.bookmark

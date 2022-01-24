@@ -1,18 +1,22 @@
 package com.auto.practiceproject.controller.dto.response;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDTO {
+public class CommentResponseDTO {
+
     private Long id;
-    private String email;
-    private String name;
-    private String surname;
-    private Double balance;
+    private String text;
+    private LocalDateTime created;
+    private String createdBy;
+
 }
