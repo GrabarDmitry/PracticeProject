@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -37,9 +36,5 @@ public class User extends AbstractEntity {
             inverseJoinColumns = {@JoinColumn(name = "roleId")}
     )
     private Set<Role> roles;
-
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "bookmarkId")
-    private Bookmark bookmark;
 
 }

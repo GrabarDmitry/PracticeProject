@@ -43,8 +43,7 @@ public class UserDTOConverter {
                 Set.of(
                         roleService.findRoleByTitle("USER").
                                 orElse(null)
-                ),
-                new Bookmark()
+                )
         );
     }
 
@@ -59,8 +58,7 @@ public class UserDTOConverter {
                 Set.of(
                         roleService.findRoleByTitle("MODERATOR").
                                 orElse(null)
-                ),
-                new Bookmark()
+                )
         );
     }
 

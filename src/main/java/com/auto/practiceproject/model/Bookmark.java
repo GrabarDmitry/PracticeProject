@@ -18,7 +18,7 @@ public class Bookmark extends AbstractEntity {
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "bookmark_announcements",
             joinColumns = {@JoinColumn(name = "bookmarkId")},

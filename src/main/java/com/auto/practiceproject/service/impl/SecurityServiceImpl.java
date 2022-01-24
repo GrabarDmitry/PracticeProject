@@ -1,7 +1,9 @@
 package com.auto.practiceproject.service.impl;
 
 import com.auto.practiceproject.controller.dto.MailDataDTO;
+import com.auto.practiceproject.dao.BookmarkDAO;
 import com.auto.practiceproject.dao.UserDAO;
+import com.auto.practiceproject.model.Bookmark;
 import com.auto.practiceproject.model.User;
 import com.auto.practiceproject.security.UserDetailsImpl;
 import com.auto.practiceproject.security.jwt.TokenProvider;
@@ -31,6 +33,7 @@ public class SecurityServiceImpl implements SecurityService {
     private final PasswordEncoder passwordEncoder;
     private final CustomUtil customUtil;
     private final MailService mailService;
+    private final BookmarkDAO bookmarkDAO;
 
     public String authentication(String email, String password) {
         log.info("Service method called to authenticate User with email: {}", email);
@@ -49,6 +52,9 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public User registration(User user) {
         log.info("Service method called to registration User with email: {}", user.getEmail());
+        Bookmark bookmark = new Bookmark();
+        bookmark.setUser(user);
+        bookmarkDAO.save(bookmark);
         return userDAO.save(user);
     }
 
