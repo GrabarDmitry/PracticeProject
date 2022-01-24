@@ -1,11 +1,13 @@
 package com.auto.practiceproject.service;
 
-import com.auto.practiceproject.model.Announcement;
-
-import java.util.List;
+import com.auto.practiceproject.model.Bookmark;
 
 public interface BookmarkService {
 
-    List<Announcement> findByUserFromBookmark();
+    Bookmark findByUser();
+
+    Bookmark updateBookmark(Bookmark bookmark);
+
+    Bookmark addAnnouncementToBookmark(Long announcementId);
 
 }
