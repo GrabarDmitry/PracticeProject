@@ -5,6 +5,7 @@ import com.auto.practiceproject.controller.dto.request.UserCreateDTO;
 import com.auto.practiceproject.controller.dto.response.UserResponseDTO;
 import com.auto.practiceproject.model.User;
 import com.auto.practiceproject.service.RoleService;
+import com.auto.practiceproject.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ public class UserDTOConverter {
 
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final WalletService walletService;
 
     public UserResponseDTO toDTO(User user) {
         log.trace("Convert User with id: {}, to UserResponseDTO", user.getId());
@@ -27,7 +29,8 @@ public class UserDTOConverter {
                 user.getEmail(),
                 user.getName(),
                 user.getSurname(),
-                0.0
+                walletService.findWalletByUser(user)
+                        .get().getBalance()
         );
     }
 
