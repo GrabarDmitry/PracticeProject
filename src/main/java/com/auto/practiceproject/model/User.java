@@ -26,9 +26,6 @@ public class User extends AbstractEntity {
     @Column(length = 512)
     private String password;
 
-    @Column
-    private Double balance;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

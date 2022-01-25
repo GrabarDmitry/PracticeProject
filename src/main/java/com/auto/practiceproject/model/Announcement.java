@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -38,7 +37,7 @@ public class Announcement extends AbstractEntity {
     private Integer rating;
 
     @Column
-    private LocalDateTime lastRatingUp;
+    private Double ratingUpPrice;
 
     @Column
     private Boolean isExchange;

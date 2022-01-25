@@ -3,8 +3,10 @@ package com.auto.practiceproject.service.impl;
 import com.auto.practiceproject.controller.dto.MailDataDTO;
 import com.auto.practiceproject.dao.BookmarkDAO;
 import com.auto.practiceproject.dao.UserDAO;
+import com.auto.practiceproject.dao.WalletDAO;
 import com.auto.practiceproject.model.Bookmark;
 import com.auto.practiceproject.model.User;
+import com.auto.practiceproject.model.Wallet;
 import com.auto.practiceproject.security.UserDetailsImpl;
 import com.auto.practiceproject.security.jwt.TokenProvider;
 import com.auto.practiceproject.service.MailService;
@@ -34,6 +36,7 @@ public class SecurityServiceImpl implements SecurityService {
     private final CustomUtil customUtil;
     private final MailService mailService;
     private final BookmarkDAO bookmarkDAO;
+    private final WalletDAO walletDAO;
 
     public String authentication(String email, String password) {
         log.info("Service method called to authenticate User with email: {}", email);
@@ -52,9 +55,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public User registration(User user) {
         log.info("Service method called to registration User with email: {}", user.getEmail());
-        Bookmark bookmark = new Bookmark();
-        bookmark.setUser(user);
-        bookmarkDAO.save(bookmark);
+        creteBookmarkAndWalletForUser(user);
         return userDAO.save(user);
     }
 
@@ -70,7 +71,16 @@ public class SecurityServiceImpl implements SecurityService {
                                 + ", your password:" + password + ""
                 ));
         user.setPassword(passwordEncoder.encode(password));
+        creteBookmarkAndWalletForUser(user);
         return userDAO.save(user);
     }
 
+    private void creteBookmarkAndWalletForUser(User user) {
+        log.info("Service method called to create Bookmark and Wallet for user with email: {}", user.getEmail());
+        Bookmark bookmark = new Bookmark();
+        bookmark.setUser(user);
+        bookmarkDAO.save(bookmark);
+        Wallet wallet = new Wallet(user, 0.0);
+        walletDAO.save(wallet);
+    }
 }

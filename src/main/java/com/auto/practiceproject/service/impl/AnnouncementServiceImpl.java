@@ -7,6 +7,7 @@ import com.auto.practiceproject.dao.AnnouncementDAO;
 import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.service.AnnouncementService;
+import com.auto.practiceproject.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +26,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
 
     private final AnnouncementDAO announcementDAO;
     private final AnnouncementFilter announcementFilter;
+    private final WalletService walletService;
 
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     @Override
@@ -77,14 +77,8 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
     @Override
     public Announcement announcementRatingUp(Announcement announcement) {
         log.info("Service method called to update Announcement rating with id: {}", announcement.getId());
-        Duration duration = Duration.between(announcement.getLastRatingUp(), LocalDateTime.now());
-        if (duration.toDays() == 0 && duration.toHours() < 5) {
-            log.warn("Announcement with Id: {} can't up rating", announcement.getId());
-            throw new ResourceException("Announcement with Id: " + announcement.getId() + " can't up rating" +
-                    ",last Announcement rating up at:" + announcement.getLastRatingUp());
-        }
+        walletService.payForServices(announcement.getRatingUpPrice(), announcement.getUser());
         announcement.setRating(announcement.getRating() + 1);
-        announcement.setLastRatingUp(LocalDateTime.now());
         return updateAnnouncement(announcement);
     }
 

@@ -58,8 +58,7 @@ CREATE TABLE `user`
     email    VARCHAR(255) UNIQUE,
     name     VARCHAR(45),
     surname  VARCHAR(45),
-    password VARCHAR(512),
-    balance  DOUBLE
+    password VARCHAR(512)
 );
 
 CREATE TABLE role
@@ -78,20 +77,20 @@ CREATE TABLE user_roles
 
 CREATE TABLE announcement
 (
-    id             BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    title          VARCHAR(255),
-    description    VARCHAR(1024),
-    phone_number   VARCHAR(13),
-    price          DOUBLE,
-    is_active      TINYINT,
-    is_moderation  TINYINT,
-    rating         INT,
-    last_rating_up DATETIME,
-    is_exchange    TINYINT,
-    customs_duty   DOUBLE,
-    user_id        BIGINT,
-    region_id      BIGINT,
-    auto_id        BIGINT UNIQUE,
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    title         VARCHAR(255),
+    description   VARCHAR(1024),
+    phone_number  VARCHAR(13),
+    price         DOUBLE,
+    is_active     TINYINT,
+    is_moderation TINYINT,
+    rating        INT,
+    rating_up_price DOUBLE,
+    is_exchange   TINYINT,
+    customs_duty  DOUBLE,
+    user_id       BIGINT,
+    region_id     BIGINT,
+    auto_id       BIGINT UNIQUE,
     CONSTRAINT announcement_user_id_fk FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT announcement_region_id_fk FOREIGN KEY (region_id) REFERENCES region (id),
     CONSTRAINT announcement_auto_id_fk FOREIGN KEY (auto_id) REFERENCES auto (id)
@@ -122,3 +121,11 @@ CREATE TABLE bookmark_announcements
     CONSTRAINT bookmark_announcements_bookmark_id_fk FOREIGN KEY (bookmark_id) REFERENCES bookmark (id),
     CONSTRAINT bookmark_announcements_announcement_id_fk FOREIGN KEY (announcement_id) REFERENCES announcement (id)
 );
+
+CREATE TABLE wallet
+(
+    id      BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    balance DOUBLE,
+    user_id BIGINT UNIQUE,
+    CONSTRAINT wallet_user_id_fk FOREIGN KEY (user_id) REFERENCES user (id)
+)

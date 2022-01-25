@@ -3,7 +3,6 @@ package com.auto.practiceproject.controller.converter;
 import com.auto.practiceproject.controller.dto.request.ModeratorUserCreateDTO;
 import com.auto.practiceproject.controller.dto.request.UserCreateDTO;
 import com.auto.practiceproject.controller.dto.response.UserResponseDTO;
-import com.auto.practiceproject.model.Bookmark;
 import com.auto.practiceproject.model.User;
 import com.auto.practiceproject.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class UserDTOConverter {
                 user.getEmail(),
                 user.getName(),
                 user.getSurname(),
-                user.getBalance()
+                0.0
         );
     }
 
@@ -39,7 +38,6 @@ public class UserDTOConverter {
                 createDTO.getName(),
                 createDTO.getSurname(),
                 passwordEncoder.encode(createDTO.getPassword()),
-                0D,
                 Set.of(
                         roleService.findRoleByTitle("USER").
                                 orElse(null)
@@ -54,7 +52,6 @@ public class UserDTOConverter {
                 createDTO.getName(),
                 createDTO.getSurname(),
                 null,
-                0D,
                 Set.of(
                         roleService.findRoleByTitle("MODERATOR").
                                 orElse(null)

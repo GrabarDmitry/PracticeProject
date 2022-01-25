@@ -80,11 +80,11 @@ WHERE id <> 0;
 ALTER TABLE app.user
     AUTO_INCREMENT = 1;
 
-INSERT INTO user(email, name, surname, password, balance)
-VALUES ('Dzmitry@mail.ru', 'Dzmitry', 'Hrabar', '$2y$12$jGKNg4LA9j.7quCszzQPmOzF36y.aTWvqSEnpnEs5TdrMITDJ33eu', 0),-- password: 12345
-       ('user@mail.ru', 'Alex', 'Popov', '$2y$12$EvN3U/Q95Y4gLy3DtgoN5.u2jY3eWAlI0fdWaaY6dXcamRNhCJ2HO', 0),-- password: password
-       ('Jack@mail.ru', 'Jack', 'Ni', '$2y$12$EvN3U/Q95Y4gLy3DtgoN5.u2jY3eWAlI0fdWaaY6dXcamRNhCJ2HO',
-        0); -- password: password;
+INSERT INTO user(email, name, surname, password)
+VALUES ('Dzmitry@mail.ru', 'Dzmitry', 'Hrabar', '$2y$12$jGKNg4LA9j.7quCszzQPmOzF36y.aTWvqSEnpnEs5TdrMITDJ33eu'),-- password: 12345
+       ('user@mail.ru', 'Alex', 'Popov', '$2y$12$EvN3U/Q95Y4gLy3DtgoN5.u2jY3eWAlI0fdWaaY6dXcamRNhCJ2HO'),-- password: password
+       ('Jack@mail.ru', 'Jack', 'Ni',
+        '$2y$12$EvN3U/Q95Y4gLy3DtgoN5.u2jY3eWAlI0fdWaaY6dXcamRNhCJ2HO'); -- password: password;
 
 DELETE
 FROM app.role
@@ -131,12 +131,12 @@ WHERE id <> 0;
 ALTER TABLE app.announcement
     AUTO_INCREMENT = 1;
 
-INSERT INTO announcement(title, description, phone_number, price, is_active, is_moderation, rating, last_rating_up,
+INSERT INTO announcement(title, description, phone_number, price, is_active, is_moderation, rating, rating_up_price,
                          is_exchange,
                          customs_duty, user_id, region_id, auto_id)
-VALUES ('BMW X5', 'BMW X5 description', +371231834, 5000, true, false, 0, '2022-01-19', false, 0, 3, 1, 1),
-       ('AUDI Q5', 'AUDI Q5 description', +3712318424, 9000, true, false, 10, '2022-01-19', true, 0, 2, 3, 2),
-       ('Mercedes AMG G 63', 'Mercedes AMG G 63', +3712318224, 12000, true, true, 15, '2022-01-19', true, 700, 1, 7, 3);
+VALUES ('BMW X5', 'BMW X5 description', +371231834, 5000, true, false, 0, 5, false, 0, 3, 1, 1),
+       ('AUDI Q5', 'AUDI Q5 description', +3712318424, 9000, true, false, 10, 5, true, 0, 2, 3, 2),
+       ('Mercedes AMG G 63', 'Mercedes AMG G 63', +3712318224, 12000, true, true, 5, 5, true, 700, 1, 7, 3);
 
 DELETE
 FROM app.comment
@@ -168,3 +168,14 @@ INSERT INTO bookmark_announcements(bookmark_id, announcement_id)
 VALUES (1, 2),
        (2, 3),
        (3, 1);
+
+DELETE
+FROM app.wallet
+WHERE id <> 0;
+ALTER TABLE app.wallet
+    AUTO_INCREMENT = 1;
+
+INSERT INTO app.wallet(user_id, balance)
+VALUES (1, 0),
+       (2, 0),
+       (3, 0)
