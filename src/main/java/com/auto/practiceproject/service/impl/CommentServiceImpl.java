@@ -33,8 +33,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public Comment createComment(Comment comment) {
-        log.trace("Service method called to create comment, creator user id:{}",
-                comment.getUser().getId());
+        log.trace("Service method called to create comment, {}", comment);
         return commentDAO.save(comment);
     }
 

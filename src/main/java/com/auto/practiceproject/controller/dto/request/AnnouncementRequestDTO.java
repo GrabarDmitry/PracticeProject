@@ -49,10 +49,12 @@ public class AnnouncementRequestDTO {
     @NotNull(message = "Is exchange should not be null")
     private Boolean isExchange;
 
+    //Validator
     @NotEmpty(message = "Transmission should not be empty")
     @Size(max = 45, message = "Transmission must be less than 45 characters")
     private String transmission;
 
+    //Validator
     @NotEmpty(message = "Engine should not be empty")
     @Size(max = 45, message = "Engine must be less than 45 characters")
     private String engine;
@@ -67,12 +69,14 @@ public class AnnouncementRequestDTO {
 
     @NotEmpty(message = "VIM should not be empty")
     @Size(max = 17, min = 17, message = "VIM must be 17 characters")
-    private String VIM;
+    private String vim;
 
+    //Validator
     @NotEmpty(message = "Region should not be empty")
     @Size(max = 45, message = "Region must be less than 45 characters")
     private String region;
 
+    //Validator
     @NotNull(message = "Customs duty capacity should not be null")
     @Positive(message = "Customs duty capacity be positive")
     private Double customsDuty;

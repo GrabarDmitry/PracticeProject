@@ -43,8 +43,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public Announcement createAnnouncement(Announcement announcement) {
-        log.trace("Service method called to create Announcement with title, creator is userID : {}",
-                announcement.getTitle(), announcement.getUser().getId());
+        log.trace("Service method called to create Announcement : {}", announcement);
         return announcementDAO.save(announcement);
     }
 

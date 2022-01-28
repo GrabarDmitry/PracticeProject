@@ -81,7 +81,7 @@ public class AnnouncementDTOConverter {
                 new Auto(
                         createDTO.getMileage(),
                         createDTO.getEngineCapacity(),
-                        createDTO.getVIM(),
+                        createDTO.getVim(),
                         autoModelService.findAutoModelByTitleAndAutoBrandAndAutoReleasedYear(
                                 createDTO.getModel(),
                                 autoBrandService.findAutoBrandByTitle(createDTO.getBrand())

@@ -49,7 +49,7 @@ ALTER TABLE app.auto_transmission
 
 INSERT INTO auto_transmission(type)
 VALUES ('Automatic'),
-       ('Manual ');
+       ('Manual');
 
 DELETE
 FROM app.auto_engine

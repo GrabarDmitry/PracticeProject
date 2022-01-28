@@ -31,7 +31,8 @@ public class BookmarkServiceImpl implements BookmarkService {
         log.trace("Service method called to view Bookmark with user");
         User user = userService.getCurrentUser()
                 .orElse(null);
-        return bookmarkDAO.findBookmarkByUser(user).get();
+        return bookmarkDAO.findBookmarkByUser(user).
+                orElse(null);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class BookmarkServiceImpl implements BookmarkService {
         } else {
             list.add(announcement);
             bookmark.setAnnouncements(list);
-            return updateBookmark(bookmark);
+            return bookmarkDAO.saveAndFlush(bookmark);
         }
     }
 
