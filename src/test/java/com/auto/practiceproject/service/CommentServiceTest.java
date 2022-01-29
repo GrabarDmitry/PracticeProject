@@ -29,7 +29,9 @@ public class CommentServiceTest {
     @Test
     public void createCommentTest() {
 
-        Comment commentTestData = new Comment("Hello", LocalDateTime.now(), null, null);
+        Comment commentTestData = new Comment("Hello",
+                LocalDateTime.now(), null, null);
+
         Mockito.doReturn(commentTestData).when(commentDAO).save(any());
 
         Comment comment = commentService.createComment(commentTestData);

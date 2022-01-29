@@ -64,17 +64,15 @@ public class BookmarkServiceTest {
         User user = new User();
         user.setId(1L);
 
-        Mockito.when(userService.getCurrentUser()).
-                thenReturn(Optional.of(user));
         Bookmark bookmark = bookmarkService.findByUser();
 
         Assert.assertNotNull(bookmark);
-        Assert.assertEquals(bookmark.getUser(), user);
+        Assert.assertEquals(bookmark.getUser().getId().longValue(), user.getId().longValue());
 
         Mockito.verify(userService,
                 Mockito.times(1)).getCurrentUser();
         Mockito.verify(bookmarkDAO,
-                Mockito.times(1)).findBookmarkByUser(user);
+                Mockito.times(1)).findBookmarkByUser(any(User.class));
 
     }
 

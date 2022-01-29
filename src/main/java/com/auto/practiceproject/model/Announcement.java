@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Data
 @Entity
 @AllArgsConstructor
