@@ -1,6 +1,7 @@
 package com.auto.practiceproject.service;
 
 import com.auto.practiceproject.dao.BookmarkDAO;
+import com.auto.practiceproject.dao.BookmarkDAOTest;
 import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.model.Bookmark;

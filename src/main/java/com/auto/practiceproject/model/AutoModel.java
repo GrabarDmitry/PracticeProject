@@ -18,11 +18,11 @@ public class AutoModel extends AbstractEntity {
     @Column(length = 45)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "autoBrandId")
     private AutoBrand autoBrand;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "autoReleasedYearId")
     private AutoReleasedYear autoReleasedYear;
 

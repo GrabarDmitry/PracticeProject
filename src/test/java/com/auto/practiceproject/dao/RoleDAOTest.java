@@ -1,6 +1,6 @@
 package com.auto.practiceproject.dao;
 
-import com.auto.practiceproject.model.AutoBrand;
+import com.auto.practiceproject.model.Role;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,33 +19,35 @@ import java.util.Optional;
 @DataJpaTest
 @TestPropertySource(
         locations = "classpath:application-test.properties")
-public class AutoBrandDAOTest {
+public class RoleDAOTest {
 
     @Autowired
-    private AutoBrandDAO autoBrandDAO;
+    private RoleDAO roleDAO;
 
     @Autowired
     private TestEntityManager testEntityManager;
 
     @Before
     public void setUp() {
-        testEntityManager.persistAndFlush(new AutoBrand("BMW"));
-        testEntityManager.persistAndFlush(new AutoBrand("Audi"));
-        testEntityManager.persistAndFlush(new AutoBrand("Mercedes"));
+        testEntityManager.persistAndFlush(new Role("ADMIN"));
+        testEntityManager.persistAndFlush(new Role("MODERATOR"));
+        testEntityManager.persistAndFlush(new Role("USER"));
     }
 
     @Test
-    public void findAutoBrandByTitleTest() {
-        Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("BMW");
+    public void findRoleByTileTest() {
+        Optional<Role> role = roleDAO.findByTitle("USER");
 
-        Assert.assertTrue(autoBrand.isPresent());
-        Assert.assertEquals(autoBrand.get().getTitle(), "BMW");
+        Assert.assertTrue(role.isPresent());
+        Assert.assertEquals(role.get().getTitle(), "USER");
     }
 
     @Test
-    public void findAutoBrandByTitleIsNullTest() {
-        Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("Volkswagen");
-        Assert.assertTrue(autoBrand.isEmpty());
+    public void findRoleByTitleIsNullTest() {
+        Optional<Role> role = roleDAO.findByTitle("TEST");
+        Assert.assertTrue(role.isEmpty());
+
     }
+
 
 }

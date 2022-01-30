@@ -1,6 +1,7 @@
 package com.auto.practiceproject.dao;
 
-import com.auto.practiceproject.model.AutoBrand;
+import com.auto.practiceproject.model.Region;
+import com.auto.practiceproject.model.Role;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,33 +20,34 @@ import java.util.Optional;
 @DataJpaTest
 @TestPropertySource(
         locations = "classpath:application-test.properties")
-public class AutoBrandDAOTest {
+public class RegionDAOTest {
 
     @Autowired
-    private AutoBrandDAO autoBrandDAO;
+    private RegionDAO regionDAO;
 
     @Autowired
     private TestEntityManager testEntityManager;
 
     @Before
     public void setUp() {
-        testEntityManager.persistAndFlush(new AutoBrand("BMW"));
-        testEntityManager.persistAndFlush(new AutoBrand("Audi"));
-        testEntityManager.persistAndFlush(new AutoBrand("Mercedes"));
+        testEntityManager.persistAndFlush(new Region("Brest"));
+        testEntityManager.persistAndFlush(new Region("Minsk"));
+        testEntityManager.persistAndFlush(new Role("Gomel"));
     }
 
     @Test
-    public void findAutoBrandByTitleTest() {
-        Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("BMW");
+    public void findRegionByTileTest() {
+        Optional<Region> region = regionDAO.findRegionByTitle("Minsk");
 
-        Assert.assertTrue(autoBrand.isPresent());
-        Assert.assertEquals(autoBrand.get().getTitle(), "BMW");
+        Assert.assertTrue(region.isPresent());
+        Assert.assertEquals(region.get().getTitle(), "Minsk");
     }
 
     @Test
-    public void findAutoBrandByTitleIsNullTest() {
-        Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("Volkswagen");
-        Assert.assertTrue(autoBrand.isEmpty());
+    public void findRegionByTitleIsNullTest() {
+        Optional<Region> region = regionDAO.findRegionByTitle("Test");
+        Assert.assertTrue(region.isEmpty());
+
     }
 
 }

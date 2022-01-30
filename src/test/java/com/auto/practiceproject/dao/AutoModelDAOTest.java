@@ -4,21 +4,24 @@ import com.auto.practiceproject.model.AutoBrand;
 import com.auto.practiceproject.model.AutoModel;
 import com.auto.practiceproject.model.AutoReleasedYear;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(
+        locations = "classpath:application-test.properties")
 public class AutoModelDAOTest {
 
     @Autowired
@@ -27,17 +30,19 @@ public class AutoModelDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @BeforeEach
+    @Autowired
+    private AutoBrandDAO autoBrandDAO;
+
+    @Autowired
+    private AutoReleasedYearDAO releasedYearDAO;
+
+    @Before
     public void setUp() {
         AutoBrand autoBrand1 = new AutoBrand("BMW");
-        autoBrand1.setId(1L);
         AutoBrand autoBrand2 = new AutoBrand("AUDI");
-        autoBrand1.setId(2L);
         AutoReleasedYear autoReleasedYear1 = new AutoReleasedYear(LocalDate.parse("2020-01-01"));
-        autoReleasedYear1.setId(1L);
         AutoReleasedYear autoReleasedYear2 = new AutoReleasedYear(LocalDate.parse("2012-01-01"));
-        autoReleasedYear1.setId(2L);
-        testEntityManager.persistAndFlush(new AutoModel("x5", autoBrand1, autoReleasedYear1));
+        testEntityManager.persistAndFlush(new AutoModel("X5", autoBrand1, autoReleasedYear1));
         testEntityManager.persistAndFlush(new AutoModel("100", autoBrand2, autoReleasedYear2));
         testEntityManager.persistAndFlush(new AutoModel("80", autoBrand2, autoReleasedYear2));
     }
@@ -58,13 +63,12 @@ public class AutoModelDAOTest {
 
     @Test
     public void findAutoModelByTitleAndAutoBrandAndAutoReleasedYearTest() {
-        AutoBrand autoBrand1 = new AutoBrand("BMW");
-        autoBrand1.setId(1L);
-        AutoReleasedYear autoReleasedYear1 = new AutoReleasedYear(LocalDate.parse("2020-01-01"));
-        autoReleasedYear1.setId(1L);
+        Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("BMW");
+        Optional<AutoReleasedYear> autoReleasedYear =
+                releasedYearDAO.findAutoReleasedYearByReleasedYear(LocalDate.parse("2020-01-01"));
 
         Optional<AutoModel> autoModel = autoModelDAO.
-                findAutoModelByTitleAndAutoBrandAndAutoReleasedYear("X5", autoBrand1, autoReleasedYear1);
+                findAutoModelByTitleAndAutoBrandAndAutoReleasedYear("X5", autoBrand.get(), autoReleasedYear.get());
 
         Assert.assertTrue(autoModel.isPresent());
         Assert.assertEquals(autoModel.get().getTitle(), "X5");

@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "wallet")
 public class Wallet extends AbstractEntity {
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "userId")
     private User user;
 

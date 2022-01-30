@@ -2,6 +2,7 @@ package com.auto.practiceproject.dao;
 
 import com.auto.practiceproject.model.AutoEngine;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -9,13 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
+
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(
+        locations = "classpath:application-test.properties")
 public class AutoEngineDAOTest {
 
     @Autowired
@@ -24,11 +30,11 @@ public class AutoEngineDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @BeforeEach
+    @Before
     public void setUp() {
-        testEntityManager.persist(new AutoEngine("Petrol"));
-        testEntityManager.persist(new AutoEngine("Diesel"));
-        testEntityManager.persist(new AutoEngine("Electro"));
+        testEntityManager.persistAndFlush(new AutoEngine("Petrol"));
+        testEntityManager.persistAndFlush(new AutoEngine("Diesel"));
+        testEntityManager.persistAndFlush(new AutoEngine("Electro"));
     }
 
     @Test

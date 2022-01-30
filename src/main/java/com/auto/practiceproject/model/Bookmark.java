@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "bookmark")
 public class Bookmark extends AbstractEntity {
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "userId")
     private User user;
 

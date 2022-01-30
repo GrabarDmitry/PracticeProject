@@ -1,6 +1,6 @@
 package com.auto.practiceproject.dao;
 
-import com.auto.practiceproject.model.AutoBrand;
+import com.auto.practiceproject.model.AutoTransmission;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,33 +19,34 @@ import java.util.Optional;
 @DataJpaTest
 @TestPropertySource(
         locations = "classpath:application-test.properties")
-public class AutoBrandDAOTest {
+public class AutoTransmissionDAOTest {
 
     @Autowired
-    private AutoBrandDAO autoBrandDAO;
+    private AutoTransmissionDAO autoTransmissionDAO;
 
     @Autowired
     private TestEntityManager testEntityManager;
 
     @Before
     public void setUp() {
-        testEntityManager.persistAndFlush(new AutoBrand("BMW"));
-        testEntityManager.persistAndFlush(new AutoBrand("Audi"));
-        testEntityManager.persistAndFlush(new AutoBrand("Mercedes"));
+        testEntityManager.persistAndFlush(new AutoTransmission("Automatic"));
+        testEntityManager.persistAndFlush(new AutoTransmission("Manual"));
     }
 
     @Test
-    public void findAutoBrandByTitleTest() {
-        Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("BMW");
+    public void findAutoTransmissionByTypeTest() {
+        Optional<AutoTransmission> autoTransmission = autoTransmissionDAO.
+                findAutoTransmissionByType("Manual");
 
-        Assert.assertTrue(autoBrand.isPresent());
-        Assert.assertEquals(autoBrand.get().getTitle(), "BMW");
+        Assert.assertTrue(autoTransmission.isPresent());
+        Assert.assertEquals(autoTransmission.get().getType(), "Manual");
     }
 
     @Test
-    public void findAutoBrandByTitleIsNullTest() {
-        Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("Volkswagen");
-        Assert.assertTrue(autoBrand.isEmpty());
+    public void findAutoTransmissionByTypeIsNullTest() {
+        Optional<AutoTransmission> autoTransmission =
+                autoTransmissionDAO.findAutoTransmissionByType("Test");
+        Assert.assertTrue(autoTransmission.isEmpty());
     }
 
 }
