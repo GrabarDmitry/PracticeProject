@@ -3,6 +3,7 @@ package com.auto.practiceproject.service;
 import com.auto.practiceproject.dao.AnnouncementDAO;
 import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.Announcement;
+import com.auto.practiceproject.model.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +28,9 @@ public class AnnouncementServiceTest {
 
     @MockBean
     private AnnouncementDAO announcementDAO;
+
+    @MockBean
+    private WalletService walletService;
 
     @Before
     public void setUp() {
@@ -118,6 +122,32 @@ public class AnnouncementServiceTest {
                 Mockito.times(1)).findById(3L);
         Mockito.verify(announcementDAO,
                 Mockito.times(0)).saveAndFlush(any(Announcement.class));
+    }
+
+    @Test
+    public void announcementRatingUpTest() {
+        User user = new User();
+        user.setId(1L);
+        Announcement announcementTest = new Announcement();
+        announcementTest.setRating(1);
+        announcementTest.setRatingUpPrice(1D);
+        announcementTest.setUser(user);
+
+        Mockito.doReturn(announcementTest)
+                .when(announcementDAO).saveAndFlush(any(Announcement.class));
+
+        announcementTest.setRating(0);
+
+        Announcement announcement = announcementService.announcementRatingUp(announcementTest);
+
+        Assert.assertNotNull(announcement);
+        Assert.assertEquals(announcement.getRating().intValue(), 1);
+
+        Mockito.verify(announcementDAO,
+                Mockito.times(1)).saveAndFlush(any(Announcement.class));
+        Mockito.verify(walletService,
+                Mockito.times(1)).
+                payForServices(announcement.getRatingUpPrice(), announcement.getUser());
     }
 
 }

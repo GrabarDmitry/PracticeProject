@@ -78,7 +78,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
         log.info("Service method called to update Announcement rating with id: {}", announcement.getId());
         walletService.payForServices(announcement.getRatingUpPrice(), announcement.getUser());
         announcement.setRating(announcement.getRating() + 1);
-        return updateAnnouncement(announcement);
+        return announcementDAO.saveAndFlush(announcement);
     }
 
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)

@@ -1,6 +1,7 @@
 package com.auto.practiceproject.service;
 
 
+import com.auto.practiceproject.controller.dto.MailDataDTO;
 import com.auto.practiceproject.dao.BookmarkDAO;
 import com.auto.practiceproject.dao.UserDAO;
 import com.auto.practiceproject.dao.WalletDAO;
@@ -156,5 +157,7 @@ public class SecurityServiceTest {
                 Mockito.times(1)).encode(password);
         Mockito.verify(customUtil,
                 Mockito.times(1)).generatePassword(10);
+        Mockito.verify(mailService,
+                Mockito.times(1)).sendDataToEmail(any(MailDataDTO.class));
     }
 }
