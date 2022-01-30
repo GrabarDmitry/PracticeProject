@@ -20,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -35,14 +36,16 @@ public class SecurityServiceImpl implements SecurityService {
     private final PasswordEncoder passwordEncoder;
     private final CustomUtil customUtil;
     private final MailService mailService;
-    private final BookmarkDAO bookmarkDAO;
     private final WalletDAO walletDAO;
+    private final BookmarkDAO bookmarkDAO;
 
+    @Override
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public String authentication(String email, String password) {
         log.info("Service method called to authenticate User with email: {}", email);
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             UserDetailsImpl user = userDetailsService.loadUserByUsername(email);
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             String token = provider.createToken(user);
             log.info("authentication:User with email {} was authenticated!", email);
             return token;
@@ -53,6 +56,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public User registration(User user) {
         log.info("Service method called to registration User with email: {}", user.getEmail());
         creteBookmarkAndWalletForUser(user);
@@ -60,6 +64,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public User createModeratorUser(User user) {
         log.info("Service method called to registration  moderator User with email: {}", user.getEmail());
         String password = customUtil.generatePassword(10);
