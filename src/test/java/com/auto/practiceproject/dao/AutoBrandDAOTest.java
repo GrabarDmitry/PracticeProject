@@ -1,6 +1,7 @@
 package com.auto.practiceproject.dao;
 
 import com.auto.practiceproject.model.AutoBrand;
+import com.auto.practiceproject.util.CustomDAOTestConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -59,8 +59,9 @@ public class SecurityServiceImpl implements SecurityService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public User registration(User user) {
         log.info("Service method called to registration User with email: {}", user.getEmail());
-        creteBookmarkAndWalletForUser(user);
-        return userDAO.save(user);
+        User userAfterDB = userDAO.save(user);
+        creteBookmarkAndWalletForUser(userAfterDB);
+        return userAfterDB;
     }
 
     @Override
@@ -76,8 +77,9 @@ public class SecurityServiceImpl implements SecurityService {
                                 + ", your password:" + password + ""
                 ));
         user.setPassword(passwordEncoder.encode(password));
-        creteBookmarkAndWalletForUser(user);
-        return userDAO.save(user);
+        User userAfterDB = userDAO.save(user);
+        creteBookmarkAndWalletForUser(userAfterDB);
+        return userAfterDB;
     }
 
     private void creteBookmarkAndWalletForUser(User user) {
