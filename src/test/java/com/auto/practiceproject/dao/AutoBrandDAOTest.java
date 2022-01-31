@@ -27,15 +27,12 @@ public class AutoBrandDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @Before
-    public void setUp() {
+    @Test
+    public void findAutoBrandByTitleTest() {
         testEntityManager.persistAndFlush(new AutoBrand("BMW"));
         testEntityManager.persistAndFlush(new AutoBrand("Audi"));
         testEntityManager.persistAndFlush(new AutoBrand("Mercedes"));
-    }
 
-    @Test
-    public void findAutoBrandByTitleTest() {
         Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("BMW");
 
         Assert.assertTrue(autoBrand.isPresent());

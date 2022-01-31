@@ -3,7 +3,6 @@ package com.auto.practiceproject.dao;
 import com.auto.practiceproject.model.Bookmark;
 import com.auto.practiceproject.model.User;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,25 +28,20 @@ public class BookmarkDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @Autowired
-    private UserDAO userDAO;
-
-    @Before
-    public void setUp() {
-        User userTest1 = new User();
-        userTest1.setEmail("alex@mail.ru");
-        User userTest2 = new User();
-        userTest2.setEmail("jon@mail.ru");
-        testEntityManager.persistAndFlush(new Bookmark(userTest1, Collections.emptyList()));
-        testEntityManager.persistAndFlush(new Bookmark(userTest2, Collections.emptyList()));
-    }
-
     @Test
     public void findBookmarkByUserTest() {
-        Optional<User> user = userDAO.findUserByEmail("alex@mail.ru");
+
+        User userTest1 = new User();
+        userTest1.setEmail("alex@mail.ru");
+        userTest1 = testEntityManager.persistAndFlush(userTest1);
+        User userTest2 = new User();
+        userTest2.setEmail("jon@mail.ru");
+        userTest2 = testEntityManager.persistAndFlush(userTest2);
+        testEntityManager.persistAndFlush(new Bookmark(userTest1, Collections.emptyList()));
+        testEntityManager.persistAndFlush(new Bookmark(userTest2, Collections.emptyList()));
 
         Optional<Bookmark> bookmark = bookmarkDAO.
-                findBookmarkByUser(user.get());
+                findBookmarkByUser(userTest1);
 
         Assert.assertTrue(bookmark.isPresent());
         Assert.assertEquals(bookmark.get().getUser().getEmail(), "alex@mail.ru");
@@ -55,8 +49,7 @@ public class BookmarkDAOTest {
 
     @Test
     public void findBookmarkByUserIsNullTest() {
-        User user = new User();
-        user.setId(50L);
+        User user = testEntityManager.persistAndFlush(new User());
 
         Optional<Bookmark> bookmark = bookmarkDAO.
                 findBookmarkByUser(user);

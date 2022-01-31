@@ -30,15 +30,12 @@ public class AutoEngineDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @Before
-    public void setUp() {
+    @Test
+    public void findAutoEngineByTypeTest() {
         testEntityManager.persistAndFlush(new AutoEngine("Petrol"));
         testEntityManager.persistAndFlush(new AutoEngine("Diesel"));
         testEntityManager.persistAndFlush(new AutoEngine("Electro"));
-    }
 
-    @Test
-    public void findAutoEngineByTypeTest() {
         Optional<AutoEngine> autoEngine = autoEngineDAO.findAutoEngineByType("Diesel");
 
         Assert.assertTrue(autoEngine.isPresent());

@@ -3,7 +3,6 @@ package com.auto.practiceproject.dao;
 import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.model.Comment;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,33 +28,26 @@ public class CommentDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @Before
-    public void setUp() {
-        Announcement announcementTest1 = new Announcement();
-        Announcement announcementTest2 = new Announcement();
-        testEntityManager.persistAndFlush(announcementTest1);
-        testEntityManager.persistAndFlush(announcementTest2);
+    @Test
+    public void findAllByAnnouncementTest() {
+
+        Announcement announcementTest1 = testEntityManager.persistAndFlush(new Announcement());
+        Announcement announcementTest2 = testEntityManager.persistAndFlush(new Announcement());
 
         testEntityManager.persistAndFlush(new Comment("text1", LocalDateTime.now(), null, announcementTest1));
         testEntityManager.persistAndFlush(new Comment("text2", LocalDateTime.now(), null, announcementTest2));
         testEntityManager.persistAndFlush(new Comment("text3", LocalDateTime.now(), null, announcementTest1));
-    }
 
-    @Test
-    public void findAllByAnnouncementTest() {
-        Announcement announcement = new Announcement();
-        announcement.setId(1L);
-        Page<Comment> comments = commentDAO.findAllByAnnouncement(announcement, null);
+        Page<Comment> comments = commentDAO.findAllByAnnouncement(announcementTest1, null);
 
-        Assert.assertEquals(comments.getSize(), 2);
-        Assert.assertEquals(comments.getContent().get(0).getAnnouncement(), announcement);
-        Assert.assertEquals(comments.getContent().get(1).getAnnouncement(), announcement);
+        Assert.assertEquals(comments.getContent().size(), 2);
+        Assert.assertEquals(comments.getContent().get(0).getAnnouncement(), announcementTest1);
+        Assert.assertEquals(comments.getContent().get(1).getAnnouncement(), announcementTest1);
     }
 
     @Test
     public void findAllByAnnouncementIsEmptyListTest() {
-        Announcement announcement = new Announcement();
-        announcement.setId(5L);
+        Announcement announcement = testEntityManager.persistAndFlush(new Announcement());
 
         Page<Comment> comments = commentDAO.findAllByAnnouncement(announcement, null);
 
