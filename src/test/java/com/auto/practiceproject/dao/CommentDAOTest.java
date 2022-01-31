@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource(
-        locations = "classpath:application-test.properties")
+        locations = "classpath:application_dao_test.properties")
 public class CommentDAOTest {
 
     @Autowired

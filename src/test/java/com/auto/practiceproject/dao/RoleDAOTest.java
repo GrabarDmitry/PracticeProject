@@ -18,7 +18,7 @@ import java.util.Optional;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource(
-        locations = "classpath:application-test.properties")
+        locations = "classpath:application_dao_test.properties")
 public class RoleDAOTest {
 
     @Autowired
