@@ -2,6 +2,7 @@ package com.auto.practiceproject.controller;
 
 import com.auto.practiceproject.controller.dto.request.AuthenticationRequestDTO;
 import com.auto.practiceproject.controller.dto.request.UserCreateDTO;
+import com.auto.practiceproject.util.TestUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.auto.practiceproject.util.TestUtil.postJson;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -27,12 +27,15 @@ public class SecurityControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private TestUtil testUtil;
+
     @Test
     public void authentication() throws Exception {
         AuthenticationRequestDTO authenticationRequestDTO =
                 new AuthenticationRequestDTO("Dzmitry@mail.ru", "12345");
 
-        mockMvc.perform(postJson("/auth", authenticationRequestDTO))
+        mockMvc.perform(testUtil.postJson("/auth", authenticationRequestDTO))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.token").isNotEmpty());
@@ -43,7 +46,7 @@ public class SecurityControllerTest {
         AuthenticationRequestDTO authenticationRequestDTO =
                 new AuthenticationRequestDTO("Dzmitry@mail.ru", "1234523r");
 
-        mockMvc.perform(postJson("/auth", authenticationRequestDTO))
+        mockMvc.perform(testUtil.postJson("/auth", authenticationRequestDTO))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpStatusCode").value("400"))
@@ -56,7 +59,7 @@ public class SecurityControllerTest {
         AuthenticationRequestDTO authenticationRequestDTO =
                 new AuthenticationRequestDTO("Dzaddawdtry@mail.ru", "12345");
 
-        mockMvc.perform(postJson("/auth", authenticationRequestDTO))
+        mockMvc.perform(testUtil.postJson("/auth", authenticationRequestDTO))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpStatusCode").value("400"))
@@ -69,7 +72,7 @@ public class SecurityControllerTest {
         UserCreateDTO userCreateDTO = new UserCreateDTO(
                 "alex@mail.ru", "alex", "smith", "123");
 
-        mockMvc.perform(postJson("/registration", userCreateDTO))
+        mockMvc.perform(testUtil.postJson("/registration", userCreateDTO))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value("4"))
@@ -82,7 +85,7 @@ public class SecurityControllerTest {
         UserCreateDTO userCreateDTO = new UserCreateDTO(
                 "Dzmitry@mail.ru", "alex", "smith", "123");
 
-        mockMvc.perform(postJson("/registration", userCreateDTO))
+        mockMvc.perform(testUtil.postJson("/registration", userCreateDTO))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpStatusCode").value("400"))
