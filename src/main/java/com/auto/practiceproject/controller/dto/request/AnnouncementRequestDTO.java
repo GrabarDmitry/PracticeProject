@@ -51,9 +51,9 @@ public class AnnouncementRequestDTO {
     @Positive(message = "Engine capacity be positive")
     private Integer engineCapacity;
 
-    @NotEmpty(message = "VIM should not be empty")
-    @Size(max = 17, min = 17, message = "VIM must be 17 characters")
-    private String vim;
+    @NotEmpty(message = "VIN should not be empty")
+    @Size(max = 17, min = 17, message = "VIN must be 17 characters")
+    private String vin;
 
     @NotNull(message = "regionId should not be null")
     @Positive(message = "regionId id should be positive")

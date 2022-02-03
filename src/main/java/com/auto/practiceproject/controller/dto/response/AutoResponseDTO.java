@@ -16,5 +16,5 @@ public class AutoResponseDTO {
     private Long autoEngineId;
     private Integer mileage;
     private Integer engineCapacity;
-    private String VIM;
+    private String VIN;
 }

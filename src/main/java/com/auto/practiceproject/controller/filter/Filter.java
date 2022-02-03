@@ -15,7 +15,7 @@ public abstract class Filter<T> {
     private Class type;
     private String fieldNameInDB;
 
-    protected void setFilter(String filter, Map<String, FilterFieldParams> fieldsType) {
+    public Filter(String filter, Map<String, FilterFieldParams> fieldsType) {
         this.filterDTO = decodeStringFilterToFilterDTO(filter);
         this.paths = fieldsType.get(filterDTO.getField()).getPathParam();
         this.type = fieldsType.get(filterDTO.getField()).getType();
@@ -25,8 +25,6 @@ public abstract class Filter<T> {
     public Specification<T> toSpecification() {
         return specificationBuilder(paths);
     }
-
-    protected abstract void setParam(String filter);
 
     protected Object parser(Class type, String value) {
         try {
@@ -81,6 +79,10 @@ public abstract class Filter<T> {
         switch (filterDTO.getOperationType()) {
             case eq:
                 return toSpecificationWithPathEquals();
+            case more:
+                return toSpecificationWithPathMoreThan();
+            case less:
+                return toSpecificationWithPathLessThan();
         }
         return null;
     }
@@ -136,6 +138,20 @@ public abstract class Filter<T> {
                     .join(pathParam2, JoinType.LEFT)
                     .join(pathParam3, JoinType.LEFT)
                     .get(fieldNameInDB), parser(type, filterDTO.getValue()));
+        };
+    }
+
+    private Specification<T> toSpecificationWithPathLessThan() {
+        return (root, query, criteriaBuilder) -> {
+            return criteriaBuilder.
+                    lessThan(root.get(fieldNameInDB), (Comparable) parser(type, filterDTO.getValue()));
+        };
+    }
+
+    private Specification<T> toSpecificationWithPathMoreThan() {
+        return (root, query, criteriaBuilder) -> {
+            return criteriaBuilder.
+                    greaterThan(root.get(fieldNameInDB), (Comparable) parser(type, filterDTO.getValue()));
         };
     }
 

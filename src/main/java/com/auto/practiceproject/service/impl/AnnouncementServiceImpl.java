@@ -1,6 +1,7 @@
 package com.auto.practiceproject.service.impl;
 
 import com.auto.practiceproject.controller.filter.AnnouncementFilter;
+import com.auto.practiceproject.controller.filter.FilterFactory;
 import com.auto.practiceproject.controller.filter.FilteredService;
 import com.auto.practiceproject.dao.AnnouncementDAO;
 import com.auto.practiceproject.exception.ResourceException;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -27,7 +29,7 @@ import java.util.Optional;
 public class AnnouncementServiceImpl implements AnnouncementService, FilteredService {
 
     private final AnnouncementDAO announcementDAO;
-    private final AnnouncementFilter announcementFilter;
+    private final FilterFactory filterFactory;
     private final WalletService walletService;
 
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
@@ -36,8 +38,9 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
         log.trace("Service method called to find all moderation Announcement with params: {}", pageable);
         return announcementDAO.findAll(
                 applyFilter(
-                        announcementFilter,
-                        decodeStringFilter(filter),
+                        decodeStringFilter(filter).stream()
+                                .map(filterFactory.getConverter(AnnouncementFilter.class)::convert)
+                                .collect(Collectors.toList()),
                         getAdditionalSpecifications(moderation)
                 ),
                 pageable);
@@ -90,8 +93,9 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
         log.trace("Service method called to find all moderation user announcement with params: {}", pageable);
         return announcementDAO.findAll(
                 applyFilter(
-                        announcementFilter,
-                        decodeStringFilter(filter),
+                        decodeStringFilter(filter).stream()
+                                .map(filterFactory.getConverter(AnnouncementFilter.class)::convert)
+                                .collect(Collectors.toList()),
                         getAdditionalSpecifications(user)),
                 pageable);
     }

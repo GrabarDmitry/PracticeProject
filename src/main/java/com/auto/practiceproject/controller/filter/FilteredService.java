@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface FilteredService {
 
-    default <T> Specification<T> applyFilter(Filter filterClass, List<String> filters, List<Specification> additions) {
+    default <T> Specification<T> applyFilter(List<? extends Filter> filters, List<Specification> additions) {
 
         if (filters == null) {
             filters = Collections.emptyList();
@@ -16,13 +16,12 @@ public interface FilteredService {
 
         Specification<T> result = null;
 
-        for (String filter : filters) {
-            filterClass.setParam(filter);
+        for (Filter filter : filters) {
             if (result == null) {
                 result = Specification.where(
-                        filterClass.toSpecification());
+                        filter.toSpecification());
             } else {
-                result = result.and(filterClass.toSpecification());
+                result = result.and(filter.toSpecification());
             }
         }
 
@@ -40,8 +39,8 @@ public interface FilteredService {
 
     }
 
-    default <T> Specification<T> applyFilter(Filter filterClass, List<String> filters) {
-        return applyFilter(filterClass, filters, null);
+    default <T> Specification<T> applyFilter(List<? extends Filter> filters) {
+        return applyFilter(filters, null);
     }
 
     default List<String> decodeStringFilter(String filter) {

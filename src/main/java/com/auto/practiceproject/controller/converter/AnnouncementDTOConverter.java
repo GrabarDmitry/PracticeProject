@@ -55,7 +55,7 @@ public class AnnouncementDTOConverter {
                 5.0,
                 createDTO.getIsExchange(),
                 createDTO.getCustomsDuty(),
-                createAutoUtil(createDTO.getMileage(), createDTO.getEngineCapacity(), createDTO.getVim(),
+                createAutoUtil(createDTO.getMileage(), createDTO.getEngineCapacity(), createDTO.getVin(),
                         autoModel, createDTO.getAutoEngineId(), createDTO.getAutoTransmissionId()),
                 userService.getCurrentUser()
                         .orElse(null),
