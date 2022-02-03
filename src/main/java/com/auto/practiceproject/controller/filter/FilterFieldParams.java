@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FilterDTO {
-    private String field;
-    private OperationType operationType;
-    private String value;
+public class FilterFieldParams {
+
+    private String fieldTitleInDB;
+    private Class type;
+    private List<String> pathParam;
+
 }

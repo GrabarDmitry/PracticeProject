@@ -20,18 +20,17 @@ public class CommentDTOConverter {
     private final AnnouncementService announcementService;
 
     public CommentResponseDTO toDTO(Comment comment) {
-        log.trace("Convert Comment with id: {}, to CommentResponseDTO", comment.getId());
+        log.trace("Convert Comment : {}, to CommentResponseDTO", comment);
         return new CommentResponseDTO(
                 comment.getId(),
                 comment.getText(),
                 comment.getCreated(),
-                comment.getUser().getName() + " "
-                        + comment.getUser().getSurname()
+                comment.getUser().getId()
         );
     }
 
     public Comment toEntity(Long id, CommentRequestDTO requestDTO) {
-        log.trace("Convert CommentRequestDTO to Comment entity");
+        log.trace("Convert CommentRequestDTO:{}, to Comment entity", requestDTO);
         return new Comment(
                 requestDTO.getText(),
                 LocalDateTime.now(),

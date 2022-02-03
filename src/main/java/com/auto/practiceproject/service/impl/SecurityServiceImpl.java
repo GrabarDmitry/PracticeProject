@@ -1,6 +1,6 @@
 package com.auto.practiceproject.service.impl;
 
-import com.auto.practiceproject.controller.dto.MailDataDTO;
+import com.auto.practiceproject.controller.dto.request.MailDataDTO;
 import com.auto.practiceproject.dao.BookmarkDAO;
 import com.auto.practiceproject.dao.UserDAO;
 import com.auto.practiceproject.dao.WalletDAO;

@@ -28,9 +28,9 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Bookmark findByUser() {
-        log.trace("Service method called to view Bookmark with user");
         User user = userService.getCurrentUser()
                 .orElse(null);
+        log.trace("Service method called to view Bookmark by user:{}", user);
         return bookmarkDAO.findBookmarkByUser(user).
                 orElse(null);
     }
@@ -38,7 +38,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Bookmark updateBookmark(Bookmark bookmark) {
-        log.info("Service method called to update Announcements in Bookmark ,bookmark id: {}", bookmark.getId());
+        log.info("Service method called to update Announcements in Bookmark ,bookmark: {}", bookmark);
         bookmarkDAO.findById(bookmark.getId())
                 .ifPresentOrElse(
                         u -> bookmarkDAO.saveAndFlush(bookmark),
@@ -52,7 +52,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Bookmark addAnnouncementToBookmark(Long announcementId) {
-        log.info("Service method called to add announcement in Bookmark");
+        log.info("Service method called to add announcement in Bookmark,announcementId:{}", announcementId);
         Announcement announcement = announcementService.findAnnouncement(announcementId)
                 .orElse(null);
         Bookmark bookmark = findByUser();

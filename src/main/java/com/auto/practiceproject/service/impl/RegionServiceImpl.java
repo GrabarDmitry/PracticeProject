@@ -14,12 +14,18 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 public class RegionServiceImpl implements RegionService {
 
     private final RegionDAO regionDAO;
 
     @Override
-    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
+    public Optional<Region> findRegion(Long id) {
+        log.trace("Service method called to view Region with id: {}", id);
+        return regionDAO.findById(id);
+    }
+
+    @Override
     public Optional<Region> findRegionByTitle(String title) {
         log.trace("Service method called to view Region with title: {}", title);
         return regionDAO.findRegionByTitle(title);

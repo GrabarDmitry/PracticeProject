@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"password"})
 public class UserCreateDTO {
 
     @Email(message = "email should be valid")

@@ -178,6 +178,6 @@ VALUES (1, 2),
        (3, 1);
 
 INSERT INTO app_test.wallet(user_id, balance)
-VALUES (1, 0),
+VALUES (1, 10),
        (2, 0),
        (3, 0)

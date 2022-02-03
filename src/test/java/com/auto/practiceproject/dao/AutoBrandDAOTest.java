@@ -1,8 +1,8 @@
 package com.auto.practiceproject.dao;
 
 import com.auto.practiceproject.model.AutoBrand;
-import com.auto.practiceproject.util.CustomDAOTestConfiguration;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +27,15 @@ public class AutoBrandDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @Test
-    public void findAutoBrandByTitleTest() {
+    @Before
+    public void setUp() {
         testEntityManager.persistAndFlush(new AutoBrand("BMW"));
         testEntityManager.persistAndFlush(new AutoBrand("Audi"));
         testEntityManager.persistAndFlush(new AutoBrand("Mercedes"));
+    }
 
+    @Test
+    public void findAutoBrandByTitleTest() {
         Optional<AutoBrand> autoBrand = autoBrandDAO.findAutoBrandByTitle("BMW");
 
         Assert.assertTrue(autoBrand.isPresent());

@@ -1,4 +1,4 @@
-package com.auto.practiceproject.controller.dto;
+package com.auto.practiceproject.controller.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

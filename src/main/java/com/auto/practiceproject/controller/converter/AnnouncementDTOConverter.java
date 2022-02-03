@@ -4,9 +4,9 @@ import com.auto.practiceproject.controller.dto.request.AnnouncementActiveChangeD
 import com.auto.practiceproject.controller.dto.request.AnnouncementModerationChangeDTO;
 import com.auto.practiceproject.controller.dto.request.AnnouncementRequestDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
-import com.auto.practiceproject.controller.dto.response.FullAnnouncementResponseDTO;
 import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.model.Auto;
+import com.auto.practiceproject.model.AutoModel;
 import com.auto.practiceproject.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,28 +22,10 @@ public class AnnouncementDTOConverter {
     private final AutoEngineService autoEngineService;
     private final AutoTransmissionService autoTransmissionService;
     private final AutoModelService autoModelService;
-    private final AutoReleasedYearService autoReleasedYearService;
-    private final AutoBrandService autoBrandService;
-    private final AnnouncementService announcementService;
 
     public AnnouncementResponseDTO toDTO(Announcement announcement) {
-        log.trace("Convert Announcement with id: {}, to AnnouncementResponseDTO", announcement.getId());
+        log.trace("Convert Announcement: {}, to AnnouncementResponseDTO", announcement);
         return new AnnouncementResponseDTO(
-                announcement.getId(),
-                announcement.getTitle(),
-                announcement.getPrice(),
-                announcement.getAuto().getAutoModel().getAutoBrand().getTitle(),
-                announcement.getAuto().getAutoModel().getTitle(),
-                announcement.getAuto().getAutoModel().getAutoReleasedYear().getReleasedYear(),
-                announcement.getAuto().getAutoTransmission().getType(),
-                announcement.getAuto().getAutoEngine().getType(),
-                announcement.getAuto().getEngineCapacity()
-        );
-    }
-
-    public FullAnnouncementResponseDTO toFullDTO(Announcement announcement) {
-        log.trace("Convert Announcement with id: {}, to FullAnnouncementResponseDTO", announcement.getId());
-        return new FullAnnouncementResponseDTO(
                 announcement.getId(),
                 announcement.getTitle(),
                 announcement.getDescription(),
@@ -52,23 +34,18 @@ public class AnnouncementDTOConverter {
                 announcement.getIsActive(),
                 announcement.getIsExchange(),
                 announcement.getCustomsDuty(),
-                announcement.getAuto().getAutoModel().getAutoBrand().getTitle(),
-                announcement.getAuto().getAutoModel().getTitle(),
-                announcement.getAuto().getAutoModel().getAutoReleasedYear().getReleasedYear(),
-                announcement.getAuto().getAutoTransmission().getType(),
-                announcement.getAuto().getAutoEngine().getType(),
-                announcement.getAuto().getMileage(),
-                announcement.getAuto().getEngineCapacity(),
-                announcement.getAuto().getVIM(),
-                announcement.getUser().getName(),
-                announcement.getRegion().getTitle()
+                announcement.getUser().getId(),
+                announcement.getRegion().getId(),
+                announcement.getAuto().getId()
         );
     }
 
     public Announcement toEntity(AnnouncementRequestDTO createDTO) {
         log.trace("AnnouncementRequestDTO: {}, to Announcement", createDTO);
+        AutoModel autoModel = autoModelService.findAutoModel(createDTO.getAutoModelId())
+                .orElse(null);
         return new Announcement(
-                createDTO.getBrand() + createDTO.getModel(),
+                autoModel.getAutoBrand().getTitle() + " " + autoModel.getTitle(),
                 createDTO.getDescription(),
                 createDTO.getPhoneNumber(),
                 createDTO.getPrice(),
@@ -78,25 +55,11 @@ public class AnnouncementDTOConverter {
                 5.0,
                 createDTO.getIsExchange(),
                 createDTO.getCustomsDuty(),
-                new Auto(
-                        createDTO.getMileage(),
-                        createDTO.getEngineCapacity(),
-                        createDTO.getVim(),
-                        autoModelService.findAutoModelByTitleAndAutoBrandAndAutoReleasedYear(
-                                createDTO.getModel(),
-                                autoBrandService.findAutoBrandByTitle(createDTO.getBrand())
-                                        .orElse(null),
-                                autoReleasedYearService.findAutoReleasedYearByReleased(createDTO.getReleasedYear())
-                                        .orElse(null)
-                        ).orElse(null),
-                        autoEngineService.findAutoEngineByType(createDTO.getEngine())
-                                .orElse(null),
-                        autoTransmissionService.findAutoTransmissionByType(createDTO.getTransmission())
-                                .orElse(null)
-                ),
+                createAutoUtil(createDTO.getMileage(), createDTO.getEngineCapacity(), createDTO.getVim(),
+                        autoModel, createDTO.getAutoEngineId(), createDTO.getAutoTransmissionId()),
                 userService.getCurrentUser()
                         .orElse(null),
-                regionService.findRegionByTitle(createDTO.getRegion())
+                regionService.findRegion(createDTO.getRegionId())
                         .orElse(null)
         );
     }
@@ -127,6 +90,20 @@ public class AnnouncementDTOConverter {
         log.trace("AnnouncementModerationChangeDTO: {}, to announcement", moderationChangeDTO);
         announcement.setIsModeration(moderationChangeDTO.getIsModeration());
         return announcement;
+    }
+
+    private Auto createAutoUtil(
+            Integer mileage, Integer engineCapacity, String vim, AutoModel autoModel, Long autoEngineId, Long autoTransmissionId) {
+        return new Auto(
+                mileage,
+                engineCapacity,
+                vim,
+                autoModel,
+                autoEngineService.findAutoEngine(autoEngineId)
+                        .orElse(null),
+                autoTransmissionService.findAutoTransmission(autoTransmissionId)
+                        .orElse(null)
+        );
     }
 
 }

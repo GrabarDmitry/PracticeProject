@@ -3,6 +3,8 @@ package com.auto.practiceproject.controller;
 import com.auto.practiceproject.controller.dto.request.MoneyTransferDTO;
 import com.auto.practiceproject.security.UserDetailsImpl;
 import com.auto.practiceproject.service.WalletService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Api(tags = {"Wallet"})
 @RestController
 @RequestMapping("/api/wallet")
 @RequiredArgsConstructor
@@ -23,13 +26,14 @@ public class WalletController {
 
     private final WalletService walletService;
 
+    @ApiOperation(value = "Put money to wallet")
     @PostMapping
     public ResponseEntity<HttpStatus> putMoneyToWallet(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody @Valid MoneyTransferDTO moneyTransferDTO
     ) {
-        log.trace("Controller method called to put money on wallet, user id: {}",
-                userDetails.getUser().getId());
+        log.trace("Controller method called to put money on wallet, user : {}",
+                userDetails.getUser());
         walletService.putMoney(moneyTransferDTO.getAmount(), userDetails.getUser());
         return new ResponseEntity<>(HttpStatus.OK);
     }

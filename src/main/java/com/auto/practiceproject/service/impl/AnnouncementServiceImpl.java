@@ -1,21 +1,23 @@
 package com.auto.practiceproject.service.impl;
 
 import com.auto.practiceproject.controller.filter.AnnouncementFilter;
-import com.auto.practiceproject.controller.filter.FilterDTO;
 import com.auto.practiceproject.controller.filter.FilteredService;
 import com.auto.practiceproject.dao.AnnouncementDAO;
 import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.Announcement;
+import com.auto.practiceproject.model.User;
 import com.auto.practiceproject.service.AnnouncementService;
 import com.auto.practiceproject.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,8 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
                 applyFilter(
                         announcementFilter,
                         decodeStringFilter(filter),
-                        List.of(new FilterDTO("isModeration", String.valueOf(moderation)))),
+                        getAdditionalSpecifications(moderation)
+                ),
                 pageable);
     }
 
@@ -61,7 +64,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public Announcement updateAnnouncement(Announcement announcement) {
-        log.info("Service method called to update Announcement with id: {}", announcement.getId());
+        log.info("Service method called to update Announcement: {}", announcement);
         announcementDAO.findById(announcement.getId())
                 .ifPresentOrElse(
                         u -> announcementDAO.saveAndFlush(announcement),
@@ -75,7 +78,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public Announcement announcementRatingUp(Announcement announcement) {
-        log.info("Service method called to update Announcement rating with id: {}", announcement.getId());
+        log.info("Service method called to update Announcement: {}", announcement);
         walletService.payForServices(announcement.getRatingUpPrice(), announcement.getUser());
         announcement.setRating(announcement.getRating() + 1);
         return announcementDAO.saveAndFlush(announcement);
@@ -83,13 +86,13 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
 
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     @Override
-    public Page<Announcement> findAnnouncementByUserId(String id, Pageable pageable, String filter) {
+    public Page<Announcement> findAnnouncementByUserId(User user, Pageable pageable, String filter) {
         log.trace("Service method called to find all moderation user announcement with params: {}", pageable);
         return announcementDAO.findAll(
                 applyFilter(
                         announcementFilter,
                         decodeStringFilter(filter),
-                        List.of(new FilterDTO("userId", id))),
+                        getAdditionalSpecifications(user)),
                 pageable);
     }
 
@@ -98,6 +101,27 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
     public Optional<Announcement> findAnnouncement(Long id) {
         log.trace("Service method called to view Announcement with id : {}", id);
         return announcementDAO.findById(id);
+    }
+
+    private List<Specification> getAdditionalSpecifications(Boolean aBoolean) {
+        List<Specification> specifications = new ArrayList<>();
+
+        specifications.add((root, criteriaQuery, criteriaBuilder) -> {
+                    return criteriaBuilder.equal(root.get("isModeration"), aBoolean);
+                }
+        );
+        return specifications;
+    }
+
+    private List<Specification> getAdditionalSpecifications(User user) {
+        List<Specification> specifications = new ArrayList<>();
+
+        specifications.add((root, criteriaQuery, criteriaBuilder) -> {
+                    return criteriaBuilder.equal(root.join("user")
+                            .get("id"), user.getId());
+                }
+        );
+        return specifications;
     }
 
 

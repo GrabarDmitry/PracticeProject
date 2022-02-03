@@ -1,9 +1,8 @@
 package com.auto.practiceproject.service;
 
 
-import com.auto.practiceproject.controller.dto.MailDataDTO;
+import com.auto.practiceproject.controller.dto.request.MailDataDTO;
 import com.auto.practiceproject.dao.BookmarkDAO;
-import com.auto.practiceproject.dao.BookmarkDAOTest;
 import com.auto.practiceproject.dao.UserDAO;
 import com.auto.practiceproject.dao.WalletDAO;
 import com.auto.practiceproject.model.Bookmark;

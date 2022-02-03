@@ -1,6 +1,7 @@
 package com.auto.practiceproject.service;
 
 import com.auto.practiceproject.model.Announcement;
+import com.auto.practiceproject.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,7 +19,7 @@ public interface AnnouncementService {
 
     Announcement announcementRatingUp(Announcement announcement);
 
-    Page<Announcement> findAnnouncementByUserId(String id, Pageable pageable, String filter);
+    Page<Announcement> findAnnouncementByUserId(User user, Pageable pageable, String filter);
 
     Optional<Announcement> findAnnouncement(Long id);
 

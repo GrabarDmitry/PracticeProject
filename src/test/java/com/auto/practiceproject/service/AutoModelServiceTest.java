@@ -34,13 +34,6 @@ public class AutoModelServiceTest {
 
         Mockito.when(autoModelDAO.findAutoModelByTitle("X5"))
                 .thenReturn(Optional.of(autoModel));
-
-        Mockito.when(autoModelDAO.findAutoModelByTitleAndAutoBrandAndAutoReleasedYear(
-                        "X5", new AutoBrand("BMW"),
-                        new AutoReleasedYear(LocalDate.parse("2020-01-01")
-                        )))
-                .thenReturn(Optional.of(autoModel));
-
     }
 
     @Test
@@ -56,27 +49,4 @@ public class AutoModelServiceTest {
         Assert.assertTrue(autoModel.isEmpty());
     }
 
-    @Test
-    public void findAutoModelByTitleAndAutoBrandAndAutoReleasedYearTest() {
-        Optional<AutoModel> autoModel = autoModelService.findAutoModelByTitleAndAutoBrandAndAutoReleasedYear(
-                "X5", new AutoBrand("BMW"),
-                new AutoReleasedYear(LocalDate.parse("2020-01-01")
-                )
-        );
-        Assert.assertTrue(autoModel.isPresent());
-        Assert.assertEquals(autoModel.get().getTitle(), "X5");
-        Assert.assertEquals(autoModel.get().getAutoBrand(), new AutoBrand("BMW"));
-        Assert.assertEquals(autoModel.get().getAutoReleasedYear(),
-                new AutoReleasedYear(LocalDate.parse("2020-01-01")));
-    }
-
-    @Test
-    public void findAutoModelByTitleAndAutoBrandAndAutoReleasedYearIsNullTest() {
-        Optional<AutoModel> autoModel = autoModelService.findAutoModelByTitleAndAutoBrandAndAutoReleasedYear(
-                "X8", new AutoBrand("Audi"),
-                new AutoReleasedYear(LocalDate.parse("2010-01-01")
-                )
-        );
-        Assert.assertTrue(autoModel.isEmpty());
-    }
 }

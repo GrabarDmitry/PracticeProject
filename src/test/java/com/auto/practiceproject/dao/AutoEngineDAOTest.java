@@ -2,6 +2,7 @@ package com.auto.practiceproject.dao;
 
 import com.auto.practiceproject.model.AutoEngine;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,15 @@ public class AutoEngineDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @Test
-    public void findAutoEngineByTypeTest() {
+    @Before
+    public void setUp() {
         testEntityManager.persistAndFlush(new AutoEngine("Petrol"));
         testEntityManager.persistAndFlush(new AutoEngine("Diesel"));
         testEntityManager.persistAndFlush(new AutoEngine("Electro"));
+    }
 
+    @Test
+    public void findAutoEngineByTypeTest() {
         Optional<AutoEngine> autoEngine = autoEngineDAO.findAutoEngineByType("Diesel");
 
         Assert.assertTrue(autoEngine.isPresent());

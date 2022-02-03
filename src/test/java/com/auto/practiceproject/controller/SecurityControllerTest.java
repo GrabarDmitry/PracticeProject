@@ -31,7 +31,7 @@ public class SecurityControllerTest {
     private TestUtil testUtil;
 
     @Test
-    public void authentication() throws Exception {
+    public void authenticationTest() throws Exception {
         AuthenticationRequestDTO authenticationRequestDTO =
                 new AuthenticationRequestDTO("Dzmitry@mail.ru", "12345");
 
@@ -42,7 +42,7 @@ public class SecurityControllerTest {
     }
 
     @Test
-    public void authenticationWrongPassword() throws Exception {
+    public void authenticationWrongPasswordTest() throws Exception {
         AuthenticationRequestDTO authenticationRequestDTO =
                 new AuthenticationRequestDTO("Dzmitry@mail.ru", "1234523r");
 
@@ -55,7 +55,7 @@ public class SecurityControllerTest {
     }
 
     @Test
-    public void authenticationWrongEmail() throws Exception {
+    public void authenticationWrongEmailTest() throws Exception {
         AuthenticationRequestDTO authenticationRequestDTO =
                 new AuthenticationRequestDTO("Dzaddawdtry@mail.ru", "12345");
 
@@ -77,7 +77,7 @@ public class SecurityControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value("4"))
                 .andExpect(jsonPath("$.email").value("alex@mail.ru"))
-                .andExpect(jsonPath("$.balance").value(0.0));
+                .andExpect(jsonPath("$.walletId").value(4));
     }
 
     @Test

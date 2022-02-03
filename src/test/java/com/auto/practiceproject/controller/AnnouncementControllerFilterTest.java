@@ -30,8 +30,8 @@ public class AnnouncementControllerFilterTest {
     private TestUtil testUtil;
 
     @Test
-    public void filterByBrand() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "brand.eq(BMW)"))
+    public void filterByBrandTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "autoBrandId.eq.1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -40,8 +40,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByModel() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "model.eq(X5)"))
+    public void filterByModelTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "autoModelId.eq.1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -49,8 +49,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByPrice() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "price.eq(5000)"))
+    public void filterByPriceTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "price.eq.5000"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -59,8 +59,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByReleasedYear() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "releasedYear.eq(2020-01-01)"))
+    public void filterByReleasedYearTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "autoReleasedYearId.eq.1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -68,8 +68,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByMileage() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "mileage.eq(223)"))
+    public void filterByMileageTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "mileage.eq.223"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -77,8 +77,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByEngineCapacity() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "engineCapacity.eq(1900)"))
+    public void filterByEngineCapacityTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "engineCapacity.eq.1900"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -86,8 +86,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByEngineType() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "engineType.eq(Electro)"))
+    public void filterByEngineTypeTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "autoEngineId.eq.3"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -95,8 +95,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByTransmission() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "transmission.eq(Manual)"))
+    public void filterByTransmissionTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "autoTransmissionId.eq.2"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -105,8 +105,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByRegion() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "region.eq(Grodno)"))
+    public void filterByRegionTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "regionId.eq.3"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -115,8 +115,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByCustomsDuty() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "customsDuty.eq(0)"))
+    public void filterByCustomsDutyTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "customsDuty.eq.0"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -125,8 +125,8 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
-    public void filterByIsExchange() throws Exception {
-        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "isExchange.eq(true)"))
+    public void filterByIsExchangeTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "isExchange.eq.true"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

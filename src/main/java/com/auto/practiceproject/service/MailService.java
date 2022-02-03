@@ -1,6 +1,6 @@
 package com.auto.practiceproject.service;
 
-import com.auto.practiceproject.controller.dto.MailDataDTO;
+import com.auto.practiceproject.controller.dto.request.MailDataDTO;
 
 public interface MailService {
 

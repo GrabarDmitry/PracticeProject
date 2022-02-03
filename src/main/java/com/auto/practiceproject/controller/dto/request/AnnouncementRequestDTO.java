@@ -1,38 +1,22 @@
 package com.auto.practiceproject.controller.dto.request;
 
-import com.auto.practiceproject.util.validation.BrandDoesNotExist;
-import com.auto.practiceproject.util.validation.ModelDoesNotExist;
-import com.auto.practiceproject.util.validation.ModelDoesNotExistWithBrandAndYear;
-import com.auto.practiceproject.util.validation.ReleasedYeasDoesNorExist;
+import com.auto.practiceproject.util.validation.*;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import javax.validation.constraints.*;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ModelDoesNotExistWithBrandAndYear(field = "model", message = "Auto model with this brand or released year doesn't exist")
+@CustomsDutyPriceValidator
 public class AnnouncementRequestDTO {
 
-    @NotEmpty(message = "Brand should not be empty")
-    @Size(max = 45, message = "Brand must be less than 45 characters")
-    @BrandDoesNotExist
-    private String brand;
-
-    @NotEmpty(message = "Model should not be empty")
-    @Size(max = 45, message = "Model must be less than 45 characters")
-    @ModelDoesNotExist
-    private String model;
-
-    @NotNull(message = "Released year should not be null")
-    @ReleasedYeasDoesNorExist
-    private LocalDate releasedYear;
+    @NotNull(message = "Auto model id should not be null")
+    @Positive(message = "Auto model id should be positive")
+    @AutoModelDoesNotExist
+    private Long autoModelId;
 
     @NotEmpty(message = "Description should not be empty")
     @Size(max = 1024, message = "Description must be less than 1024 characters")
@@ -49,15 +33,15 @@ public class AnnouncementRequestDTO {
     @NotNull(message = "Is exchange should not be null")
     private Boolean isExchange;
 
-    //Validator
-    @NotEmpty(message = "Transmission should not be empty")
-    @Size(max = 45, message = "Transmission must be less than 45 characters")
-    private String transmission;
+    @NotNull(message = "autoTransmissionId should not be null")
+    @Positive(message = "autoTransmissionId id should be positive")
+    @AutoTransmissionDoesNotExist
+    private Long autoTransmissionId;
 
-    //Validator
-    @NotEmpty(message = "Engine should not be empty")
-    @Size(max = 45, message = "Engine must be less than 45 characters")
-    private String engine;
+    @NotNull(message = "autoEngineId should not be null")
+    @Positive(message = "autoEngineId id should be positive")
+    @AutoEngineDoesNotExist
+    private Long autoEngineId;
 
     @NotNull(message = "Mileage should not be null")
     @Positive(message = "Mileage should be positive")
@@ -71,14 +55,13 @@ public class AnnouncementRequestDTO {
     @Size(max = 17, min = 17, message = "VIM must be 17 characters")
     private String vim;
 
-    //Validator
-    @NotEmpty(message = "Region should not be empty")
-    @Size(max = 45, message = "Region must be less than 45 characters")
-    private String region;
+    @NotNull(message = "regionId should not be null")
+    @Positive(message = "regionId id should be positive")
+    @RegionDoesNotExist
+    private Long regionId;
 
-    //Validator
-    @NotNull(message = "Customs duty capacity should not be null")
-    @Positive(message = "Customs duty capacity be positive")
+    @NotNull(message = "Customs duty should not be null")
+    @Min(value = 0, message ="Customs duty must be equal to or greater than 0")
     private Double customsDuty;
 
 }

@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface AutoTransmissionService {
     Optional<AutoTransmission> findAutoTransmissionByType(String type);
+
+    Optional<AutoTransmission> findAutoTransmission(Long id);
 }

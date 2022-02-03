@@ -13,10 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentResponseDTO {
-
     private Long id;
     private String text;
     private LocalDateTime created;
-    private String createdBy;
-
+    private Long userId;
 }

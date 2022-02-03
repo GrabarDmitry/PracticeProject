@@ -1,6 +1,6 @@
 package com.auto.practiceproject.service.impl;
 
-import com.auto.practiceproject.controller.dto.MailDataDTO;
+import com.auto.practiceproject.controller.dto.request.MailDataDTO;
 import com.auto.practiceproject.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

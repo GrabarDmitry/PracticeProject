@@ -3,8 +3,9 @@ package com.auto.practiceproject.controller;
 import com.auto.practiceproject.controller.converter.UserDTOConverter;
 import com.auto.practiceproject.controller.dto.request.ModeratorUserCreateDTO;
 import com.auto.practiceproject.controller.dto.response.UserResponseDTO;
-import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.service.SecurityService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Api(tags = {"Admin"})
 @RestController
 @Slf4j
 @RequestMapping("/api/admin")
@@ -26,6 +28,7 @@ public class AdminController {
     private final SecurityService securityService;
     private final UserDTOConverter userDTOConverter;
 
+    @ApiOperation("Create moderator user")
     @PreAuthorize("hasPermission(#createDTO,'ADMIN')")
     @PostMapping("/moderatorUser")
     public ResponseEntity<UserResponseDTO> createModeratorUser(@RequestBody @Valid ModeratorUserCreateDTO createDTO) {

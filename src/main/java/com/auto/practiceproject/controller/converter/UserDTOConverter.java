@@ -23,19 +23,19 @@ public class UserDTOConverter {
     private final WalletService walletService;
 
     public UserResponseDTO toDTO(User user) {
-        log.trace("Convert User with id: {}, to UserResponseDTO", user.getId());
+        log.trace("Convert User: {}, to UserResponseDTO", user);
         return new UserResponseDTO(
                 user.getId(),
                 user.getEmail(),
                 user.getName(),
                 user.getSurname(),
                 walletService.findWalletByUser(user)
-                        .get().getBalance()
+                        .get().getId()
         );
     }
 
     public User toEntityCreate(UserCreateDTO createDTO) {
-        log.trace("Convert UserCreateDTO with email: {}, to User", createDTO.getEmail());
+        log.trace("Convert UserCreateDTO: {}, to User", createDTO);
         return new User(
                 createDTO.getEmail(),
                 createDTO.getName(),
@@ -49,7 +49,7 @@ public class UserDTOConverter {
     }
 
     public User toEntityCreate(ModeratorUserCreateDTO createDTO) {
-        log.trace("Convert ModeratorUserCreateDTO with email: {}, to User", createDTO.getEmail());
+        log.trace("Convert ModeratorUserCreateDTO: {}, to User", createDTO);
         return new User(
                 createDTO.getEmail(),
                 createDTO.getName(),

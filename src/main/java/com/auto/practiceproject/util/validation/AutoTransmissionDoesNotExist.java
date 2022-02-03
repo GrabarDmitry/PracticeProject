@@ -1,6 +1,6 @@
 package com.auto.practiceproject.util.validation;
 
-import com.auto.practiceproject.service.AutoBrandService;
+import com.auto.practiceproject.service.AutoTransmissionService;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.Constraint;
@@ -16,30 +16,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = BrandDoesNotExist.Validator.class)
-public @interface BrandDoesNotExist {
+@Constraint(validatedBy = AutoTransmissionDoesNotExist.Validator.class)
+public @interface AutoTransmissionDoesNotExist {
 
-    String message() default "Brand with installed title doesn't exist";
+    String message() default "Auto transmission with installed id don't exist";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
     @RequiredArgsConstructor
-    class Validator implements ConstraintValidator<BrandDoesNotExist, String> {
+    class Validator implements ConstraintValidator<AutoTransmissionDoesNotExist, Long> {
 
-        private final AutoBrandService brandService;
+        private final AutoTransmissionService autoTransmissionService;
 
         @Override
-        public void initialize(BrandDoesNotExist brandDoesNotExist) {
-
+        public void initialize(AutoTransmissionDoesNotExist autoTransmissionDoesNotExist) {
         }
 
         @Override
-        public boolean isValid(String title, ConstraintValidatorContext context) {
-            return brandService.findAutoBrandByTitle(title).isPresent();
+        public boolean isValid(Long id, ConstraintValidatorContext context) {
+            return autoTransmissionService.findAutoTransmission(id)
+                    .isPresent();
         }
 
     }
-
 }

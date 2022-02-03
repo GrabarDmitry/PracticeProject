@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface AutoEngineService {
     Optional<AutoEngine> findAutoEngineByType(String type);
+
+    Optional<AutoEngine> findAutoEngine(Long id);
 }
