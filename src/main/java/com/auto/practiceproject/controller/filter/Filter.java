@@ -4,6 +4,8 @@ import com.auto.practiceproject.exception.FilterException;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -23,26 +25,39 @@ public abstract class Filter<T> {
     }
 
     public Specification<T> toSpecification() {
-        return specificationBuilder(paths);
-    }
-
-    protected Object parser(Class type, String value) {
         try {
-            if (type.equals(Integer.class)) {
-                return Integer.valueOf(value);
-            } else if (type.equals(String.class)) {
-                return value;
-            } else if (type.equals(Boolean.class)) {
-                return Boolean.valueOf(value);
-            } else if (type.equals(Double.class)) {
-                return Double.valueOf(value);
-            } else if (type.equals(LocalDate.class)) {
-                return LocalDate.parse(value);
-            }
-            return value;
+            return (root, query, criteriaBuilder) -> {
+                switch (filterDTO.getOperationType()) {
+                    case eq: {
+                        return criteriaBuilder.equal(pathBuilder(paths, root), parser(type, filterDTO.getValue()));
+                    }
+                    case less: {
+                        return criteriaBuilder.lessThan(pathBuilder(paths, root), (Comparable) parser(type, filterDTO.getValue()));
+                    }
+                    case more: {
+                        return criteriaBuilder.greaterThan(pathBuilder(paths, root), (Comparable) parser(type, filterDTO.getValue()));
+                    }
+                }
+                return null;
+            };
         } catch (Exception exception) {
             throw new FilterException("Filter parameter is incorrect");
         }
+    }
+
+    protected Object parser(Class type, String value) {
+        if (type.equals(Integer.class)) {
+            return Integer.valueOf(value);
+        } else if (type.equals(String.class)) {
+            return value;
+        } else if (type.equals(Boolean.class)) {
+            return Boolean.valueOf(value);
+        } else if (type.equals(Double.class)) {
+            return Double.valueOf(value);
+        } else if (type.equals(LocalDate.class)) {
+            return LocalDate.parse(value);
+        }
+        return value;
     }
 
     protected FilterDTO decodeStringFilterToFilterDTO(String filter) {
@@ -60,99 +75,28 @@ public abstract class Filter<T> {
         }
     }
 
-    private Specification<T> specificationBuilder(List<String> pathParam) {
-
-        switch (pathParam.size()) {
-            case (0):
-                return toSpecificationWithPath();
-            case (1):
-                return toSpecificationWithPath(pathParam.get(0));
-            case (2):
-                return toSpecificationWithPath(pathParam.get(0), pathParam.get(1));
-            case (3):
-                return toSpecificationWithPath(pathParam.get(0), pathParam.get(1), pathParam.get(2));
+    private Path pathBuilder(List<String> paths, Root root) {
+        switch (paths.size()) {
+            case (0): {
+                return root.get(fieldNameInDB);
+            }
+            case (1): {
+                return root.join(paths.get(0), JoinType.LEFT)
+                        .get(fieldNameInDB);
+            }
+            case (2): {
+                return root.join(paths.get(0), JoinType.LEFT)
+                        .join(paths.get(1), JoinType.LEFT)
+                        .get(fieldNameInDB);
+            }
+            case (3): {
+                return root.join(paths.get(0), JoinType.LEFT)
+                        .join(paths.get(1), JoinType.LEFT)
+                        .join(paths.get(2), JoinType.LEFT)
+                        .get(fieldNameInDB);
+            }
         }
-        return null;
-    }
-
-    private Specification<T> toSpecificationWithPath() {
-        switch (filterDTO.getOperationType()) {
-            case eq:
-                return toSpecificationWithPathEquals();
-            case more:
-                return toSpecificationWithPathMoreThan();
-            case less:
-                return toSpecificationWithPathLessThan();
-        }
-        return null;
-    }
-
-    private Specification<T> toSpecificationWithPath(String pathParam1) {
-        switch (filterDTO.getOperationType()) {
-            case eq:
-                return toSpecificationWithPathEquals(pathParam1);
-        }
-        return null;
-    }
-
-    private Specification<T> toSpecificationWithPath(String pathParam1, String pathParam2) {
-        switch (filterDTO.getOperationType()) {
-            case eq:
-                return toSpecificationWithPathEquals(pathParam1, pathParam2);
-        }
-        return null;
-    }
-
-    private Specification<T> toSpecificationWithPath(String pathParam1, String pathParam2, String pathParam3) {
-        switch (filterDTO.getOperationType()) {
-            case eq:
-                return toSpecificationWithPathEquals(pathParam1, pathParam2, pathParam3);
-        }
-        return null;
-    }
-
-    private Specification<T> toSpecificationWithPathEquals() {
-        return (root, query, criteriaBuilder) -> {
-            return criteriaBuilder.equal(root.get(fieldNameInDB), parser(type, filterDTO.getValue()));
-        };
-    }
-
-    private Specification<T> toSpecificationWithPathEquals(String pathParam1) {
-        return (root, query, criteriaBuilder) -> {
-            return criteriaBuilder.equal(root.join(pathParam1, JoinType.LEFT)
-                    .get(fieldNameInDB), parser(type, filterDTO.getValue()));
-        };
-    }
-
-    private Specification<T> toSpecificationWithPathEquals(String pathParam1, String pathParam2) {
-        return (root, query, criteriaBuilder) -> {
-            return criteriaBuilder.equal(root.join(pathParam1, JoinType.LEFT)
-                    .join(pathParam2, JoinType.LEFT)
-                    .get(fieldNameInDB), parser(type, filterDTO.getValue()));
-        };
-    }
-
-    private Specification<T> toSpecificationWithPathEquals(String pathParam1, String pathParam2, String pathParam3) {
-        return (root, query, criteriaBuilder) -> {
-            return criteriaBuilder.equal(root.join(pathParam1, JoinType.LEFT)
-                    .join(pathParam2, JoinType.LEFT)
-                    .join(pathParam3, JoinType.LEFT)
-                    .get(fieldNameInDB), parser(type, filterDTO.getValue()));
-        };
-    }
-
-    private Specification<T> toSpecificationWithPathLessThan() {
-        return (root, query, criteriaBuilder) -> {
-            return criteriaBuilder.
-                    lessThan(root.get(fieldNameInDB), (Comparable) parser(type, filterDTO.getValue()));
-        };
-    }
-
-    private Specification<T> toSpecificationWithPathMoreThan() {
-        return (root, query, criteriaBuilder) -> {
-            return criteriaBuilder.
-                    greaterThan(root.get(fieldNameInDB), (Comparable) parser(type, filterDTO.getValue()));
-        };
+        return root.get(fieldNameInDB);
     }
 
 }
