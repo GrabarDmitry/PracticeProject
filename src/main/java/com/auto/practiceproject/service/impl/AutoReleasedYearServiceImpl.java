@@ -22,13 +22,6 @@ public class AutoReleasedYearServiceImpl implements AutoReleasedYearService {
     private final AutoReleasedYearDAO releasedYearDAO;
 
     @Override
-    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
-    public Optional<AutoReleasedYear> findAutoReleasedYearByReleased(LocalDate releasedYear) {
-        log.trace("Service method called to view auto released year model with released : {}", releasedYear.getYear());
-        return releasedYearDAO.findAutoReleasedYearByReleasedYear(releasedYear);
-    }
-
-    @Override
     public AutoReleasedYear findAutoReleasedYearById(Long id) {
         log.info("Service method called to find auto released year with id: {}", id);
         return releasedYearDAO.findById(id).

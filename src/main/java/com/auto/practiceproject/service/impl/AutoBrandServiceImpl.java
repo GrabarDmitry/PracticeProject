@@ -22,12 +22,6 @@ public class AutoBrandServiceImpl implements AutoBrandService {
     private final AutoBrandDAO autoBrandDAO;
 
     @Override
-    public Optional<AutoBrand> findAutoBrandByTitle(String title) {
-        log.trace("Service method called to view auto brand with title : {}", title);
-        return autoBrandDAO.findAutoBrandByTitle(title);
-    }
-
-    @Override
     public List<AutoBrand> findAll() {
         log.trace("Service method called to find all auto brand");
         return autoBrandDAO.findAll();

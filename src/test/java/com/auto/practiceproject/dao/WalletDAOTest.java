@@ -27,18 +27,16 @@ public class WalletDAOTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @Autowired
-    private UserDAO userDAO;
-
     @Test
     public void findByUserTest() {
-
         User userTest1 = new User();
         userTest1.setEmail("alex@mail.ru");
         userTest1 = testEntityManager.persistAndFlush(userTest1);
+
         User userTest2 = new User();
         userTest2.setEmail("jon@mail.ru");
         userTest2 = testEntityManager.persistAndFlush(userTest2);
+
         testEntityManager.persistAndFlush(new Wallet(userTest1, 5D));
         testEntityManager.persistAndFlush(new Wallet(userTest2, 10D));
 

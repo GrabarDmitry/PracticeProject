@@ -30,13 +30,14 @@ public class BookmarkDAOTest {
 
     @Test
     public void findBookmarkByUserTest() {
-
         User userTest1 = new User();
         userTest1.setEmail("alex@mail.ru");
         userTest1 = testEntityManager.persistAndFlush(userTest1);
+
         User userTest2 = new User();
         userTest2.setEmail("jon@mail.ru");
         userTest2 = testEntityManager.persistAndFlush(userTest2);
+
         testEntityManager.persistAndFlush(new Bookmark(userTest1, Collections.emptyList()));
         testEntityManager.persistAndFlush(new Bookmark(userTest2, Collections.emptyList()));
 

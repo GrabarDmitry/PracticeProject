@@ -23,13 +23,6 @@ public class AutoEngineServiceImpl implements AutoEngineService {
     private final AutoEngineDAO autoEngineDAO;
 
     @Override
-    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
-    public Optional<AutoEngine> findAutoEngineByType(String type) {
-        log.trace("Service method called to view auto engine with type: {}", type);
-        return autoEngineDAO.findAutoEngineByType(type);
-    }
-
-    @Override
     public Optional<AutoEngine> findAutoEngine(Long id) {
         log.trace("Service method called to view auto engine with id: {}", id);
         return autoEngineDAO.findById(id);

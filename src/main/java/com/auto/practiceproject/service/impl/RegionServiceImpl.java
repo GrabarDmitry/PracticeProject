@@ -29,12 +29,6 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public Optional<Region> findRegionByTitle(String title) {
-        log.trace("Service method called to view Region with title: {}", title);
-        return regionDAO.findRegionByTitle(title);
-    }
-
-    @Override
     public Page<Region> findAllRegion(Pageable pageable) {
         log.trace("Service method called to find all regions with params: {}", pageable);
         return regionDAO.findAll(pageable);

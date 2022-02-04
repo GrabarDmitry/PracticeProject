@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface AutoEngineDAO extends JpaRepository<AutoEngine, Long> {
-    Optional<AutoEngine> findAutoEngineByType(String type);
 }

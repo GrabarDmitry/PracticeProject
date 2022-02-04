@@ -11,8 +11,4 @@ import java.util.Optional;
 @Repository
 public interface AutoModelDAO extends JpaRepository<AutoModel, Long>, JpaSpecificationExecutor<AutoModel> {
 
-    Optional<AutoModel> findAutoModelByAutoBrand(AutoBrand autoBrand);
-
-    Optional<AutoModel> findAutoModelByTitle(String title);
-
 }

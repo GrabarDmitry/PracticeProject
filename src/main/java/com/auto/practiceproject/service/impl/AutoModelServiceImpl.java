@@ -39,12 +39,6 @@ public class AutoModelServiceImpl implements AutoModelService, FilteredService {
     }
 
     @Override
-    public Optional<AutoModel> findAutoModelByTitle(String title) {
-        log.trace("Service method called to view auto model with title: {}", title);
-        return autoModelDAO.findAutoModelByTitle(title);
-    }
-
-    @Override
     public Optional<AutoModel> findAutoModel(Long id) {
         log.trace("Service method called to view Auto model with id: {}", id);
         return autoModelDAO.findById(id);

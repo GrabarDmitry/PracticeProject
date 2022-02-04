@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface AutoBrandDAO extends JpaRepository<AutoBrand, Long> {
-    Optional<AutoBrand> findAutoBrandByTitle(String title);
 }

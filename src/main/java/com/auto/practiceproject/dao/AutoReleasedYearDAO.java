@@ -9,5 +9,4 @@ import java.util.Optional;
 
 @Repository
 public interface AutoReleasedYearDAO extends JpaRepository<AutoReleasedYear, Long> {
-    Optional<AutoReleasedYear> findAutoReleasedYearByReleasedYear(LocalDate localDate);
 }

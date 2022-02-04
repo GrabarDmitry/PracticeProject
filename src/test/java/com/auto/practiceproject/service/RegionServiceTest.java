@@ -24,27 +24,4 @@ public class RegionServiceTest {
     @MockBean
     private RegionDAO regionDAO;
 
-    @Before
-    public void setUp() {
-        Region region = new Region("Brest");
-        region.setId(1l);
-
-        Mockito.when(regionDAO.findRegionByTitle("Brest"))
-                .thenReturn(Optional.of(region));
-
-    }
-
-    @Test
-    public void findRegionTest() {
-        Optional<Region> region = regionService.findRegionByTitle("Brest");
-        Assert.assertTrue(region.isPresent());
-        Assert.assertEquals(region.get().getTitle(), "Brest");
-    }
-
-    @Test
-    public void findRegionIsNullTest() {
-        Optional<Region> region = regionService.findRegionByTitle("Minsk");
-        Assert.assertTrue(region.isEmpty());
-    }
-
 }

@@ -22,13 +22,6 @@ public class AutoTransmissionServiceImpl implements AutoTransmissionService {
     private final AutoTransmissionDAO autoTransmissionDAO;
 
     @Override
-    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
-    public Optional<AutoTransmission> findAutoTransmissionByType(String type) {
-        log.trace("Service method called to view Auto transmission with type: {}", type);
-        return autoTransmissionDAO.findAutoTransmissionByType(type);
-    }
-
-    @Override
     public Optional<AutoTransmission> findAutoTransmission(Long id) {
         log.trace("Service method called to view Auto transmission with id: {}", id);
         return autoTransmissionDAO.findById(id);

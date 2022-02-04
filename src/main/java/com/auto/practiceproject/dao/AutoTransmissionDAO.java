@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface AutoTransmissionDAO extends JpaRepository<AutoTransmission, Long> {
-    Optional<AutoTransmission> findAutoTransmissionByType(String type);
 }

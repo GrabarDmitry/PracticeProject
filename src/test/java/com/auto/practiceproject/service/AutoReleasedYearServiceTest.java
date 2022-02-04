@@ -25,27 +25,4 @@ public class AutoReleasedYearServiceTest {
     @MockBean
     private AutoReleasedYearDAO releasedYearDAO;
 
-    @Before
-    public void setUp() {
-        AutoReleasedYear autoReleasedYear = new AutoReleasedYear(LocalDate.parse("2020-01-01"));
-
-        Mockito.when(releasedYearDAO.findAutoReleasedYearByReleasedYear(LocalDate.parse("2020-01-01")))
-                .thenReturn(Optional.of(autoReleasedYear));
-    }
-
-    @Test
-    public void findAutoReleasedYearTest() {
-        Optional<AutoReleasedYear> autoReleasedYear = autoReleasedYearService.
-                findAutoReleasedYearByReleased(LocalDate.parse("2020-01-01"));
-        Assert.assertTrue(autoReleasedYear.isPresent());
-        Assert.assertEquals(autoReleasedYear.get().getReleasedYear(), LocalDate.parse("2020-01-01"));
-    }
-
-    @Test
-    public void findAutoReleasedYearIsNullTest() {
-        Optional<AutoReleasedYear> autoReleasedYear = autoReleasedYearService.
-                findAutoReleasedYearByReleased(LocalDate.parse("2010-01-01"));
-        Assert.assertTrue(autoReleasedYear.isEmpty());
-    }
-
 }

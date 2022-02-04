@@ -9,8 +9,6 @@ import java.util.Optional;
 public interface RegionService {
     Optional<Region> findRegion(Long id);
 
-    Optional<Region> findRegionByTitle(String title);
-
     Page<Region> findAllRegion(Pageable pageable);
 
     Region findRegionById(Long id);

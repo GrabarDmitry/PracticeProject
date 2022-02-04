@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface RegionDAO extends JpaRepository<Region, Long> {
-    Optional<Region> findRegionByTitle(String title);
 }
