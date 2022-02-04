@@ -8,11 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class AutoResponseDTO {
-    private Long announcementId;
-    private Long autoModelId;
-    private Long autoTransmissionId;
-    private Long autoEngineId;
+    private Long id;
     private Integer mileage;
     private Integer engineCapacity;
     private String VIN;
+    private Long autoModelId;
+    private Long autoTransmissionId;
+    private Long autoEngineId;
 }
