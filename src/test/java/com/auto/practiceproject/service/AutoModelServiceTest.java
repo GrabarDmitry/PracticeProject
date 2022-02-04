@@ -27,26 +27,26 @@ public class AutoModelServiceTest {
     @MockBean
     private AutoModelDAO autoModelDAO;
 
-    @Before
-    public void setUp() {
-        AutoModel autoModel = new AutoModel("X5", new AutoBrand("BMW"),
-                new AutoReleasedYear(LocalDate.parse("2020-01-01")));
-
-        Mockito.when(autoModelDAO.findAutoModelByTitle("X5"))
-                .thenReturn(Optional.of(autoModel));
-    }
-
-    @Test
-    public void findAutoModelByTitleTest() {
-        Optional<AutoModel> autoModel = autoModelService.findAutoModelByTitle("X5");
-        Assert.assertTrue(autoModel.isPresent());
-        Assert.assertEquals(autoModel.get().getTitle(), "X5");
-    }
-
-    @Test
-    public void findAutoModelByTitleNullIsTest() {
-        Optional<AutoModel> autoModel = autoModelService.findAutoModelByTitle("X7");
-        Assert.assertTrue(autoModel.isEmpty());
-    }
+//    @Before
+//    public void setUp() {
+//        AutoModel autoModel = new AutoModel("X5", new AutoBrand("BMW"),
+//                new AutoReleasedYear(LocalDate.parse("2020-01-01")));
+//
+//        Mockito.when(autoModelDAO.findAutoModelByTitle("X5"))
+//                .thenReturn(Optional.of(autoModel));
+//    }
+//
+//    @Test
+//    public void findAutoModelByTitleTest() {
+//        Optional<AutoModel> autoModel = autoModelService.findAutoModelByTitle("X5");
+//        Assert.assertTrue(autoModel.isPresent());
+//        Assert.assertEquals(autoModel.get().getTitle(), "X5");
+//    }
+//
+//    @Test
+//    public void findAutoModelByTitleNullIsTest() {
+//        Optional<AutoModel> autoModel = autoModelService.findAutoModelByTitle("X7");
+//        Assert.assertTrue(autoModel.isEmpty());
+//    }
 
 }

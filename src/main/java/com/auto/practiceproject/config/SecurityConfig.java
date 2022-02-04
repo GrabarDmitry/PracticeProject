@@ -42,7 +42,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/region/**",
                         "/api/auto/**",
                         "/api/engine/**",
-                        "/api/transmission/**")
+                        "/api/transmission/**",
+                        "/api/model/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

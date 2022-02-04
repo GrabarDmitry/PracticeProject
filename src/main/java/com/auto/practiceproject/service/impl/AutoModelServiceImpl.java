@@ -1,6 +1,7 @@
 package com.auto.practiceproject.service.impl;
 
 import com.auto.practiceproject.dao.AutoModelDAO;
+import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.AutoModel;
 import com.auto.practiceproject.service.AutoModelService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,16 @@ public class AutoModelServiceImpl implements AutoModelService {
     public Optional<AutoModel> findAutoModel(Long id) {
         log.trace("Service method called to view Auto model with id: {}", id);
         return autoModelDAO.findById(id);
+    }
+
+    @Override
+    public AutoModel findAutoModelById(Long id) {
+        log.info("Service method called to find autoModel with id: {}", id);
+        return autoModelDAO.findById(id).
+                orElseThrow(() -> {
+                    log.warn("Auto model with Id: {} not found", id);
+                    throw new ResourceException("Auto model with Id: " + id + " not found");
+                });
     }
 
 }
