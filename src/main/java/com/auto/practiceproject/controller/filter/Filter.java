@@ -19,9 +19,8 @@ public abstract class Filter<T> {
 
     public Filter(String filter, Map<String, FilterFieldParams> fieldsType) {
         this.filterDTO = decodeStringFilterToFilterDTO(filter);
-        this.paths = fieldsType.get(filterDTO.getField()).getPathParam();
-        this.type = fieldsType.get(filterDTO.getField()).getType();
-        this.fieldNameInDB = fieldsType.get(filterDTO.getField()).getFieldTitleInDB();
+        initParam(fieldsType);
+
     }
 
     public Specification<T> toSpecification() {
@@ -97,6 +96,16 @@ public abstract class Filter<T> {
             }
         }
         return root.get(fieldNameInDB);
+    }
+
+    private void initParam(Map<String, FilterFieldParams> fieldsType) {
+        try {
+            this.paths = fieldsType.get(filterDTO.getField()).getPathParam();
+            this.type = fieldsType.get(filterDTO.getField()).getType();
+            this.fieldNameInDB = fieldsType.get(filterDTO.getField()).getFieldTitleInDB();
+        } catch (Exception exception) {
+            throw new FilterException("Filter parameter is incorrect");
+        }
     }
 
 }

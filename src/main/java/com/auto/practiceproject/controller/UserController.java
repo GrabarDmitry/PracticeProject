@@ -34,7 +34,7 @@ public class UserController {
     private final AnnouncementDTOConverter announcementDTOConverter;
     private final AnnouncementService announcementService;
 
-    @ApiOperation("Get current user information")
+    @ApiOperation(value = "Get current user information")
     @GetMapping
     public ResponseEntity<UserResponseDTO> getCurrentUser(
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PageableSwagger
-    @ApiOperation("Get current user announcements")
+    @ApiOperation(value = "Get current user announcements")
     @GetMapping("/announcement")
     public ResponseEntity<Page<AnnouncementResponseDTO>> getUserAnnouncements(
             @PageableDefault(

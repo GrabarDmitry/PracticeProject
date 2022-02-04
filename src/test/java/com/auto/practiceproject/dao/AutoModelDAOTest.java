@@ -38,7 +38,6 @@ public class AutoModelDAOTest {
         testEntityManager.persistAndFlush(new AutoModel("100", null, null));
         testEntityManager.persistAndFlush(new AutoModel("X5", null, null));
         testEntityManager.persistAndFlush(new AutoModel("80", null, null));
-
     }
 
 

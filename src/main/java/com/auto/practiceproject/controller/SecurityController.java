@@ -28,7 +28,7 @@ public class SecurityController {
     private final SecurityService securityService;
     private final UserDTOConverter userDTOConverter;
 
-    @ApiOperation("Authentication")
+    @ApiOperation(value = "Authentication")
     @PostMapping("/auth")
     public ResponseEntity<AuthenticationResponseDTO> authentication(@RequestBody @Valid AuthenticationRequestDTO dto) {
         log.trace("Controller method called to authentication user with email: {}", dto.getEmail());
@@ -38,7 +38,7 @@ public class SecurityController {
         );
     }
 
-    @ApiOperation("Registration")
+    @ApiOperation(value = "Registration")
     @PostMapping("/registration")
     public ResponseEntity<UserResponseDTO> registration(@RequestBody @Valid UserCreateDTO dto) {
         log.trace("Controller method called to registration user  with email: {}", dto.getEmail());

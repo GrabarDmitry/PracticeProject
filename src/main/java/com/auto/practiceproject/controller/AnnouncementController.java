@@ -52,7 +52,7 @@ public class AnnouncementController {
                 , HttpStatus.OK);
     }
 
-    @ApiOperation("Get announcement by id")
+    @ApiOperation(value = "Get announcement by id")
     @GetMapping("/{id}")
     public ResponseEntity<AnnouncementResponseDTO> getAnnouncementById(@PathVariable Long id) {
         log.trace("Controller method called to view Announcement with id: {}", id);
@@ -61,7 +61,7 @@ public class AnnouncementController {
                 HttpStatus.OK);
     }
 
-    @ApiOperation("Create announcement")
+    @ApiOperation(value = "Create announcement")
     @PostMapping
     public ResponseEntity<AnnouncementResponseDTO> createAnnouncement(@RequestBody @Valid AnnouncementRequestDTO createDTO) {
         log.trace("Controller method called to create Announcement with title: {}", createDTO);
@@ -74,7 +74,7 @@ public class AnnouncementController {
                 , HttpStatus.CREATED);
     }
 
-    @ApiOperation("Announcement rating up")
+    @ApiOperation(value = "Announcement rating up")
     @PreAuthorize("hasPermission(#announcement,'ALL')")
     @PostMapping("/{id}/up")
     public ResponseEntity<AnnouncementResponseDTO> announcementRatingUp(
@@ -87,7 +87,7 @@ public class AnnouncementController {
                 , HttpStatus.OK);
     }
 
-    @ApiOperation("Change announcement active")
+    @ApiOperation(value = "Change announcement active")
     @PreAuthorize("hasPermission(#announcement,'ALL')")
     @PatchMapping("/{id}")
     public ResponseEntity<AnnouncementResponseDTO> changeAnnouncementActive(
@@ -102,7 +102,7 @@ public class AnnouncementController {
                 , HttpStatus.OK);
     }
 
-    @ApiOperation("Update announcement")
+    @ApiOperation(value = "Update announcement")
     @PreAuthorize("hasPermission(#announcement,'ALL')")
     @PutMapping("/{id}")
     public ResponseEntity<AnnouncementResponseDTO> updateAnnouncement(

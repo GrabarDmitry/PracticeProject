@@ -13,12 +13,6 @@ ALTER TABLE app.bookmark
     AUTO_INCREMENT = 1;
 
 DELETE
-FROM app_test.comment
-WHERE id <> 0;
-ALTER TABLE app.comment
-    AUTO_INCREMENT = 1;
-
-DELETE
 FROM app_test.announcement
 WHERE id <> 0;
 ALTER TABLE app_test.announcement
@@ -162,10 +156,6 @@ VALUES ('BMW X5', 'BMW X5 description', +371231834, 5000, true, false, 0, 5, fal
        ('AUDI Q5', 'AUDI Q5 description', +3712318424, 9000, true, false, 10, 5, true, 0, 2, 3, 2),
        ('Mercedes AMG G 63', 'Mercedes AMG G 63', +3712318224, 12000, true, true, 5, 5, true, 700, 1, 7, 3),
        ('BMW X3', 'BMW X3 description', +371231834, 5000, true, false, 0, 5, false, 23, 3, 3, 4);
-
-INSERT INTO app_test.comment(text, created, user_id, announcement_id)
-VALUES ('My first comment', '2022-01-19', 3, 1),
-       ('My second comment', '2022-01-19', 3, 2);
 
 INSERT INTO app_test.bookmark(user_id)
 VALUES (1),

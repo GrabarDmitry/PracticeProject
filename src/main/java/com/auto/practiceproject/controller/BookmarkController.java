@@ -26,7 +26,7 @@ public class BookmarkController {
     private final AnnouncementDTOConverter announcementDTOConverter;
     private final BookmarkService bookmarkService;
 
-    @ApiOperation("Get all announcement in bookmark")
+    @ApiOperation(value = "Get all announcement in bookmark")
     @GetMapping
     public ResponseEntity<List<AnnouncementResponseDTO>> getAllAnnouncementInBookmark() {
         log.trace("Controller method called to view all user Announcement in bookmark");
@@ -39,7 +39,7 @@ public class BookmarkController {
                 , HttpStatus.OK);
     }
 
-    @ApiOperation("Change bookmark announcements")
+    @ApiOperation(value = "Change bookmark announcements")
     @PatchMapping
     public ResponseEntity<List<AnnouncementResponseDTO>> changeBookmarkAnnouncements(
             @RequestBody @Valid BookmarkAnnouncementChangeDTO announcementChangeDTO

@@ -23,7 +23,7 @@ public class AnnouncementRequestDTO {
     private String description;
 
     @NotEmpty(message = "Phone number should not be empty")
-    @Size(max = 13, min = 13, message = "Phone number must be 13 characters")
+    @Size(max = 12, min = 12, message = "Phone number must be 12 characters")
     private String phoneNumber;
 
     @NotNull(message = "Price should not be null")

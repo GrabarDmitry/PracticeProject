@@ -28,7 +28,7 @@ public class AdminController {
     private final SecurityService securityService;
     private final UserDTOConverter userDTOConverter;
 
-    @ApiOperation("Create moderator user")
+    @ApiOperation(value = "Create moderator user")
     @PreAuthorize("hasPermission(#createDTO,'ADMIN')")
     @PostMapping("/moderatorUser")
     public ResponseEntity<UserResponseDTO> createModeratorUser(@RequestBody @Valid ModeratorUserCreateDTO createDTO) {

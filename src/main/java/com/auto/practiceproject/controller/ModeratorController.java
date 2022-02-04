@@ -32,7 +32,7 @@ public class ModeratorController {
     private final AnnouncementDTOConverter announcementDTOConverter;
 
     @PageableSwagger
-    @ApiOperation("View all not moderation announcement")
+    @ApiOperation(value = "View all not moderation announcement")
     @PreAuthorize("hasPermission(null ,'MODERATOR')")
     @GetMapping
     public ResponseEntity<Page<AnnouncementResponseDTO>> getAllNotModerationAnnouncement(
@@ -49,7 +49,7 @@ public class ModeratorController {
                 , HttpStatus.OK);
     }
 
-    @ApiOperation("Change announcement moderation")
+    @ApiOperation(value = "Change announcement moderation")
     @PreAuthorize("hasPermission(null ,'MODERATOR')")
     @PatchMapping("/{id}")
     public ResponseEntity<AnnouncementResponseDTO> changeAnnouncementModeration(
