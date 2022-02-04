@@ -9,10 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(tags = {"Auto Model"})
 @RestController
@@ -23,6 +23,18 @@ public class AutoModelController {
 
     private final AutoModelService autoModelService;
     private final AutoModelDTOConverter autoModelDTOConverter;
+
+    @ApiOperation(value = "View list of auto models")
+    @GetMapping
+    public ResponseEntity<List<AutoModelResponseDTO>> getAllAutoModels(
+            @RequestParam(name = "filter", required = false) String filter) {
+        log.trace("Controller method called to view all Auto models");
+        return new ResponseEntity<>(
+                autoModelService.findAllAutoModel(filter).stream()
+                        .map(autoModelDTOConverter::toDTO)
+                        .collect(Collectors.toList())
+                , HttpStatus.OK);
+    }
 
     @ApiOperation(value = "Get auto model by id")
     @GetMapping("/{id}")

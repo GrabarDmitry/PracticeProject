@@ -22,6 +22,8 @@ public class FilterFactory implements ConverterFactory<String, Filter> {
 
             if (filterType.equals(AnnouncementFilter.class)) {
                 return (T) new AnnouncementFilter(source);
+            } else if (filterType.equals(AutoModelFilter.class)) {
+                return (T) new AutoModelFilter(source);
             }
 
             return null;
