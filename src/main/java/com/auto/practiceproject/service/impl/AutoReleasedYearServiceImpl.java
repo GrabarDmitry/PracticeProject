@@ -1,6 +1,7 @@
 package com.auto.practiceproject.service.impl;
 
 import com.auto.practiceproject.dao.AutoReleasedYearDAO;
+import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.AutoReleasedYear;
 import com.auto.practiceproject.service.AutoReleasedYearService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 public class AutoReleasedYearServiceImpl implements AutoReleasedYearService {
 
     private final AutoReleasedYearDAO releasedYearDAO;
@@ -24,6 +26,16 @@ public class AutoReleasedYearServiceImpl implements AutoReleasedYearService {
     public Optional<AutoReleasedYear> findAutoReleasedYearByReleased(LocalDate releasedYear) {
         log.trace("Service method called to view auto released year model with released : {}", releasedYear.getYear());
         return releasedYearDAO.findAutoReleasedYearByReleasedYear(releasedYear);
+    }
+
+    @Override
+    public AutoReleasedYear findAutoReleasedYearById(Long id) {
+        log.info("Service method called to find auto released year with id: {}", id);
+        return releasedYearDAO.findById(id).
+                orElseThrow(() -> {
+                    log.warn("Auto released year with Id: {} not found", id);
+                    throw new ResourceException("Auto released year with Id: " + id + " not found");
+                });
     }
 
 }
