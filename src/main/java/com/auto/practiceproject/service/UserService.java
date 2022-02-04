@@ -10,4 +10,6 @@ public interface UserService {
 
     Optional<User> getCurrentUser();
 
+    User findUserById(Long id);
+
 }

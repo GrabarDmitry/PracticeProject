@@ -11,7 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "`user`")
-@Builder
+@ToString(exclude = {"password"})
 public class User extends AbstractEntity {
 
     @Column(unique = true)

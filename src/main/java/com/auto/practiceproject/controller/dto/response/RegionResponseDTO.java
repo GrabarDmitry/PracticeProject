@@ -7,10 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserResponseDTO {
+public class RegionResponseDTO {
     private Long id;
-    private String email;
-    private String name;
-    private String surname;
-    private Long walletId;
+    private String title;
 }

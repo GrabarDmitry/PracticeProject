@@ -1,6 +1,7 @@
 package com.auto.practiceproject.service.impl;
 
 import com.auto.practiceproject.dao.UserDAO;
+import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.User;
 import com.auto.practiceproject.security.UserDetailsImpl;
 import com.auto.practiceproject.service.UserService;
@@ -36,6 +37,16 @@ public class UserServiceImpl implements UserService {
                 .filter(principal -> principal instanceof UserDetailsImpl)
                 .map(principal -> Optional.of(((UserDetailsImpl) principal).getUser()))
                 .orElse(Optional.empty());
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        log.info("Service method called to find user with id: {}", id);
+        return userDAO.findById(id).
+                orElseThrow(() -> {
+                    log.warn("User with Id: {} not found", id);
+                    throw new ResourceException("User with Id: " + id + " not found");
+                });
     }
 
 }
