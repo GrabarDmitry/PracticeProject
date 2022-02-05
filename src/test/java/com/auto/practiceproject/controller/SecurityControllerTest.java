@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(
-        locations = "classpath:application_controller_test.properties")
+        locations = "classpath:application_test.properties")
 @Sql(value = "classpath:init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class SecurityControllerTest {
 
