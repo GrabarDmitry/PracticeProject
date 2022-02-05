@@ -1,7 +1,6 @@
 package com.auto.practiceproject.service;
 
 import com.auto.practiceproject.dao.BookmarkDAO;
-import com.auto.practiceproject.dao.BookmarkDAOTest;
 import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.model.Bookmark;
@@ -39,31 +38,41 @@ public class BookmarkServiceTest {
     @MockBean
     private AnnouncementService announcementService;
 
+    private List<Bookmark> bookmarkData;
+
     @Before
     public void setUp() {
+        bookmarkData = new ArrayList<>();
 
-        User user = new User();
-        user.setId(1l);
-        Bookmark bookmark = new Bookmark(user, new ArrayList<>());
-        bookmark.setId(1L);
         Announcement announcement = new Announcement();
         announcement.setId(1L);
+        User user = new User();
+        user.setId(1l);
+        Bookmark bookmark1 = new Bookmark(user, new ArrayList<>());
+        bookmark1.setId(1L);
+        Bookmark bookmark2 = new Bookmark(user, List.of(announcement));
+        bookmark2.setId(2L);
 
-        Mockito.when(bookmarkDAO.findBookmarkByUser(user))
-                .thenReturn(Optional.of(bookmark));
-        Mockito.when(bookmarkDAO.findById(1L))
-                .thenReturn(Optional.of(bookmark));
-        Mockito.when(userService.getCurrentUser()).
-                thenReturn(Optional.of(user));
+        bookmarkData.add(bookmark1);
+        bookmarkData.add(bookmark2);
+
+        Mockito.when(userService.getCurrentUser())
+                .thenReturn(Optional.of(user));
         Mockito.when(announcementService.findAnnouncement(1L))
                 .thenReturn(Optional.of(announcement));
+        Mockito.when(bookmarkDAO.findBookmarkByUser(user))
+                .thenReturn(Optional.of(bookmark1));
     }
 
     @Test
     public void findByUserTest() {
-
         User user = new User();
         user.setId(1L);
+
+        Mockito.when(userService.getCurrentUser())
+                .thenReturn(Optional.of(user));
+        Mockito.when(bookmarkDAO.findBookmarkByUser(any(User.class)))
+                .thenReturn(Optional.ofNullable(bookmarkData.get(0)));
 
         Bookmark bookmark = bookmarkService.findByUser();
 
@@ -74,19 +83,19 @@ public class BookmarkServiceTest {
                 Mockito.times(1)).getCurrentUser();
         Mockito.verify(bookmarkDAO,
                 Mockito.times(1)).findBookmarkByUser(any(User.class));
-
     }
 
     @Test
     public void updateBookmarkTest() {
-
         Bookmark bookmarkTest = new Bookmark();
-        bookmarkTest.setId(1L);
+        bookmarkTest.setId(1l);
 
-        Mockito.doReturn(bookmarkTest).when(bookmarkDAO).saveAndFlush(any());
+        Mockito.when(bookmarkDAO.findById(1L)).
+                thenReturn(Optional.ofNullable(bookmarkData.get(0)));
+        Mockito.doReturn(bookmarkData.get(0)).
+                when(bookmarkDAO).saveAndFlush(any(Bookmark.class));
 
         Bookmark bookmark = bookmarkService.updateBookmark(bookmarkTest);
-
 
         Assert.assertNotNull(bookmark);
 
@@ -98,7 +107,6 @@ public class BookmarkServiceTest {
 
     @Test
     public void updateBookmarkFailTest() {
-
         Bookmark bookmarkTest = new Bookmark();
         bookmarkTest.setId(3L);
 
@@ -117,7 +125,6 @@ public class BookmarkServiceTest {
 
     @Test
     public void addAnnouncementToBookmarkTest() {
-
         Announcement announcement = new Announcement();
         announcement.setId(1L);
 
@@ -142,13 +149,10 @@ public class BookmarkServiceTest {
 
     @Test
     public void addAnnouncementToBookmarkFailTest() {
-
         Announcement announcement = new Announcement();
         announcement.setId(1L);
 
-        Bookmark bookmarkWithAnnouncement = new Bookmark();
-        bookmarkWithAnnouncement.setAnnouncements(List.of(announcement));
-        bookmarkWithAnnouncement.setId(1L);
+        Bookmark bookmarkWithAnnouncement = bookmarkData.get(1);
 
         Mockito.when(bookmarkDAO.findBookmarkByUser(any(User.class)))
                 .thenReturn(Optional.of(bookmarkWithAnnouncement));
