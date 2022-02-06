@@ -59,6 +59,27 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
+    public void filterByPriceMoreThanTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "price.more.4000"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(2L))
+                .andExpect(jsonPath("$.content.[1].id").value(1L))
+                .andExpect(jsonPath("$.content.[2].id").value(4L));
+    }
+
+    @Test
+    public void filterByPriceLessThanTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "price.less.8000"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(1L))
+                .andExpect(jsonPath("$.content.[1].id").value(4L));
+    }
+
+    @Test
     public void filterByReleasedYearTest() throws Exception {
         this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "autoReleasedYearId.eq.1"))
                 .andDo(print())
@@ -77,12 +98,49 @@ public class AnnouncementControllerFilterTest {
     }
 
     @Test
+    public void filterByMileageMoreThanTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "mileage.more.1000"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(1L))
+                .andExpect(jsonPath("$.content.[1].id").value(4L));
+    }
+
+    @Test
+    public void filterByMileageLessThanTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "mileage.less.1000"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(2L));
+    }
+
+    @Test
     public void filterByEngineCapacityTest() throws Exception {
         this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "engineCapacity.eq.1900"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.content.[0].id").value(2L));
+    }
+
+    @Test
+    public void filterByEngineCapacityMoreThanTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "engineCapacity.more.1900"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(1L));
+    }
+
+    @Test
+    public void filterByEngineCapacityLessThanTest() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "engineCapacity.less.1900"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(4L));
     }
 
     @Test
@@ -131,6 +189,29 @@ public class AnnouncementControllerFilterTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.content.[0].id").value(2L));
+    }
+
+    @Test
+    public void applyAllFilters() throws Exception {
+        this.mockMvc.perform(testUtil.getWithFilter("/api/announcement",
+                        "autoBrandId.eq.1;autoReleasedYearId.eq.3;autoModelId.eq.2;price.eq.5000;mileage.eq.232323;" +
+                                "engineCapacity.eq.1000;autoEngineId.eq.1;autoTransmissionId.eq.2;regionId.eq.3;customsDuty.eq.23;" +
+                                "isExchange.eq.false"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(4L));
+    }
+
+    @Test
+    public void filterFailTest() throws Exception {
+        testUtil.exceptionCheck(this.mockMvc.perform(testUtil.getWithFilter("/api/announcement", "test.eq.test"))
+                        .andDo(print())
+                        .andExpect(status().isBadRequest())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
+                "400",
+                "Bad Request",
+                "Filter parameter is incorrect");
     }
 
 }

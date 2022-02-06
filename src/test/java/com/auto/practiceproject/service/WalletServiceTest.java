@@ -32,7 +32,6 @@ public class WalletServiceTest {
 
     @Before
     public void setUp() {
-
         User user = new User();
         user.setId(1L);
         Wallet wallet = new Wallet(user, 10D);

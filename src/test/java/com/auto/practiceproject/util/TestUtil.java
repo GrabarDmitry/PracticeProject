@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @Component
 public class TestUtil {
@@ -23,7 +25,7 @@ public class TestUtil {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    public static String objectToJson(Object object) throws JsonProcessingException {
+    public String objectToJson(Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }
 
@@ -42,6 +44,14 @@ public class TestUtil {
     public MockHttpServletRequestBuilder getWithFilter(String uri, String filter) {
         return get(uri).queryParam("filter", filter);
     }
+
+    public ResultActions exceptionCheck(ResultActions resultActions, String statusCode,
+                                        String statusType, String message) throws Exception {
+        return resultActions.andExpect(jsonPath("$.httpStatusCode").value(statusCode))
+                .andExpect(jsonPath("$.httpStatusType").value(statusType))
+                .andExpect(jsonPath("$.message").value(message));
+    }
+
 
     public RequestPostProcessor authentication(String email) {
         return request -> {
