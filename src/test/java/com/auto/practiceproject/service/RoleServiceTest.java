@@ -31,7 +31,6 @@ public class RoleServiceTest {
 
         Mockito.when(roleDAO.findByTitle("ADMIN"))
                 .thenReturn(Optional.of(role));
-
     }
 
     @Test
