@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @Component
@@ -29,16 +28,28 @@ public class TestUtil {
         return new ObjectMapper().writeValueAsString(object);
     }
 
-    public MockHttpServletRequestBuilder postJson(String uri, Object body) {
-        try {
-            String json = objectToJson(body);
-            return post(uri)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .content(json);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+    public MockHttpServletRequestBuilder postJson(String uri, Object body) throws JsonProcessingException {
+        String json = objectToJson(body);
+        return post(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+    }
+
+    public MockHttpServletRequestBuilder patchJson(String uri, Object body, Long paramValue) throws JsonProcessingException {
+        String json = objectToJson(body);
+        return patch(uri, paramValue)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+    }
+
+    public MockHttpServletRequestBuilder putJson(String uri, Object body, Long paramValue) throws JsonProcessingException {
+        String json = objectToJson(body);
+        return put(uri, paramValue)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
     }
 
     public MockHttpServletRequestBuilder getWithFilter(String uri, String filter) {

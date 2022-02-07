@@ -49,6 +49,8 @@ public class AnnouncementRequestDTO {
 
     @NotNull(message = "Engine capacity should not be null")
     @Positive(message = "Engine capacity be positive")
+    @Min(value = 1800, message = "Engine capacity must be more than 1800")
+    @Max(value = 2200, message = "Engine capacity must be less than 2200")
     private Integer engineCapacity;
 
     @NotEmpty(message = "VIN should not be empty")
@@ -61,7 +63,7 @@ public class AnnouncementRequestDTO {
     private Long regionId;
 
     @NotNull(message = "Customs duty should not be null")
-    @Min(value = 0, message ="Customs duty must be equal to or greater than 0")
+    @Min(value = 0, message = "Customs duty must be equal to or greater than 0")
     private Double customsDuty;
 
 }

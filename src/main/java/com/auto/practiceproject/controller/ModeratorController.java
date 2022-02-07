@@ -3,7 +3,6 @@ package com.auto.practiceproject.controller;
 import com.auto.practiceproject.controller.converter.AnnouncementDTOConverter;
 import com.auto.practiceproject.controller.dto.request.AnnouncementModerationChangeDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
-import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.service.AnnouncementService;
 import com.auto.practiceproject.util.PageableSwagger;
 import io.swagger.annotations.Api;
@@ -50,17 +49,17 @@ public class ModeratorController {
     }
 
     @ApiOperation(value = "Change announcement moderation")
-    @PreAuthorize("hasPermission(null ,'MODERATOR')")
+    @PreAuthorize("hasPermission(#id,'Announcement','MODERATOR')")
     @PatchMapping("/{id}")
     public ResponseEntity<AnnouncementResponseDTO> changeAnnouncementModeration(
-            @PathVariable("id") Announcement announcement,
+            @PathVariable("id") Long id,
             @RequestBody @Valid AnnouncementModerationChangeDTO moderationChangeDTO
     ) {
-        log.trace("Controller method called to update isModeration announcement field with id: {}", announcement.getId());
+        log.trace("Controller method called to update isModeration announcement field with id: {}", id);
         return new ResponseEntity<>(
                 announcementDTOConverter.toDTO(
                         announcementService.updateAnnouncement(announcementDTOConverter
-                                .toDTOWithEditedIsModeration(announcement, moderationChangeDTO)))
+                                .toAnnouncementWithEditedIsModeration(id, moderationChangeDTO)))
                 , HttpStatus.OK);
     }
 

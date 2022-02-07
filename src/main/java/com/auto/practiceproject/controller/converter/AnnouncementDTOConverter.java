@@ -22,6 +22,7 @@ public class AnnouncementDTOConverter {
     private final AutoEngineService autoEngineService;
     private final AutoTransmissionService autoTransmissionService;
     private final AutoModelService autoModelService;
+    private final AnnouncementService announcementService;
 
     public AnnouncementResponseDTO toDTO(Announcement announcement) {
         log.trace("Convert Announcement: {}, to AnnouncementResponseDTO", announcement);
@@ -64,30 +65,49 @@ public class AnnouncementDTOConverter {
         );
     }
 
-    public Announcement updateToEntity(
+    public Announcement updateToEntity(Long id, AnnouncementRequestDTO updateDTO) {
+        log.trace("AnnouncementUpdateDTO: {}, to Announcement", updateDTO);
+        Announcement announcement = announcementService.findAnnouncement(id)
+                .orElse(null);
+        AutoModel autoModel = autoModelService.findAutoModel(updateDTO.getAutoModelId())
+                .orElse(null);
+        announcement.setTitle(autoModel.getAutoBrand().getTitle() + " " + autoModel.getTitle());
+        announcement.setDescription(updateDTO.getDescription());
+        announcement.setPhoneNumber(updateDTO.getPhoneNumber());
+        announcement.setPrice(updateDTO.getPrice());
+        announcement.setIsExchange(updateDTO.getIsExchange());
+        announcement.setRegion(regionService.findRegion(updateDTO.getRegionId())
+                .orElse(null));
+        announcement.setCustomsDuty(updateDTO.getCustomsDuty());
+        Auto auto = announcement.getAuto();
+        auto.setAutoEngine(autoEngineService.findAutoEngine(updateDTO.getAutoEngineId())
+                .orElse(null));
+        auto.setAutoModel(autoModel);
+        auto.setAutoTransmission(autoTransmissionService.findAutoTransmission(updateDTO.getAutoTransmissionId())
+                .orElse(null));
+        auto.setMileage(updateDTO.getMileage());
+        auto.setEngineCapacity(updateDTO.getEngineCapacity());
+        auto.setVIM(updateDTO.getVin());
+        announcement.setAuto(auto);
+        return announcement;
+    }
+
+    public Announcement toAnnouncementWithEditedIsActive(
             Long id,
-            AnnouncementRequestDTO updateDTO
+            AnnouncementActiveChangeDTO activeActiveDTO
     ) {
-        log.trace("AnnouncementRequestDTO: {}, to Announcement", updateDTO);
-        Announcement announcement = toEntity(updateDTO);
-        announcement.setId(id);
+        log.trace("AnnouncementActivityChangeDTO: {}, to Announcement", activeActiveDTO);
+        Announcement announcement = announcementService.findAnnouncementById(id);
+        announcement.setIsActive(activeActiveDTO.getIsActive());
         return announcement;
     }
 
-    public Announcement toDTOWithEditedIsExchange(
-            Announcement announcement,
-            AnnouncementActiveChangeDTO activeChangeDTO
-    ) {
-        log.trace("AnnouncementActivityChangeDTO: {}, to Announcement", activeChangeDTO);
-        announcement.setIsExchange(activeChangeDTO.getIsExchange());
-        return announcement;
-    }
-
-    public Announcement toDTOWithEditedIsModeration(
-            Announcement announcement,
+    public Announcement toAnnouncementWithEditedIsModeration(
+            Long id,
             AnnouncementModerationChangeDTO moderationChangeDTO
     ) {
         log.trace("AnnouncementModerationChangeDTO: {}, to announcement", moderationChangeDTO);
+        Announcement announcement = announcementService.findAnnouncementById(id);
         announcement.setIsModeration(moderationChangeDTO.getIsModeration());
         return announcement;
     }

@@ -4,7 +4,6 @@ import com.auto.practiceproject.controller.converter.AnnouncementDTOConverter;
 import com.auto.practiceproject.controller.dto.request.AnnouncementActiveChangeDTO;
 import com.auto.practiceproject.controller.dto.request.AnnouncementRequestDTO;
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
-import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.service.AnnouncementService;
 import com.auto.practiceproject.util.PageableSwagger;
 import io.swagger.annotations.Api;
@@ -75,44 +74,44 @@ public class AnnouncementController {
     }
 
     @ApiOperation(value = "Announcement rating up")
-    @PreAuthorize("hasPermission(#announcement,'ALL')")
+    @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
     @PostMapping("/{id}/up")
     public ResponseEntity<AnnouncementResponseDTO> announcementRatingUp(
-            @PathVariable("id") Announcement announcement
+            @PathVariable("id") Long id
     ) {
-        log.trace("Controller method called to update Announcement rating with id: {}", announcement.getId());
+        log.trace("Controller method called to update Announcement rating with id: {}", id);
         return new ResponseEntity<>(
                 announcementDTOConverter.toDTO(
-                        announcementService.announcementRatingUp(announcement))
+                        announcementService.announcementRatingUp(id))
                 , HttpStatus.OK);
     }
 
     @ApiOperation(value = "Change announcement active")
-    @PreAuthorize("hasPermission(#announcement,'ALL')")
+    @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
     @PatchMapping("/{id}")
     public ResponseEntity<AnnouncementResponseDTO> changeAnnouncementActive(
-            @PathVariable("id") Announcement announcement,
+            @PathVariable("id") Long id,
             @RequestBody @Valid AnnouncementActiveChangeDTO activityChangeDTO
     ) {
-        log.trace("Controller method called to update isExchange announcement field with id: {}", announcement.getId());
+        log.trace("Controller method called to update isExchange announcement field with id: {}", id);
         return new ResponseEntity<>(
                 announcementDTOConverter.toDTO(
                         announcementService.updateAnnouncement(announcementDTOConverter
-                                .toDTOWithEditedIsExchange(announcement, activityChangeDTO)))
+                                .toAnnouncementWithEditedIsActive(id, activityChangeDTO)))
                 , HttpStatus.OK);
     }
 
     @ApiOperation(value = "Update announcement")
-    @PreAuthorize("hasPermission(#announcement,'ALL')")
+    @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
     @PutMapping("/{id}")
     public ResponseEntity<AnnouncementResponseDTO> updateAnnouncement(
-            @PathVariable("id") Announcement announcement,
+            @PathVariable("id") Long id,
             @RequestBody @Valid AnnouncementRequestDTO requestDTO
     ) {
-        log.trace("Controller method called to update Announcement with id: {}", announcement.getId());
+        log.trace("Controller method called to update Announcement with id: {}", id);
         return new ResponseEntity<>(announcementDTOConverter.toDTO
                 (announcementService.updateAnnouncement(
-                        announcementDTOConverter.updateToEntity(announcement.getId(), requestDTO))
+                        announcementDTOConverter.updateToEntity(id, requestDTO))
                 )
                 , HttpStatus.OK);
     }

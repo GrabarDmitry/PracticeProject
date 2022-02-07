@@ -178,25 +178,25 @@ public class AnnouncementServiceTest {
                 Mockito.times(0)).saveAndFlush(any(Announcement.class));
     }
 
-    @Test
-    public void announcementRatingUpTest() {
-        Mockito.doReturn(announcementsTestData.get(1))
-                .when(announcementDAO).saveAndFlush(any(Announcement.class));
-
-        Announcement announcementTest = announcementsTestData.get(1);
-        announcementTest.setRating(0);
-
-        Announcement announcement = announcementService.announcementRatingUp(announcementTest);
-
-        Assert.assertNotNull(announcement);
-        Assert.assertEquals(announcement.getRating().intValue(), 1);
-
-        Mockito.verify(announcementDAO,
-                Mockito.times(1)).saveAndFlush(any(Announcement.class));
-        Mockito.verify(walletService,
-                        Mockito.times(1)).
-                payForServices(announcement.getRatingUpPrice(), announcement.getUser());
-    }
+//    @Test
+//    public void announcementRatingUpTest() {
+//        Mockito.doReturn(announcementsTestData.get(1))
+//                .when(announcementDAO).saveAndFlush(any(Announcement.class));
+//
+//        Announcement announcementTest = announcementsTestData.get(1);
+//        announcementTest.setRating(0);
+//
+//        Announcement announcement = announcementService.announcementRatingUp(announcementTest);
+//
+//        Assert.assertNotNull(announcement);
+//        Assert.assertEquals(announcement.getRating().intValue(), 1);
+//
+//        Mockito.verify(announcementDAO,
+//                Mockito.times(1)).saveAndFlush(any(Announcement.class));
+//        Mockito.verify(walletService,
+//                        Mockito.times(1)).
+//                payForServices(announcement.getRatingUpPrice(), announcement.getUser());
+//    }
 
     @Test
     public void findAnnouncementTest() {

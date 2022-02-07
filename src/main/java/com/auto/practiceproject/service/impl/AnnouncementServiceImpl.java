@@ -4,6 +4,7 @@ import com.auto.practiceproject.controller.filter.AnnouncementFilter;
 import com.auto.practiceproject.controller.filter.FilterFactory;
 import com.auto.practiceproject.controller.filter.FilteredService;
 import com.auto.practiceproject.dao.AnnouncementDAO;
+import com.auto.practiceproject.dao.AutoDAO;
 import com.auto.practiceproject.exception.ResourceException;
 import com.auto.practiceproject.model.Announcement;
 import com.auto.practiceproject.model.User;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class AnnouncementServiceImpl implements AnnouncementService, FilteredService {
 
     private final AnnouncementDAO announcementDAO;
+    private final AutoDAO autoDAO;
     private final FilterFactory filterFactory;
     private final WalletService walletService;
 
@@ -70,7 +72,9 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
         log.info("Service method called to update Announcement: {}", announcement);
         announcementDAO.findById(announcement.getId())
                 .ifPresentOrElse(
-                        u -> announcementDAO.saveAndFlush(announcement),
+                        u -> {
+                            announcementDAO.saveAndFlush(announcement);
+                        },
                         () -> {
                             log.error("Announcement with Id: {} not found", announcement.getId());
                             throw new ResourceException("Announcement with Id: " + announcement.getId() + " not found");
@@ -80,8 +84,9 @@ public class AnnouncementServiceImpl implements AnnouncementService, FilteredSer
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public Announcement announcementRatingUp(Announcement announcement) {
-        log.info("Service method called to update Announcement: {}", announcement);
+    public Announcement announcementRatingUp(Long id) {
+        log.info("Service method called to update Announcement rating with id: {}", id);
+        Announcement announcement = findAnnouncementById(id);
         walletService.payForServices(announcement.getRatingUpPrice(), announcement.getUser());
         announcement.setRating(announcement.getRating() + 1);
         return announcementDAO.saveAndFlush(announcement);
