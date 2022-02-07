@@ -32,7 +32,7 @@ public class ModeratorController {
 
     @PageableSwagger
     @ApiOperation(value = "View all not moderation announcement")
-    @PreAuthorize("hasPermission(null ,'MODERATOR')")
+    @PreAuthorize("hasPermission(null ,null ,'MODERATOR')")
     @GetMapping
     public ResponseEntity<Page<AnnouncementResponseDTO>> getAllNotModerationAnnouncement(
             @PageableDefault(

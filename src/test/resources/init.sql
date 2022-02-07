@@ -9,7 +9,7 @@ WHERE bookmark_announcements.bookmark_id <> 0
 DELETE
 FROM app_test.bookmark
 WHERE id <> 0;
-ALTER TABLE app.bookmark
+ALTER TABLE app_test.bookmark
     AUTO_INCREMENT = 1;
 
 DELETE

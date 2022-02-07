@@ -44,6 +44,14 @@ public class TestUtil {
                 .content(json);
     }
 
+    public MockHttpServletRequestBuilder patchJson(String uri, Object body) throws JsonProcessingException {
+        String json = objectToJson(body);
+        return patch(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+    }
+
     public MockHttpServletRequestBuilder putJson(String uri, Object body, Long paramValue) throws JsonProcessingException {
         String json = objectToJson(body);
         return put(uri, paramValue)
