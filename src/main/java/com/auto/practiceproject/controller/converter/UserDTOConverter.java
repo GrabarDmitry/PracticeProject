@@ -57,6 +57,8 @@ public class UserDTOConverter {
                 null,
                 Set.of(
                         roleService.findRoleByTitle("MODERATOR").
+                                orElse(null),
+                        roleService.findRoleByTitle("USER").
                                 orElse(null)
                 )
         );

@@ -29,7 +29,7 @@ public class AdminController {
     private final UserDTOConverter userDTOConverter;
 
     @ApiOperation(value = "Create moderator user")
-    @PreAuthorize("hasPermission(#createDTO,'ADMIN')")
+    @PreAuthorize("hasPermission(null,null ,'ADMIN')")
     @PostMapping("/moderatorUser")
     public ResponseEntity<UserResponseDTO> createModeratorUser(@RequestBody @Valid ModeratorUserCreateDTO createDTO) {
         log.trace("Controller method called to create moderator user with email: {}"

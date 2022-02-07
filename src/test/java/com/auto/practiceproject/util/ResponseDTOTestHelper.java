@@ -1,6 +1,7 @@
 package com.auto.practiceproject.util;
 
 import com.auto.practiceproject.controller.dto.response.AnnouncementResponseDTO;
+import com.auto.practiceproject.controller.dto.response.UserResponseDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -21,6 +22,14 @@ public class ResponseDTOTestHelper {
                 .andExpect(jsonPath("$.userId").value(responseDTO.getUserId()))
                 .andExpect(jsonPath("$.regionId").value(responseDTO.getRegionId()))
                 .andExpect(jsonPath("$.autoId").value(responseDTO.getAutoId()));
+    }
+
+    public ResultActions userResponseDTOCheck(ResultActions resultActions, UserResponseDTO userResponseDTO) throws Exception {
+        return resultActions.andExpect(jsonPath("$.id").value(userResponseDTO.getId()))
+                .andExpect(jsonPath("$.email").value(userResponseDTO.getEmail()))
+                .andExpect(jsonPath("$.name").value(userResponseDTO.getName()))
+                .andExpect(jsonPath("$.surname").value(userResponseDTO.getSurname()))
+                .andExpect(jsonPath("$.walletId").value(userResponseDTO.getWalletId()));
     }
 
 }

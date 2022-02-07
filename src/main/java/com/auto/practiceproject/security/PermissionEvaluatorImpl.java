@@ -29,10 +29,10 @@ public class PermissionEvaluatorImpl implements PermissionEvaluator {
 
         final String permission = role.toString();
 
-        if (targetType.equals("Announcement")) {
-            return hasPermissionForAnnouncement(authentication, targetId, targetType, permission);
-        } else if (targetId == null && targetType == null) {
+        if (targetId == null && targetType == null) {
             return hasPermissionOnlyByRole(authentication, (String) role);
+        } else if (targetType.equals("Announcement")) {
+            return hasPermissionForAnnouncement(authentication, targetId, targetType, permission);
         }
 
         return false;
