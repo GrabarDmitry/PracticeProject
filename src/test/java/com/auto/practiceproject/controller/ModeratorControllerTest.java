@@ -42,6 +42,20 @@ public class ModeratorControllerTest {
     }
 
     @Test
+    public void getAllNotModerationAnnouncementWithPageableTest() throws Exception {
+        mockMvc.perform(get("/api/moderator/announcement").
+                        with(testUtil.authentication("user@mail.ru"))
+                        .queryParam("page", "0")
+                        .queryParam("size", "1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(3L))
+                .andExpect(jsonPath("$.size").value(1))
+                .andExpect(jsonPath("$.number").value(0));
+    }
+
+    @Test
     public void getAllNotModerationAnnouncementFailPermissionTest() throws Exception {
         testUtil.exceptionCheck(mockMvc.perform(get("/api/moderator/announcement").
                                 with(testUtil.authentication("Jack@mail.ru")))

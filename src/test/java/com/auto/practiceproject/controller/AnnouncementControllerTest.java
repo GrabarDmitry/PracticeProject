@@ -50,6 +50,19 @@ public class AnnouncementControllerTest {
     }
 
     @Test
+    public void getAllAnnouncementsWithPageableTest() throws Exception {
+        mockMvc.perform(get("/api/announcement").
+                        queryParam("size", "1")
+                        .queryParam("page", "2"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(4L))
+                .andExpect(jsonPath("$.size").value(1))
+                .andExpect(jsonPath("$.number").value(2));
+    }
+
+    @Test
     public void getAnnouncementByIdTest() throws Exception {
         mockMvc.perform(get("/api/announcement/{id}", 3L))
                 .andDo(print())

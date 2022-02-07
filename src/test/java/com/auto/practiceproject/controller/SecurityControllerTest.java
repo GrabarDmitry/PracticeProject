@@ -2,6 +2,8 @@ package com.auto.practiceproject.controller;
 
 import com.auto.practiceproject.controller.dto.request.AuthenticationRequestDTO;
 import com.auto.practiceproject.controller.dto.request.UserCreateDTO;
+import com.auto.practiceproject.controller.dto.response.UserResponseDTO;
+import com.auto.practiceproject.util.ResponseDTOTestHelper;
 import com.auto.practiceproject.util.TestUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +32,9 @@ public class SecurityControllerTest {
     @Autowired
     private TestUtil testUtil;
 
+    @Autowired
+    private ResponseDTOTestHelper responseDTOTestHelper;
+
     @Test
     public void authenticationTest() throws Exception {
         AuthenticationRequestDTO authenticationRequestDTO =
@@ -46,25 +51,27 @@ public class SecurityControllerTest {
         AuthenticationRequestDTO authenticationRequestDTO =
                 new AuthenticationRequestDTO("Dzmitry@mail.ru", "1234523r");
 
-        mockMvc.perform(testUtil.postJson("/auth", authenticationRequestDTO))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.httpStatusCode").value("400"))
-                .andExpect(jsonPath("$.httpStatusType").value("Bad Request"))
-                .andExpect(jsonPath("$.message").value("Invalid Username or password!"));
+        testUtil.exceptionCheck(mockMvc.perform(testUtil.postJson("/auth", authenticationRequestDTO))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
+                "400",
+                "Bad Request",
+                "Invalid Username or password!"
+        );
     }
 
     @Test
     public void authenticationWrongEmailTest() throws Exception {
         AuthenticationRequestDTO authenticationRequestDTO =
-                new AuthenticationRequestDTO("Dzaddawdtry@mail.ru", "12345");
+                new AuthenticationRequestDTO("Dzasdamitry@mail.ru", "12345");
 
-        mockMvc.perform(testUtil.postJson("/auth", authenticationRequestDTO))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.httpStatusCode").value("400"))
-                .andExpect(jsonPath("$.httpStatusType").value("Bad Request"))
-                .andExpect(jsonPath("$.message").value("Invalid Username or password!"));
+        testUtil.exceptionCheck(mockMvc.perform(testUtil.postJson("/auth", authenticationRequestDTO))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
+                "400",
+                "Bad Request",
+                "Invalid Username or password!"
+        );
     }
 
     @Test
@@ -72,12 +79,11 @@ public class SecurityControllerTest {
         UserCreateDTO userCreateDTO = new UserCreateDTO(
                 "alex@mail.ru", "alex", "smith", "123");
 
-        mockMvc.perform(testUtil.postJson("/registration", userCreateDTO))
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value("4"))
-                .andExpect(jsonPath("$.email").value("alex@mail.ru"))
-                .andExpect(jsonPath("$.walletId").value(4));
+        responseDTOTestHelper.userResponseDTOCheck(mockMvc.
+                        perform(testUtil.postJson("/registration", userCreateDTO))
+                        .andExpect(status().isCreated())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
+                new UserResponseDTO(4L, "alex@mail.ru", "alex", "smith", 4L));
     }
 
     @Test

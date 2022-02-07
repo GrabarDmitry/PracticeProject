@@ -44,7 +44,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/transmission/**",
                         "/api/model/**",
                         "/api/brand/**",
-                        "/api/releasedYear/**")
+                        "/api/releasedYear/**",
+                        "/api/user/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

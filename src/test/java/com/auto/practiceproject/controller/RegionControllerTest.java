@@ -1,7 +1,5 @@
 package com.auto.practiceproject.controller;
 
-import com.auto.practiceproject.controller.dto.response.UserResponseDTO;
-import com.auto.practiceproject.util.ResponseDTOTestHelper;
 import com.auto.practiceproject.util.TestUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(
         locations = "classpath:application_test.properties")
 @Sql(value = "classpath:init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-public class UserControllerTest {
+public class RegionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,53 +30,57 @@ public class UserControllerTest {
     @Autowired
     private TestUtil testUtil;
 
-    @Autowired
-    private ResponseDTOTestHelper responseDTOTestHelper;
-
     @Test
-    public void getCurrentUserTest() throws Exception {
-        responseDTOTestHelper.userResponseDTOCheck(mockMvc.perform(get("/api/user").
-                                with(testUtil.authentication("Dzmitry@mail.ru")))
-                        .andDo(print())
-                        .andExpect(status().isOk())
-                        .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
-                new UserResponseDTO(1L, "Dzmitry@mail.ru", "Dzmitry", "Hrabar", 1L));
+    public void getAllRegionTest() throws Exception {
+        mockMvc.perform(get("/api/region"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content.[0].id").value(1L))
+                .andExpect(jsonPath("$.content.[1].id").value(2L))
+                .andExpect(jsonPath("$.content.[2].id").value(3L))
+                .andExpect(jsonPath("$.content.[3].id").value(4L))
+                .andExpect(jsonPath("$.content.[4].id").value(5L));
     }
 
     @Test
-    public void getUserAnnouncementsTest() throws Exception {
-        mockMvc.perform(get("/api/user/announcement").
-                        with(testUtil.authentication("Dzmitry@mail.ru"))
-                        .queryParam("page", "0")
-                        .queryParam("size", "1"))
+    public void getAllRegionWithPageableTest() throws Exception {
+        mockMvc.perform(get("/api/region")
+                        .queryParam("page", "1")
+                        .queryParam("size", "3")
+                        .queryParam("sort", "title")
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.content.[0].id").value(3L))
-                .andExpect(jsonPath("$.size").value(1))
-                .andExpect(jsonPath("$.number").value(0));
+                .andExpect(jsonPath("$.content.[1].id").value(2L))
+                .andExpect(jsonPath("$.content.[2].id").value(4L))
+                .andExpect(jsonPath("$.size").value(3))
+                .andExpect(jsonPath("$.number").value(1));
     }
 
     @Test
-    public void getUserByIdTest() throws Exception {
-        mockMvc.perform(get("/api/user/{id}", 1L))
+    public void getRegionByIdTest() throws Exception {
+        mockMvc.perform(get("/api/region/{id}", 3L))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1L));
+                .andExpect(jsonPath("$.id").value(3L));
     }
 
     @Test
-    public void getUserByIdFailTest() throws Exception {
+    public void getRegionByIdFailTest() throws Exception {
         testUtil.exceptionCheck(
-                mockMvc.perform(get("/api/user/{id}", 10L))
+                mockMvc.perform(get("/api/region/{id}", 10L))
                         .andDo(print())
                         .andExpect(status().isBadRequest())
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 ,
                 "400",
                 "Bad Request",
-                "User with Id: 10 not found");
+                "Region with Id: 10 not found");
     }
+
 
 }
