@@ -6,9 +6,18 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
 
+  container-job:
     runs-on: windows-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: test
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: password
 
     steps:
       - uses: actions/checkout@v2
@@ -19,10 +28,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Run mysql server
-        run: docker up --name mysql-experiment -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root,MYSQL_DATABASE=app-test,MYSQL_USER=user,MYSQL_PASSWORD=password -d mysql:8.0
-
-      - name: Build with Maven
+      - name: Build and Test with Maven
         run: mvn -B clean verify --file pom.xml
 
       - name: Test Coverage
