@@ -46,7 +46,6 @@ public class RoleDAOTest {
     public void findRoleByTitleIsNullTest() {
         Optional<Role> role = roleDAO.findByTitle("TEST");
         Assert.assertTrue(role.isEmpty());
-
     }
 
 
