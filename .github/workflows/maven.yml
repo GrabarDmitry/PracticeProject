@@ -19,13 +19,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Run mysql
-      run: docker-compose up
-             
-             - name: Build with Maven
-             run: mvn -B clean verify --file pom.xml
+#      - name: Run mysql
+#      run: mvn -B clean verify --file pom.xml
 
-             - name: Test Coverage
-               uses: codecov/codecov-action@v1
-               with:
-                 token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Build with Maven
+        run: mvn -B clean verify --file pom.xml
+
+      - name: Test Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
