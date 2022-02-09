@@ -20,7 +20,7 @@ jobs:
           cache: maven
 
       - name: Run mysql server
-        run: docker run --name mysql-experiment -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root,MYSQL_DATABASE=app-test,MYSQL_USER=user,MYSQL_PASSWORD=password -d mysql:8.0
+        run: docker up --name mysql-experiment -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root,MYSQL_DATABASE=app-test,MYSQL_USER=user,MYSQL_PASSWORD=password -d mysql:8.0
 
       - name: Build with Maven
         run: mvn -B clean verify --file pom.xml
