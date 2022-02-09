@@ -14,13 +14,9 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_HOST: localhost
-          MYSQL_PORT: 3306
-          MYSQL_DATABASE: test
-          MYSQL_USER: user
-          MYSQL_PASSWORD: password
-          MYSQL_ROOT_PASSWORD: password
-
+          DB_DATABASE: test
+          DB_USER: user
+          DB_PASSWORD: password
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -29,6 +25,11 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
+
+      - name: Set up MySQL
+        run: |
+              sudo /etc/init.d/mysql start
+              mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
 
       - name: Build and Test with Maven
         run: mvn -B clean verify --file pom.xml
