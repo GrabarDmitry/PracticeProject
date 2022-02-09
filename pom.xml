@@ -14,7 +14,7 @@
     <name>PracticeProject</name>
     <description>PracticeProject</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>12</java.version>
     </properties>
     <dependencies>
 
