@@ -14,20 +14,20 @@ jobs:
       - name: Set up MySQLServer1
         uses: mirromutth/mysql-action@v1.1
         with:
-          container port: 3307
-          mysql version: 8.0
+          container port: '3307'
+          mysql version: '8.0'
           mysql database: 'app_test'
-          host port: 3308
+          host port: '3308'
           mysql root password: 'password'
           mysql user: 'user'
           mysql password: 'password'
       - name: Set up MySQLServer2
         uses: mirromutth/mysql-action@v1.1
         with:
-          container port: 3308
-          mysql version: 8.0
+          container port: '3308'
+          mysql version: '8.0'
           mysql database: 'app'
-          host port: 3307
+          host port: '3307'
           mysql root password: 'password'
           mysql user: 'user'
           mysql password: 'password'
