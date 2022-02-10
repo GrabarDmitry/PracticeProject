@@ -16,6 +16,7 @@ jobs:
         with:
           mysql version: 8.0
           mysql database: 'app_test'
+          host name: 'localhost'
           host port: 3608
           mysql root password: 'root'
           mysql user: 'user'
@@ -25,6 +26,7 @@ jobs:
         with:
           mysql version: 8.0
           mysql database: 'app'
+          host name: 'localhost'
           host port: 3607
           mysql root password: 'root'
           mysql user: 'user'
