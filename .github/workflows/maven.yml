@@ -13,9 +13,9 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_USER: 'user'
-          MYSQL_PASSWORD: 'password'
-          MYSQL_DATABASE: 'app'
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: app
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306:3306
