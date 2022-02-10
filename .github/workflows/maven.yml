@@ -22,7 +22,7 @@ jobs:
           mysql user: 'user'
           mysql password: 'password'
       - name: Set up MySQLServer2
-        uses: mirromutth/mysql-action@v1.2
+        uses: mirromutth/mysql-action@v1.1
         with:
           container port: '3308'
           mysql version: '8.0'
@@ -36,4 +36,4 @@ jobs:
         with:
           java-version: 1.11
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B clean package --file pom.xml
