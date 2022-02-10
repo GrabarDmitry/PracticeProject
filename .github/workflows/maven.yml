@@ -21,6 +21,7 @@ jobs:
           mysql user: 'user'
           mysql password: 'password'
       - name: Set up MySQLServer2
+        uses: mirromutth/mysql-action@v1.1
         with:
           mysql version: '8.0'
           mysql database: 'app'
