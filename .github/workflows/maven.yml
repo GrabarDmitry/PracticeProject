@@ -22,11 +22,11 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
-      - name: Verify unittest DB exists
+      - name: Verify app DB exists
         run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'app'"
       - name: Create 2nd Database
         run: mysql --host 127.0.0.1 --port 3306 -uroot -e "CREATE DATABASE IF NOT EXISTS app_test;"
-      - name: Verify unittest_second DB exists
+      - name: Verify app_test DB exists
         run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'app_test'"
       - name: Verify permission
         run: mysql --host 127.0.0.1 --port 3306 -uroot -e "GRANT all privileges on *.* to user@'%'";
