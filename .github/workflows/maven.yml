@@ -22,7 +22,7 @@ jobs:
           mysql user: 'user'
           mysql password: 'password'
       - name: Set up MySQLServer2
-        uses: mirromutth/mysql-action@v1.1
+        uses: mirromutth/mysql-action@v1.2
         with:
           container port: '3308'
           mysql version: '8.0'
