@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class AutoEngineResponseDTO {
-    private Long id;
-    private String type;
+  private Long id;
+  private String type;
 }

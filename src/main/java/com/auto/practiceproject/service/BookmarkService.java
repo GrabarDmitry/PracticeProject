@@ -4,10 +4,9 @@ import com.auto.practiceproject.model.Bookmark;
 
 public interface BookmarkService {
 
-    Bookmark findByUser();
+  Bookmark findByUser();
 
-    Bookmark updateBookmark(Bookmark bookmark);
+  Bookmark updateBookmark(Bookmark bookmark);
 
-    Bookmark addAnnouncementToBookmark(Long announcementId);
-
+  Bookmark addAnnouncementToBookmark(Long announcementId);
 }

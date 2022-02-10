@@ -23,82 +23,73 @@ import static org.junit.Assert.assertThrows;
 @SpringBootTest
 public class AutoEngineServiceTest {
 
-    @Autowired
-    private AutoEngineService autoEngineService;
+  @Autowired private AutoEngineService autoEngineService;
 
-    @MockBean
-    private AutoEngineDAO autoEngineDAO;
+  @MockBean private AutoEngineDAO autoEngineDAO;
 
-    private List<AutoEngine> autoEngineData;
+  private List<AutoEngine> autoEngineData;
 
-    @Before
-    public void setUp() {
-        autoEngineData = new ArrayList<>();
+  @Before
+  public void setUp() {
+    autoEngineData = new ArrayList<>();
 
-        AutoEngine autoBrand1 = new AutoEngine();
-        autoBrand1.setId(1L);
-        AutoEngine autoBrand2 = new AutoEngine();
-        autoBrand2.setId(2L);
-        AutoEngine autoBrand3 = new AutoEngine();
-        autoBrand3.setId(3L);
+    AutoEngine autoBrand1 = new AutoEngine();
+    autoBrand1.setId(1L);
+    AutoEngine autoBrand2 = new AutoEngine();
+    autoBrand2.setId(2L);
+    AutoEngine autoBrand3 = new AutoEngine();
+    autoBrand3.setId(3L);
 
-        autoEngineData.add(autoBrand1);
-        autoEngineData.add(autoBrand2);
-        autoEngineData.add(autoBrand3);
-    }
+    autoEngineData.add(autoBrand1);
+    autoEngineData.add(autoBrand2);
+    autoEngineData.add(autoBrand3);
+  }
 
-    @Test
-    public void findAllAutoEngines() {
-        Mockito.when(autoEngineDAO.findAll())
-                .thenReturn(autoEngineData);
+  @Test
+  public void findAllAutoEngines() {
+    Mockito.when(autoEngineDAO.findAll()).thenReturn(autoEngineData);
 
-        List<AutoEngine> autoEngines = autoEngineService.findAllAutoEngine();
+    List<AutoEngine> autoEngines = autoEngineService.findAllAutoEngine();
 
-        Assert.assertEquals(autoEngines.size(), 3);
-        Assert.assertEquals(autoEngines.get(0).getId().longValue(), 1L);
-        Assert.assertEquals(autoEngines.get(1).getId().longValue(), 2L);
-        Assert.assertEquals(autoEngines.get(2).getId().longValue(), 3L);
-    }
+    Assert.assertEquals(autoEngines.size(), 3);
+    Assert.assertEquals(autoEngines.get(0).getId().longValue(), 1L);
+    Assert.assertEquals(autoEngines.get(1).getId().longValue(), 2L);
+    Assert.assertEquals(autoEngines.get(2).getId().longValue(), 3L);
+  }
 
-    @Test
-    public void findAutoEngineByIdTest() {
-        Mockito.when(autoEngineDAO.findById(1l))
-                .thenReturn(Optional.of(autoEngineData.get(0)));
+  @Test
+  public void findAutoEngineByIdTest() {
+    Mockito.when(autoEngineDAO.findById(1l)).thenReturn(Optional.of(autoEngineData.get(0)));
 
-        AutoEngine autoEngine = autoEngineService.findAutoEngineById(1L);
+    AutoEngine autoEngine = autoEngineService.findAutoEngineById(1L);
 
-        Assert.assertNotNull(autoEngine);
-        Assert.assertEquals(autoEngine.getId().longValue(), 1L);
-    }
+    Assert.assertNotNull(autoEngine);
+    Assert.assertEquals(autoEngine.getId().longValue(), 1L);
+  }
 
-    @Test(expected = ResourceException.class)
-    public void findAutoBrandByIdIsNullTest() {
-        AutoEngine autoEngine = autoEngineService.findAutoEngineById(3L);
+  @Test(expected = ResourceException.class)
+  public void findAutoBrandByIdIsNullTest() {
+    AutoEngine autoEngine = autoEngineService.findAutoEngineById(3L);
 
-        Assert.assertNull(autoEngine);
+    Assert.assertNull(autoEngine);
 
-        Exception exception = assertThrows(
-                ResourceException.class,
-                () -> autoEngineService.findAutoEngineById(3L));
-        Assert.assertTrue(exception.getMessage().contains(
-                "Auto engine with Id: 3 not found"
-        ));
-    }
+    Exception exception =
+        assertThrows(ResourceException.class, () -> autoEngineService.findAutoEngineById(3L));
+    Assert.assertTrue(exception.getMessage().contains("Auto engine with Id: 3 not found"));
+  }
 
-    @Test
-    public void findAutoEngineTest() {
-        Mockito.when(autoEngineDAO.findById(1l))
-                .thenReturn(Optional.of(autoEngineData.get(0)));
+  @Test
+  public void findAutoEngineTest() {
+    Mockito.when(autoEngineDAO.findById(1l)).thenReturn(Optional.of(autoEngineData.get(0)));
 
-        Optional<AutoEngine> autoEngine = autoEngineService.findAutoEngine(1L);
-        Assert.assertTrue(autoEngine.isPresent());
-        Assert.assertEquals(autoEngine.get().getId().longValue(), 1l);
-    }
+    Optional<AutoEngine> autoEngine = autoEngineService.findAutoEngine(1L);
+    Assert.assertTrue(autoEngine.isPresent());
+    Assert.assertEquals(autoEngine.get().getId().longValue(), 1l);
+  }
 
-    @Test
-    public void findAutoEngineIsNullTest() {
-        Optional<AutoEngine> autoEngine = autoEngineService.findAutoEngine(3L);
-        Assert.assertTrue(autoEngine.isEmpty());
-    }
-
+  @Test
+  public void findAutoEngineIsNullTest() {
+    Optional<AutoEngine> autoEngine = autoEngineService.findAutoEngine(3L);
+    Assert.assertTrue(autoEngine.isEmpty());
+  }
 }

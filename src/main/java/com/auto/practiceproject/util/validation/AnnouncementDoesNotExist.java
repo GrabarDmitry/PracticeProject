@@ -1,6 +1,5 @@
 package com.auto.practiceproject.util.validation;
 
-
 import com.auto.practiceproject.service.AnnouncementService;
 import lombok.RequiredArgsConstructor;
 
@@ -20,26 +19,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = AnnouncementDoesNotExist.Validator.class)
 public @interface AnnouncementDoesNotExist {
 
-    String message() default "Announcement with installed announcement id doesn't exist";
+  String message() default "Announcement with installed announcement id doesn't exist";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    @RequiredArgsConstructor
-    class Validator implements ConstraintValidator<AnnouncementDoesNotExist, Long> {
+  @RequiredArgsConstructor
+  class Validator implements ConstraintValidator<AnnouncementDoesNotExist, Long> {
 
-        private final AnnouncementService announcementService;
+    private final AnnouncementService announcementService;
 
-        @Override
-        public void initialize(AnnouncementDoesNotExist announcementDoesNotExist) {
+    @Override
+    public void initialize(AnnouncementDoesNotExist announcementDoesNotExist) {}
 
-        }
-
-        @Override
-        public boolean isValid(Long id, ConstraintValidatorContext context) {
-            return announcementService.findAnnouncement(id).isPresent();
-        }
-
+    @Override
+    public boolean isValid(Long id, ConstraintValidatorContext context) {
+      return announcementService.findAnnouncement(id).isPresent();
     }
+  }
 }

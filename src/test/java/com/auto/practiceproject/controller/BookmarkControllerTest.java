@@ -20,53 +20,53 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application_test.properties")
+@TestPropertySource(locations = "classpath:application_test.properties")
 @Sql(value = "classpath:init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class BookmarkControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private TestUtil testUtil;
+  @Autowired private TestUtil testUtil;
 
-    @Test
-    public void getAllAnnouncementInBookmarkTest() throws Exception {
-        mockMvc.perform(get("/api/bookmark")
-                        .with(testUtil.authentication("Dzmitry@mail.ru")))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[0].id").value(2L));
-    }
+  @Test
+  public void getAllAnnouncementInBookmarkTest() throws Exception {
+    mockMvc
+        .perform(get("/api/bookmark").with(testUtil.authentication("Dzmitry@mail.ru")))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.[0].id").value(2L));
+  }
 
-    @Test
-    public void changeBookmarkAnnouncementsTest() throws Exception {
-        BookmarkAnnouncementChangeDTO announcementChangeDTO = new BookmarkAnnouncementChangeDTO(3L);
-        mockMvc.perform(testUtil.
-                        patchJson("/api/bookmark", announcementChangeDTO).
-                        with(testUtil.authentication("Dzmitry@mail.ru")))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[0].id").value(2L))
-                .andExpect(jsonPath("$.[1].id").value(3L));
-    }
+  @Test
+  public void changeBookmarkAnnouncementsTest() throws Exception {
+    BookmarkAnnouncementChangeDTO announcementChangeDTO = new BookmarkAnnouncementChangeDTO(3L);
+    mockMvc
+        .perform(
+            testUtil
+                .patchJson("/api/bookmark", announcementChangeDTO)
+                .with(testUtil.authentication("Dzmitry@mail.ru")))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.[0].id").value(2L))
+        .andExpect(jsonPath("$.[1].id").value(3L));
+  }
 
-    @Test
-    public void changeBookmarkAnnouncementsFailTest() throws Exception {
-        BookmarkAnnouncementChangeDTO announcementChangeDTO = new BookmarkAnnouncementChangeDTO(2L);
-        testUtil.exceptionCheck(mockMvc.perform(testUtil.
-                                patchJson("/api/bookmark", announcementChangeDTO).
-                                with(testUtil.authentication("Dzmitry@mail.ru")))
-                        .andDo(print())
-                        .andExpect(status().isBadRequest())
-                        .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
-                "400",
-                "Bad Request",
-                "This announcement is bookmarked!"
-        );
-    }
-
+  @Test
+  public void changeBookmarkAnnouncementsFailTest() throws Exception {
+    BookmarkAnnouncementChangeDTO announcementChangeDTO = new BookmarkAnnouncementChangeDTO(2L);
+    testUtil.exceptionCheck(
+        mockMvc
+            .perform(
+                testUtil
+                    .patchJson("/api/bookmark", announcementChangeDTO)
+                    .with(testUtil.authentication("Dzmitry@mail.ru")))
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
+        "400",
+        "Bad Request",
+        "This announcement is bookmarked!");
+  }
 }

@@ -15,14 +15,14 @@ import java.time.LocalDate;
 @ToString
 public class MoneyTransferDTO {
 
-    @NotEmpty(message = "Card number should not be null")
-    @CreditCardNumber
-    private String cartNumber;
+  @NotEmpty(message = "Card number should not be null")
+  @CreditCardNumber
+  private String cartNumber;
 
-    @NotNull(message = "Card expire date should not be null")
-    private LocalDate cardExpiryDate;
+  @NotNull(message = "Card expire date should not be null")
+  private LocalDate cardExpiryDate;
 
-    @NotNull(message = "Amount should not be null")
-    @Positive(message = "Amount should be positive")
-    private Double amount;
+  @NotNull(message = "Amount should not be null")
+  @Positive(message = "Amount should be positive")
+  private Double amount;
 }

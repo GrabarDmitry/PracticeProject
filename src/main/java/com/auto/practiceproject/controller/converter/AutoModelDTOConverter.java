@@ -11,14 +11,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AutoModelDTOConverter {
 
-    public AutoModelResponseDTO toDTO(AutoModel autoModel) {
-        log.trace("Convert AutoModel: {}, to AutoModelResponseDTO", autoModel);
-        return new AutoModelResponseDTO(
-                autoModel.getId(),
-                autoModel.getTitle(),
-                autoModel.getAutoBrand().getId(),
-                autoModel.getAutoReleasedYear().getId()
-        );
-    }
-
+  public AutoModelResponseDTO toDTO(AutoModel autoModel) {
+    log.trace("Convert AutoModel: {}, to AutoModelResponseDTO", autoModel);
+    return new AutoModelResponseDTO(
+        autoModel.getId(),
+        autoModel.getTitle(),
+        autoModel.getAutoBrand().getId(),
+        autoModel.getAutoReleasedYear().getId());
+  }
 }

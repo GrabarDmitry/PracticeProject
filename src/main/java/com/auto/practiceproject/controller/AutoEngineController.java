@@ -1,6 +1,5 @@
 package com.auto.practiceproject.controller;
 
-
 import com.auto.practiceproject.controller.converter.AutoEngineDTOConverter;
 import com.auto.practiceproject.controller.dto.response.AutoEngineResponseDTO;
 import com.auto.practiceproject.service.AutoEngineService;
@@ -25,27 +24,25 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AutoEngineController {
 
-    private final AutoEngineService autoEngineService;
-    private final AutoEngineDTOConverter autoEngineDTOConverter;
+  private final AutoEngineService autoEngineService;
+  private final AutoEngineDTOConverter autoEngineDTOConverter;
 
-    @ApiOperation(value = "View list of auto engines")
-    @GetMapping
-    public ResponseEntity<List<AutoEngineResponseDTO>> getAllAutoEngines() {
-        log.trace("Controller method called to view all auto engines");
-        return new ResponseEntity<>(
-                autoEngineService.findAllAutoEngine().stream()
-                        .map(autoEngineDTOConverter::toDTO)
-                        .collect(Collectors.toList())
-                , HttpStatus.OK);
-    }
+  @ApiOperation(value = "View list of auto engines")
+  @GetMapping
+  public ResponseEntity<List<AutoEngineResponseDTO>> getAllAutoEngines() {
+    log.trace("Controller method called to view all auto engines");
+    return new ResponseEntity<>(
+        autoEngineService.findAllAutoEngine().stream()
+            .map(autoEngineDTOConverter::toDTO)
+            .collect(Collectors.toList()),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Get auto engine by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<AutoEngineResponseDTO> getAutoEngineById(@PathVariable Long id) {
-        log.trace("Controller method called to view auto engine with id: {}", id);
-        return new ResponseEntity<>(autoEngineDTOConverter
-                .toDTO(autoEngineService.findAutoEngineById(id)),
-                HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Get auto engine by id")
+  @GetMapping("/{id}")
+  public ResponseEntity<AutoEngineResponseDTO> getAutoEngineById(@PathVariable Long id) {
+    log.trace("Controller method called to view auto engine with id: {}", id);
+    return new ResponseEntity<>(
+        autoEngineDTOConverter.toDTO(autoEngineService.findAutoEngineById(id)), HttpStatus.OK);
+  }
 }

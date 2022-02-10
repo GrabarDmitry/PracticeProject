@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class AnnouncementModerationChangeDTO {
 
-    @NotNull(message = "Is moderation should not be null")
-    private Boolean isModeration;
-
+  @NotNull(message = "Is moderation should not be null")
+  private Boolean isModeration;
 }

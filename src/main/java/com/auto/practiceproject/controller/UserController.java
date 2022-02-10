@@ -28,55 +28,42 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class UserController {
 
-    private final UserDTOConverter userDTOConverter;
-    private final AnnouncementDTOConverter announcementDTOConverter;
-    private final AnnouncementService announcementService;
-    private final UserService userService;
+  private final UserDTOConverter userDTOConverter;
+  private final AnnouncementDTOConverter announcementDTOConverter;
+  private final AnnouncementService announcementService;
+  private final UserService userService;
 
-    @ApiOperation(value = "Get current user information")
-    @GetMapping
-    public ResponseEntity<UserResponseDTO> getCurrentUser(
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
-        log.trace("Controller method called to get User: {}", userDetails.getUser());
-        return new ResponseEntity<>(
-                userDTOConverter.toDTO(
-                        userDetails.getUser()),
-                HttpStatus.OK);
-    }
+  @ApiOperation(value = "Get current user information")
+  @GetMapping
+  public ResponseEntity<UserResponseDTO> getCurrentUser(
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    log.trace("Controller method called to get User: {}", userDetails.getUser());
+    return new ResponseEntity<>(userDTOConverter.toDTO(userDetails.getUser()), HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "View user information by id")
-    @GetMapping("{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(
-            @PathVariable Long id
-    ) {
-        log.trace("Controller method called to get User with id: {}", id);
-        return new ResponseEntity<>(
-                userDTOConverter.toDTO(
-                        userService.findUserById(id)
-                ),
-                HttpStatus.OK);
-    }
+  @ApiOperation(value = "View user information by id")
+  @GetMapping("{id}")
+  public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
+    log.trace("Controller method called to get User with id: {}", id);
+    return new ResponseEntity<>(
+        userDTOConverter.toDTO(userService.findUserById(id)), HttpStatus.OK);
+  }
 
-    @PageableSwagger
-    @ApiOperation(value = "Get current user announcements")
-    @GetMapping("/announcement")
-    public ResponseEntity<Page<AnnouncementResponseDTO>> getUserAnnouncements(
-            @PageableDefault(
-                    page = 0,
-                    size = 5,
-                    sort = "id",
-                    direction = Sort.Direction.DESC) Pageable pageable,
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestParam(name = "filter", required = false) String filter
-    ) {
-        log.trace("Controller method called to get current user announcements, current user : {}", userDetails.getUser());
-        return new ResponseEntity<>(
-                announcementService.findAnnouncementByUserId(
-                                userDetails.getUser(),
-                                pageable, filter)
-                        .map(announcementDTOConverter::toDTO)
-                , HttpStatus.OK);
-    }
-
+  @PageableSwagger
+  @ApiOperation(value = "Get current user announcements")
+  @GetMapping("/announcement")
+  public ResponseEntity<Page<AnnouncementResponseDTO>> getUserAnnouncements(
+      @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC)
+          Pageable pageable,
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @RequestParam(name = "filter", required = false) String filter) {
+    log.trace(
+        "Controller method called to get current user announcements, current user : {}",
+        userDetails.getUser());
+    return new ResponseEntity<>(
+        announcementService
+            .findAnnouncementByUserId(userDetails.getUser(), pageable, filter)
+            .map(announcementDTOConverter::toDTO),
+        HttpStatus.OK);
+  }
 }

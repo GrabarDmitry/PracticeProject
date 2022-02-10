@@ -17,7 +17,6 @@ import javax.persistence.Table;
 @Table(name = "role")
 public class Role extends AbstractEntity {
 
-    @Column(length = 45)
-    private String title;
-
+  @Column(length = 45)
+  private String title;
 }

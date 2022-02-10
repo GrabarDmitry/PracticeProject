@@ -11,12 +11,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AutoBrandDTOConverter {
 
-    public AutoBrandResponseDTO toDTO(AutoBrand autoBrand) {
-        log.trace("Convert AutoBrand: {}, to AutoBrandResponseDTO", autoBrand);
-        return new AutoBrandResponseDTO(
-                autoBrand.getId(),
-                autoBrand.getTitle()
-        );
-    }
-
+  public AutoBrandResponseDTO toDTO(AutoBrand autoBrand) {
+    log.trace("Convert AutoBrand: {}, to AutoBrandResponseDTO", autoBrand);
+    return new AutoBrandResponseDTO(autoBrand.getId(), autoBrand.getTitle());
+  }
 }

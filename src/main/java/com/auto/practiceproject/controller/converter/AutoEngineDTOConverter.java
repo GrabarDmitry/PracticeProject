@@ -11,12 +11,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AutoEngineDTOConverter {
 
-    public AutoEngineResponseDTO toDTO(AutoEngine autoEngine) {
-        log.trace("Convert AutoEngine: {}, to AutoEngineResponseDTO", autoEngine);
-        return new AutoEngineResponseDTO(
-                autoEngine.getId(),
-                autoEngine.getType()
-        );
-    }
-
+  public AutoEngineResponseDTO toDTO(AutoEngine autoEngine) {
+    log.trace("Convert AutoEngine: {}, to AutoEngineResponseDTO", autoEngine);
+    return new AutoEngineResponseDTO(autoEngine.getId(), autoEngine.getType());
+  }
 }

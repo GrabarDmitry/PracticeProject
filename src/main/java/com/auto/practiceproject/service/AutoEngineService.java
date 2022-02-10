@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AutoEngineService {
-    Optional<AutoEngine> findAutoEngine(Long id);
+  Optional<AutoEngine> findAutoEngine(Long id);
 
-    AutoEngine findAutoEngineById(Long id);
+  AutoEngine findAutoEngineById(Long id);
 
-    List<AutoEngine> findAllAutoEngine();
+  List<AutoEngine> findAllAutoEngine();
 }

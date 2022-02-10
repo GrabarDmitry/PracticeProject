@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,16 +17,17 @@ import java.util.Optional;
 @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 public class AutoReleasedYearServiceImpl implements AutoReleasedYearService {
 
-    private final AutoReleasedYearDAO releasedYearDAO;
+  private final AutoReleasedYearDAO releasedYearDAO;
 
-    @Override
-    public AutoReleasedYear findAutoReleasedYearById(Long id) {
-        log.info("Service method called to find auto released year with id: {}", id);
-        return releasedYearDAO.findById(id).
-                orElseThrow(() -> {
-                    log.warn("Auto released year with Id: {} not found", id);
-                    throw new ResourceException("Auto released year with Id: " + id + " not found");
-                });
-    }
-
+  @Override
+  public AutoReleasedYear findAutoReleasedYearById(Long id) {
+    log.info("Service method called to find auto released year with id: {}", id);
+    return releasedYearDAO
+        .findById(id)
+        .orElseThrow(
+            () -> {
+              log.warn("Auto released year with Id: {} not found", id);
+              throw new ResourceException("Auto released year with Id: " + id + " not found");
+            });
+  }
 }

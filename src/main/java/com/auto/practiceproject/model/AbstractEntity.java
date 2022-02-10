@@ -10,13 +10,11 @@ import javax.persistence.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    @Getter
-    @Setter
-    @EqualsAndHashCode.Include
-    private Long id;
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
+  @Getter
+  @Setter
+  @EqualsAndHashCode.Include
+  private Long id;
 }
-

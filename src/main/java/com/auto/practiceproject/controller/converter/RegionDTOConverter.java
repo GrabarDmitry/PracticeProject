@@ -11,12 +11,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RegionDTOConverter {
 
-
-    public RegionResponseDTO toDTO(Region region) {
-        log.trace("Convert Region: {}, to RegionResponseDTO", region);
-        return new RegionResponseDTO(
-                region.getId(),
-                region.getTitle()
-        );
-    }
+  public RegionResponseDTO toDTO(Region region) {
+    log.trace("Convert Region: {}, to RegionResponseDTO", region);
+    return new RegionResponseDTO(region.getId(), region.getTitle());
+  }
 }

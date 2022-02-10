@@ -19,37 +19,34 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application_test.properties")
+@TestPropertySource(locations = "classpath:application_test.properties")
 @Sql(value = "classpath:init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class AutoControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private TestUtil testUtil;
+  @Autowired private TestUtil testUtil;
 
-    @Test
-    public void getAutoByIdTest() throws Exception {
-        mockMvc.perform(get("/api/auto/{id}", 3L))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(3L));
-    }
+  @Test
+  public void getAutoByIdTest() throws Exception {
+    mockMvc
+        .perform(get("/api/auto/{id}", 3L))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(3L));
+  }
 
-    @Test
-    public void getAutoByIdFailTest() throws Exception {
-        testUtil.exceptionCheck(
-                mockMvc.perform(get("/api/auto/{id}", 10L))
-                        .andDo(print())
-                        .andExpect(status().isBadRequest())
-                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                ,
-                "400",
-                "Bad Request",
-                "Auto with Id: 10 not found");
-    }
-
+  @Test
+  public void getAutoByIdFailTest() throws Exception {
+    testUtil.exceptionCheck(
+        mockMvc
+            .perform(get("/api/auto/{id}", 10L))
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
+        "400",
+        "Bad Request",
+        "Auto with Id: 10 not found");
+  }
 }

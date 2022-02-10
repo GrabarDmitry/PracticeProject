@@ -19,27 +19,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = RegionDoesNotExist.Validator.class)
 public @interface RegionDoesNotExist {
 
-    String message() default "Region with installed id don't exist";
+  String message() default "Region with installed id don't exist";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    @RequiredArgsConstructor
-    class Validator implements ConstraintValidator<RegionDoesNotExist, Long> {
+  @RequiredArgsConstructor
+  class Validator implements ConstraintValidator<RegionDoesNotExist, Long> {
 
-        private final RegionService regionService;
+    private final RegionService regionService;
 
-        @Override
-        public void initialize(RegionDoesNotExist regionDoesNotExist) {
-        }
+    @Override
+    public void initialize(RegionDoesNotExist regionDoesNotExist) {}
 
-        @Override
-        public boolean isValid(Long id, ConstraintValidatorContext context) {
-            return regionService.findRegion(id)
-                    .isPresent();
-        }
-
+    @Override
+    public boolean isValid(Long id, ConstraintValidatorContext context) {
+      return regionService.findRegion(id).isPresent();
     }
-
+  }
 }

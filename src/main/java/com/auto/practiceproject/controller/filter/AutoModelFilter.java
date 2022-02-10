@@ -9,14 +9,18 @@ import java.util.Map;
 
 public class AutoModelFilter extends Filter<AutoModel> {
 
-    private static final Map<String, FilterFieldParams> fieldsType = new HashMap<>() {{
-        put("title", new FilterFieldParams("title", String.class, Collections.emptyList()));
-        put("autoBrandId", new FilterFieldParams("id", Long.class, List.of("autoBrand")));
-        put("autoReleasedYearId", new FilterFieldParams("id", Long.class, List.of("autoReleasedYear")));
-    }};
+  private static final Map<String, FilterFieldParams> fieldsType =
+      new HashMap<>() {
+        {
+          put("title", new FilterFieldParams("title", String.class, Collections.emptyList()));
+          put("autoBrandId", new FilterFieldParams("id", Long.class, List.of("autoBrand")));
+          put(
+              "autoReleasedYearId",
+              new FilterFieldParams("id", Long.class, List.of("autoReleasedYear")));
+        }
+      };
 
-    public AutoModelFilter(String filter) {
-        super(filter, fieldsType);
-    }
-
+  public AutoModelFilter(String filter) {
+    super(filter, fieldsType);
+  }
 }

@@ -17,7 +17,6 @@ import javax.persistence.Table;
 @Table(name = "auto_brand")
 public class AutoBrand extends AbstractEntity {
 
-    @Column(length = 45)
-    private String title;
-
+  @Column(length = 45)
+  private String title;
 }

@@ -16,28 +16,25 @@ import java.io.IOException;
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-    @Override
-    public void handle
-            (HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex)
-            throws IOException, ServletException {
+  @Override
+  public void handle(
+      HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex)
+      throws IOException, ServletException {
 
-        ExceptionInfo errorResponse = new ExceptionInfo(
-                HttpStatus.FORBIDDEN,
-                "You do not have permission to access this resource!"
-        );
+    ExceptionInfo errorResponse =
+        new ExceptionInfo(
+            HttpStatus.FORBIDDEN, "You do not have permission to access this resource!");
 
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.setContentType("application/json");
-        response.getWriter().write(convertObjectToJson(errorResponse));
+    response.setStatus(HttpStatus.FORBIDDEN.value());
+    response.setContentType("application/json");
+    response.getWriter().write(convertObjectToJson(errorResponse));
+  }
 
+  private String convertObjectToJson(Object object) throws JsonProcessingException {
+    if (object == null) {
+      return null;
     }
-
-    private String convertObjectToJson(Object object) throws JsonProcessingException {
-        if (object == null) {
-            return null;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
-    }
-
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsString(object);
+  }
 }

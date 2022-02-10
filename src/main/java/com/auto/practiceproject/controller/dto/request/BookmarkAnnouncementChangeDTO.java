@@ -13,9 +13,8 @@ import javax.validation.constraints.Positive;
 @ToString
 public class BookmarkAnnouncementChangeDTO {
 
-    @AnnouncementDoesNotExist
-    @NotNull(message = "AnnouncementId should not be null")
-    @Positive(message = "AnnouncementId should be positive")
-    private Long AnnouncementId;
-
+  @AnnouncementDoesNotExist
+  @NotNull(message = "AnnouncementId should not be null")
+  @Positive(message = "AnnouncementId should be positive")
+  private Long AnnouncementId;
 }

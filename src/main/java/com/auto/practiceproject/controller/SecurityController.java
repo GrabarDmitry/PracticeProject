@@ -18,36 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-
 @Api(tags = {"Security"})
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityController {
 
-    private final SecurityService securityService;
-    private final UserDTOConverter userDTOConverter;
+  private final SecurityService securityService;
+  private final UserDTOConverter userDTOConverter;
 
-    @ApiOperation(value = "Authentication")
-    @PostMapping("/auth")
-    public ResponseEntity<AuthenticationResponseDTO> authentication(@RequestBody @Valid AuthenticationRequestDTO dto) {
-        log.trace("Controller method called to authentication user with email: {}", dto.getEmail());
-        return ResponseEntity.ok(
-                new AuthenticationResponseDTO(securityService.
-                        authentication(dto.getEmail(), dto.getPassword()))
-        );
-    }
+  @ApiOperation(value = "Authentication")
+  @PostMapping("/auth")
+  public ResponseEntity<AuthenticationResponseDTO> authentication(
+      @RequestBody @Valid AuthenticationRequestDTO dto) {
+    log.trace("Controller method called to authentication user with email: {}", dto.getEmail());
+    return ResponseEntity.ok(
+        new AuthenticationResponseDTO(
+            securityService.authentication(dto.getEmail(), dto.getPassword())));
+  }
 
-    @ApiOperation(value = "Registration")
-    @PostMapping("/registration")
-    public ResponseEntity<UserResponseDTO> registration(@RequestBody @Valid UserCreateDTO dto) {
-        log.trace("Controller method called to registration user  with email: {}", dto.getEmail());
-        return new ResponseEntity<>(
-                userDTOConverter.toDTO(securityService.
-                        registration(userDTOConverter.toEntityCreate(dto))),
-                HttpStatus.CREATED
-        );
-    }
-
-
+  @ApiOperation(value = "Registration")
+  @PostMapping("/registration")
+  public ResponseEntity<UserResponseDTO> registration(@RequestBody @Valid UserCreateDTO dto) {
+    log.trace("Controller method called to registration user  with email: {}", dto.getEmail());
+    return new ResponseEntity<>(
+        userDTOConverter.toDTO(securityService.registration(userDTOConverter.toEntityCreate(dto))),
+        HttpStatus.CREATED);
+  }
 }

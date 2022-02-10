@@ -13,8 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FilterFieldParams {
 
-    private String fieldTitleInDB;
-    private Class type;
-    private List<String> pathParam;
-
+  private String fieldTitleInDB;
+  private Class type;
+  private List<String> pathParam;
 }

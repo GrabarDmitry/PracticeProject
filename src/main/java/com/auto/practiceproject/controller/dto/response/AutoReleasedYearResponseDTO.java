@@ -10,6 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class AutoReleasedYearResponseDTO {
-    private Long id;
-    private LocalDate releasedYear;
+  private Long id;
+  private LocalDate releasedYear;
 }

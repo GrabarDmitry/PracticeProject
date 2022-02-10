@@ -23,35 +23,35 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 public class AutoModelServiceImpl implements AutoModelService, FilteredService {
 
-    private final AutoModelDAO autoModelDAO;
-    private final FilterFactory filterFactory;
+  private final AutoModelDAO autoModelDAO;
+  private final FilterFactory filterFactory;
 
-    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
-    @Override
-    public List<AutoModel> findAllAutoModel(String filter) {
-        log.trace("Service method called to find all auto models");
-        return autoModelDAO.findAll(
-                applyFilter(
-                        decodeStringFilter(filter).stream()
-                                .map(filterFactory.getConverter(AutoModelFilter.class)::convert)
-                                .collect(Collectors.toList())
-                ));
-    }
+  @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
+  @Override
+  public List<AutoModel> findAllAutoModel(String filter) {
+    log.trace("Service method called to find all auto models");
+    return autoModelDAO.findAll(
+        applyFilter(
+            decodeStringFilter(filter).stream()
+                .map(filterFactory.getConverter(AutoModelFilter.class)::convert)
+                .collect(Collectors.toList())));
+  }
 
-    @Override
-    public Optional<AutoModel> findAutoModel(Long id) {
-        log.trace("Service method called to view Auto model with id: {}", id);
-        return autoModelDAO.findById(id);
-    }
+  @Override
+  public Optional<AutoModel> findAutoModel(Long id) {
+    log.trace("Service method called to view Auto model with id: {}", id);
+    return autoModelDAO.findById(id);
+  }
 
-    @Override
-    public AutoModel findAutoModelById(Long id) {
-        log.info("Service method called to find autoModel with id: {}", id);
-        return autoModelDAO.findById(id).
-                orElseThrow(() -> {
-                    log.warn("Auto model with Id: {} not found", id);
-                    throw new ResourceException("Auto model with Id: " + id + " not found");
-                });
-    }
-
+  @Override
+  public AutoModel findAutoModelById(Long id) {
+    log.info("Service method called to find autoModel with id: {}", id);
+    return autoModelDAO
+        .findById(id)
+        .orElseThrow(
+            () -> {
+              log.warn("Auto model with Id: {} not found", id);
+              throw new ResourceException("Auto model with Id: " + id + " not found");
+            });
+  }
 }

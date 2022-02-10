@@ -23,36 +23,32 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookmarkController {
 
-    private final AnnouncementDTOConverter announcementDTOConverter;
-    private final BookmarkService bookmarkService;
+  private final AnnouncementDTOConverter announcementDTOConverter;
+  private final BookmarkService bookmarkService;
 
-    @ApiOperation(value = "Get all announcement in bookmark")
-    @GetMapping
-    public ResponseEntity<List<AnnouncementResponseDTO>> getAllAnnouncementInBookmark() {
-        log.trace("Controller method called to view all user Announcement in bookmark");
-        return new ResponseEntity<>(
-                bookmarkService.findByUser()
-                        .getAnnouncements()
-                        .stream().
-                        map(announcementDTOConverter::toDTO)
-                        .collect(Collectors.toList())
-                , HttpStatus.OK);
-    }
+  @ApiOperation(value = "Get all announcement in bookmark")
+  @GetMapping
+  public ResponseEntity<List<AnnouncementResponseDTO>> getAllAnnouncementInBookmark() {
+    log.trace("Controller method called to view all user Announcement in bookmark");
+    return new ResponseEntity<>(
+        bookmarkService.findByUser().getAnnouncements().stream()
+            .map(announcementDTOConverter::toDTO)
+            .collect(Collectors.toList()),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Change bookmark announcements")
-    @PatchMapping
-    public ResponseEntity<List<AnnouncementResponseDTO>> changeBookmarkAnnouncements(
-            @RequestBody @Valid BookmarkAnnouncementChangeDTO announcementChangeDTO
-    ) {
-        log.trace("Controller method called to change announcements in bookmark");
-        return new ResponseEntity<>(
-                bookmarkService.addAnnouncementToBookmark(
-                        announcementChangeDTO.getAnnouncementId())
-                        .getAnnouncements()
-                        .stream().
-                        map(announcementDTOConverter::toDTO)
-                        .collect(Collectors.toList())
-                , HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Change bookmark announcements")
+  @PatchMapping
+  public ResponseEntity<List<AnnouncementResponseDTO>> changeBookmarkAnnouncements(
+      @RequestBody @Valid BookmarkAnnouncementChangeDTO announcementChangeDTO) {
+    log.trace("Controller method called to change announcements in bookmark");
+    return new ResponseEntity<>(
+        bookmarkService
+            .addAnnouncementToBookmark(announcementChangeDTO.getAnnouncementId())
+            .getAnnouncements()
+            .stream()
+            .map(announcementDTOConverter::toDTO)
+            .collect(Collectors.toList()),
+        HttpStatus.OK);
+  }
 }

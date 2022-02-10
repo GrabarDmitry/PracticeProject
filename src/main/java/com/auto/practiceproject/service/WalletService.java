@@ -7,10 +7,9 @@ import java.util.Optional;
 
 public interface WalletService {
 
-    void putMoney(Double amount, User user);
+  void putMoney(Double amount, User user);
 
-    void payForServices(Double amount, User user);
+  void payForServices(Double amount, User user);
 
-    Optional<Wallet> findWalletByUser(User user);
-
+  Optional<Wallet> findWalletByUser(User user);
 }

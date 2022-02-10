@@ -17,36 +17,31 @@ import java.util.Optional;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@TestPropertySource(
-        locations = "classpath:application_dao_test.properties")
+@TestPropertySource(locations = "classpath:application_dao_test.properties")
 public class RoleDAOTest {
 
-    @Autowired
-    private RoleDAO roleDAO;
+  @Autowired private RoleDAO roleDAO;
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+  @Autowired private TestEntityManager testEntityManager;
 
-    @Before
-    public void setUp() {
-        testEntityManager.persistAndFlush(new Role("ADMIN"));
-        testEntityManager.persistAndFlush(new Role("MODERATOR"));
-        testEntityManager.persistAndFlush(new Role("USER"));
-    }
+  @Before
+  public void setUp() {
+    testEntityManager.persistAndFlush(new Role("ADMIN"));
+    testEntityManager.persistAndFlush(new Role("MODERATOR"));
+    testEntityManager.persistAndFlush(new Role("USER"));
+  }
 
-    @Test
-    public void findRoleByTileTest() {
-        Optional<Role> role = roleDAO.findByTitle("USER");
+  @Test
+  public void findRoleByTileTest() {
+    Optional<Role> role = roleDAO.findByTitle("USER");
 
-        Assert.assertTrue(role.isPresent());
-        Assert.assertEquals(role.get().getTitle(), "USER");
-    }
+    Assert.assertTrue(role.isPresent());
+    Assert.assertEquals(role.get().getTitle(), "USER");
+  }
 
-    @Test
-    public void findRoleByTitleIsNullTest() {
-        Optional<Role> role = roleDAO.findByTitle("TEST");
-        Assert.assertTrue(role.isEmpty());
-    }
-
-
+  @Test
+  public void findRoleByTitleIsNullTest() {
+    Optional<Role> role = roleDAO.findByTitle("TEST");
+    Assert.assertTrue(role.isEmpty());
+  }
 }

@@ -16,25 +16,25 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ExceptionInfo errorResponse = new ExceptionInfo(
-                HttpStatus.UNAUTHORIZED,
-                "Please login to access this resource!"
-        );
+  @Override
+  public void commence(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      AuthenticationException authException)
+      throws IOException, ServletException {
+    ExceptionInfo errorResponse =
+        new ExceptionInfo(HttpStatus.UNAUTHORIZED, "Please login to access this resource!");
 
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType("application/json");
-        response.getWriter().write(convertObjectToJson(errorResponse));
+    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+    response.setContentType("application/json");
+    response.getWriter().write(convertObjectToJson(errorResponse));
+  }
 
+  private String convertObjectToJson(Object object) throws JsonProcessingException {
+    if (object == null) {
+      return null;
     }
-
-    private String convertObjectToJson(Object object) throws JsonProcessingException {
-        if (object == null) {
-            return null;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
-    }
-
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsString(object);
+  }
 }

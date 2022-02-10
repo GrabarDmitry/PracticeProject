@@ -24,18 +24,15 @@ import javax.validation.Valid;
 @Slf4j
 public class WalletController {
 
-    private final WalletService walletService;
+  private final WalletService walletService;
 
-    @ApiOperation(value = "Put money to wallet")
-    @PostMapping
-    public ResponseEntity<HttpStatus> putMoneyToWallet(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody @Valid MoneyTransferDTO moneyTransferDTO
-    ) {
-        log.trace("Controller method called to put money on wallet, user : {}",
-                userDetails.getUser());
-        walletService.putMoney(moneyTransferDTO.getAmount(), userDetails.getUser());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Put money to wallet")
+  @PostMapping
+  public ResponseEntity<HttpStatus> putMoneyToWallet(
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @RequestBody @Valid MoneyTransferDTO moneyTransferDTO) {
+    log.trace("Controller method called to put money on wallet, user : {}", userDetails.getUser());
+    walletService.putMoney(moneyTransferDTO.getAmount(), userDetails.getUser());
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

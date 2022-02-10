@@ -27,33 +27,25 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequiredArgsConstructor
 public class RegionController {
 
-    private final RegionService regionService;
-    private final RegionDTOConverter regionDTOConverter;
+  private final RegionService regionService;
+  private final RegionDTOConverter regionDTOConverter;
 
-    @PageableSwagger
-    @ApiOperation(value = "View list of regions")
-    @GetMapping
-    public ResponseEntity<Page<RegionResponseDTO>> getAllRegions(
-            @ApiIgnore
-            @PageableDefault(
-                    page = 0,
-                    size = 5,
-                    sort = "id",
-                    direction = Sort.Direction.ASC) Pageable pageable) {
-        log.trace("Controller method called to view all regions with params: {}", pageable);
-        return new ResponseEntity<>(
-                regionService.findAllRegion(pageable)
-                        .map(regionDTOConverter::toDTO)
-                , HttpStatus.OK);
-    }
+  @PageableSwagger
+  @ApiOperation(value = "View list of regions")
+  @GetMapping
+  public ResponseEntity<Page<RegionResponseDTO>> getAllRegions(
+      @ApiIgnore @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.ASC)
+          Pageable pageable) {
+    log.trace("Controller method called to view all regions with params: {}", pageable);
+    return new ResponseEntity<>(
+        regionService.findAllRegion(pageable).map(regionDTOConverter::toDTO), HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Get region by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<RegionResponseDTO> getRegionById(@PathVariable Long id) {
-        log.trace("Controller method called to view region with id: {}", id);
-        return new ResponseEntity<>(regionDTOConverter.
-                toDTO(regionService.findRegionById(id)),
-                HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Get region by id")
+  @GetMapping("/{id}")
+  public ResponseEntity<RegionResponseDTO> getRegionById(@PathVariable Long id) {
+    log.trace("Controller method called to view region with id: {}", id);
+    return new ResponseEntity<>(
+        regionDTOConverter.toDTO(regionService.findRegionById(id)), HttpStatus.OK);
+  }
 }

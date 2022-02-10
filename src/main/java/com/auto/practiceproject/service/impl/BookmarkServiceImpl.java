@@ -21,50 +21,48 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookmarkServiceImpl implements BookmarkService {
 
-    private final BookmarkDAO bookmarkDAO;
-    private final UserService userService;
-    private final AnnouncementService announcementService;
+  private final BookmarkDAO bookmarkDAO;
+  private final UserService userService;
+  private final AnnouncementService announcementService;
 
-    @Override
-    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
-    public Bookmark findByUser() {
-        User user = userService.getCurrentUser()
-                .orElse(null);
-        log.trace("Service method called to view Bookmark by user:{}", user);
-        return bookmarkDAO.findBookmarkByUser(user).
-                orElse(null);
+  @Override
+  @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
+  public Bookmark findByUser() {
+    User user = userService.getCurrentUser().orElse(null);
+    log.trace("Service method called to view Bookmark by user:{}", user);
+    return bookmarkDAO.findBookmarkByUser(user).orElse(null);
+  }
+
+  @Override
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public Bookmark updateBookmark(Bookmark bookmark) {
+    log.info("Service method called to update Announcements in Bookmark ,bookmark: {}", bookmark);
+    bookmarkDAO
+        .findById(bookmark.getId())
+        .ifPresentOrElse(
+            u -> bookmarkDAO.saveAndFlush(bookmark),
+            () -> {
+              log.error("Bookmark with Id: {} not found", bookmark.getId());
+              throw new ResourceException("Bookmark with Id: " + bookmark.getId() + " not found");
+            });
+    return bookmark;
+  }
+
+  @Override
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public Bookmark addAnnouncementToBookmark(Long announcementId) {
+    log.info(
+        "Service method called to add announcement in Bookmark,announcementId:{}", announcementId);
+    Announcement announcement = announcementService.findAnnouncement(announcementId).orElse(null);
+    Bookmark bookmark = findByUser();
+    List list = bookmark.getAnnouncements();
+    if (list.contains(announcement)) {
+      log.error("Announcement with Id: {} is bookmarked", announcement.getId());
+      throw new ResourceException("This announcement is bookmarked!");
+    } else {
+      list.add(announcement);
+      bookmark.setAnnouncements(list);
+      return bookmarkDAO.saveAndFlush(bookmark);
     }
-
-    @Override
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public Bookmark updateBookmark(Bookmark bookmark) {
-        log.info("Service method called to update Announcements in Bookmark ,bookmark: {}", bookmark);
-        bookmarkDAO.findById(bookmark.getId())
-                .ifPresentOrElse(
-                        u -> bookmarkDAO.saveAndFlush(bookmark),
-                        () -> {
-                            log.error("Bookmark with Id: {} not found", bookmark.getId());
-                            throw new ResourceException("Bookmark with Id: " + bookmark.getId() + " not found");
-                        });
-        return bookmark;
-    }
-
-    @Override
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public Bookmark addAnnouncementToBookmark(Long announcementId) {
-        log.info("Service method called to add announcement in Bookmark,announcementId:{}", announcementId);
-        Announcement announcement = announcementService.findAnnouncement(announcementId)
-                .orElse(null);
-        Bookmark bookmark = findByUser();
-        List list = bookmark.getAnnouncements();
-        if (list.contains(announcement)) {
-            log.error("Announcement with Id: {} is bookmarked", announcement.getId());
-            throw new ResourceException("This announcement is bookmarked!");
-        } else {
-            list.add(announcement);
-            bookmark.setAnnouncements(list);
-            return bookmarkDAO.saveAndFlush(bookmark);
-        }
-    }
-
+  }
 }

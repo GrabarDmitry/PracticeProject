@@ -17,7 +17,6 @@ import javax.persistence.Table;
 @Table(name = "auto_transmission")
 public class AutoTransmission extends AbstractEntity {
 
-    @Column(length = 45)
-    private String type;
-
+  @Column(length = 45)
+  private String type;
 }

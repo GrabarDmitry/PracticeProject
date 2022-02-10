@@ -8,28 +8,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class FilterFactory implements ConverterFactory<String, Filter> {
 
-    @Override
-    public <T extends Filter> Converter<String, T> getConverter(Class<T> targetType) {
-        return new StringToFilterConverter(targetType);
+  @Override
+  public <T extends Filter> Converter<String, T> getConverter(Class<T> targetType) {
+    return new StringToFilterConverter(targetType);
+  }
+
+  @RequiredArgsConstructor
+  private final class StringToFilterConverter<T extends Filter> implements Converter<String, T> {
+
+    private final Class filterType;
+
+    public T convert(String source) {
+
+      if (filterType.equals(AnnouncementFilter.class)) {
+        return (T) new AnnouncementFilter(source);
+      } else if (filterType.equals(AutoModelFilter.class)) {
+        return (T) new AutoModelFilter(source);
+      }
+
+      return null;
     }
-
-    @RequiredArgsConstructor
-    private final class StringToFilterConverter<T extends Filter> implements Converter<String, T> {
-
-        private final Class filterType;
-
-        public T convert(String source) {
-
-            if (filterType.equals(AnnouncementFilter.class)) {
-                return (T) new AnnouncementFilter(source);
-            } else if (filterType.equals(AutoModelFilter.class)) {
-                return (T) new AutoModelFilter(source);
-            }
-
-            return null;
-        }
-
-    }
-
-
+  }
 }

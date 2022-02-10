@@ -22,7 +22,6 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
-
 @Api(tags = {"Announcements"})
 @RestController
 @Slf4j
@@ -30,91 +29,79 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AnnouncementController {
 
-    private final AnnouncementService announcementService;
-    private final AnnouncementDTOConverter announcementDTOConverter;
+  private final AnnouncementService announcementService;
+  private final AnnouncementDTOConverter announcementDTOConverter;
 
-    @PageableSwagger
-    @ApiOperation(value = "View list of not on moderation announcements")
-    @GetMapping
-    public ResponseEntity<Page<AnnouncementResponseDTO>> getAllNotOnModerationAnnouncement(
-            @ApiIgnore
-            @PageableDefault(
-                    page = 0,
-                    size = 5,
-                    sort = "rating",
-                    direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(name = "filter", required = false) String filter) {
-        log.trace("Controller method called to view all Announcement with params: {}", pageable);
-        return new ResponseEntity<>(
-                announcementService.findAllAnnouncementByModeration(false, pageable, filter)
-                        .map(announcementDTOConverter::toDTO)
-                , HttpStatus.OK);
-    }
+  @PageableSwagger
+  @ApiOperation(value = "View list of not on moderation announcements")
+  @GetMapping
+  public ResponseEntity<Page<AnnouncementResponseDTO>> getAllNotOnModerationAnnouncement(
+      @ApiIgnore
+          @PageableDefault(page = 0, size = 5, sort = "rating", direction = Sort.Direction.DESC)
+          Pageable pageable,
+      @RequestParam(name = "filter", required = false) String filter) {
+    log.trace("Controller method called to view all Announcement with params: {}", pageable);
+    return new ResponseEntity<>(
+        announcementService
+            .findAllAnnouncementByModeration(false, pageable, filter)
+            .map(announcementDTOConverter::toDTO),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Get announcement by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<AnnouncementResponseDTO> getAnnouncementById(@PathVariable Long id) {
-        log.trace("Controller method called to view Announcement with id: {}", id);
-        return new ResponseEntity<>(announcementDTOConverter.
-                toDTO(announcementService.findAnnouncementById(id)),
-                HttpStatus.OK);
-    }
+  @ApiOperation(value = "Get announcement by id")
+  @GetMapping("/{id}")
+  public ResponseEntity<AnnouncementResponseDTO> getAnnouncementById(@PathVariable Long id) {
+    log.trace("Controller method called to view Announcement with id: {}", id);
+    return new ResponseEntity<>(
+        announcementDTOConverter.toDTO(announcementService.findAnnouncementById(id)),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Create announcement")
-    @PostMapping
-    public ResponseEntity<AnnouncementResponseDTO> createAnnouncement(@RequestBody @Valid AnnouncementRequestDTO createDTO) {
-        log.trace("Controller method called to create Announcement with title: {}", createDTO);
-        return new ResponseEntity<>(
-                announcementDTOConverter.toDTO(
-                        announcementService.createAnnouncement(
-                                announcementDTOConverter.toEntity(createDTO)
-                        )
-                )
-                , HttpStatus.CREATED);
-    }
+  @ApiOperation(value = "Create announcement")
+  @PostMapping
+  public ResponseEntity<AnnouncementResponseDTO> createAnnouncement(
+      @RequestBody @Valid AnnouncementRequestDTO createDTO) {
+    log.trace("Controller method called to create Announcement with title: {}", createDTO);
+    return new ResponseEntity<>(
+        announcementDTOConverter.toDTO(
+            announcementService.createAnnouncement(announcementDTOConverter.toEntity(createDTO))),
+        HttpStatus.CREATED);
+  }
 
-    @ApiOperation(value = "Announcement rating up")
-    @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
-    @PostMapping("/{id}/up")
-    public ResponseEntity<AnnouncementResponseDTO> announcementRatingUp(
-            @PathVariable("id") Long id
-    ) {
-        log.trace("Controller method called to update Announcement rating with id: {}", id);
-        return new ResponseEntity<>(
-                announcementDTOConverter.toDTO(
-                        announcementService.announcementRatingUp(id))
-                , HttpStatus.OK);
-    }
+  @ApiOperation(value = "Announcement rating up")
+  @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
+  @PostMapping("/{id}/up")
+  public ResponseEntity<AnnouncementResponseDTO> announcementRatingUp(@PathVariable("id") Long id) {
+    log.trace("Controller method called to update Announcement rating with id: {}", id);
+    return new ResponseEntity<>(
+        announcementDTOConverter.toDTO(announcementService.announcementRatingUp(id)),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Change announcement active")
-    @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
-    @PatchMapping("/{id}")
-    public ResponseEntity<AnnouncementResponseDTO> changeAnnouncementActive(
-            @PathVariable("id") Long id,
-            @RequestBody @Valid AnnouncementActiveChangeDTO activityChangeDTO
-    ) {
-        log.trace("Controller method called to update isExchange announcement field with id: {}", id);
-        return new ResponseEntity<>(
-                announcementDTOConverter.toDTO(
-                        announcementService.updateAnnouncement(announcementDTOConverter
-                                .toAnnouncementWithEditedIsActive(id, activityChangeDTO)))
-                , HttpStatus.OK);
-    }
+  @ApiOperation(value = "Change announcement active")
+  @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
+  @PatchMapping("/{id}")
+  public ResponseEntity<AnnouncementResponseDTO> changeAnnouncementActive(
+      @PathVariable("id") Long id,
+      @RequestBody @Valid AnnouncementActiveChangeDTO activityChangeDTO) {
+    log.trace("Controller method called to update isExchange announcement field with id: {}", id);
+    return new ResponseEntity<>(
+        announcementDTOConverter.toDTO(
+            announcementService.updateAnnouncement(
+                announcementDTOConverter.toAnnouncementWithEditedIsActive(id, activityChangeDTO))),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Update announcement")
-    @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
-    @PutMapping("/{id}")
-    public ResponseEntity<AnnouncementResponseDTO> updateAnnouncement(
-            @PathVariable("id") Long id,
-            @RequestBody @Valid AnnouncementRequestDTO requestDTO
-    ) {
-        log.trace("Controller method called to update Announcement with id: {}", id);
-        return new ResponseEntity<>(announcementDTOConverter.toDTO
-                (announcementService.updateAnnouncement(
-                        announcementDTOConverter.updateToEntity(id, requestDTO))
-                )
-                , HttpStatus.OK);
-    }
-
-
+  @ApiOperation(value = "Update announcement")
+  @PreAuthorize("hasPermission(#id,'Announcement','ALL')")
+  @PutMapping("/{id}")
+  public ResponseEntity<AnnouncementResponseDTO> updateAnnouncement(
+      @PathVariable("id") Long id, @RequestBody @Valid AnnouncementRequestDTO requestDTO) {
+    log.trace("Controller method called to update Announcement with id: {}", id);
+    return new ResponseEntity<>(
+        announcementDTOConverter.toDTO(
+            announcementService.updateAnnouncement(
+                announcementDTOConverter.updateToEntity(id, requestDTO))),
+        HttpStatus.OK);
+  }
 }
