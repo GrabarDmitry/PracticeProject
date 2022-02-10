@@ -14,18 +14,18 @@ jobs:
       - name: Set up MySQLServer1
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql version: '8.0'
+          mysql version: 8.0
           mysql database: 'app_test'
-          host port: '3608'
+          host port: 3608
           mysql root password: 'root'
           mysql user: 'user'
           mysql password: 'password'
       - name: Set up MySQLServer2
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql version: '8.0'
+          mysql version: 8.0
           mysql database: 'app'
-          host port: '3607'
+          host port: 3607
           mysql root password: 'root'
           mysql user: 'user'
           mysql password: 'password'
