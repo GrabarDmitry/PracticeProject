@@ -21,14 +21,13 @@ jobs:
           mysql user: 'user'
           mysql password: 'password'
       - name: Set up MySQLServer2
-          uses: mirromutth/mysql-action@v1.1
-          with:
-            mysql version: '8.0'
-            mysql database: 'app'
-            mysql port: '3607'
-            mysql root password: 'root'
-            mysql user: 'user'
-            mysql password: 'password'
+        with:
+          mysql version: '8.0'
+          mysql database: 'app'
+          mysql port: '3607'
+          mysql root password: 'root'
+          mysql user: 'user'
+          mysql password: 'password'
       - name: Set up JDK 1.11
         uses: actions/setup-java@v1
         with:
