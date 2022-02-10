@@ -18,7 +18,7 @@ jobs:
           mysql version: 8.0
           mysql database: 'app_test'
           host port: 3308
-          mysql root password: 'root'
+          mysql root password: 'password'
           mysql user: 'user'
           mysql password: 'password'
       - name: Set up MySQLServer2
@@ -28,7 +28,7 @@ jobs:
           mysql version: 8.0
           mysql database: 'app'
           host port: 3307
-          mysql root password: 'root'
+          mysql root password: 'password'
           mysql user: 'user'
           mysql password: 'password'
       - name: Set up JDK 1.11
