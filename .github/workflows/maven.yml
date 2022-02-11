@@ -36,7 +36,7 @@ jobs:
       - name: Verify permission for first DB
         run: mysql --host 127.0.0.1 --port 3306 -uroot -e "GRANT all privileges on *.* to user@'%'";
       - name: Verify permission for second DB
-          run: mysql --host 127.0.0.1 --port 3307 -uroot -e "GRANT all privileges on *.* to user@'%'";
+        run: mysql --host 127.0.0.1 --port 3307 -uroot -e "GRANT all privileges on *.* to user@'%'";
       - uses: actions/checkout@v2
       - uses: axel-op/googlejavaformat-action@v3
         with:
