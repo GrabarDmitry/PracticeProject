@@ -16,16 +16,14 @@ import java.util.List;
 @Table(name = "bookmark")
 public class Bookmark extends AbstractEntity {
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "userId")
-    private User user;
+  @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @JoinColumn(name = "userId")
+  private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "bookmark_announcements",
-            joinColumns = {@JoinColumn(name = "bookmarkId")},
-            inverseJoinColumns = {@JoinColumn(name = "announcementId")}
-    )
-    private List<Announcement> announcements;
-
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "bookmark_announcements",
+      joinColumns = {@JoinColumn(name = "bookmarkId")},
+      inverseJoinColumns = {@JoinColumn(name = "announcementId")})
+  private List<Announcement> announcements;
 }

@@ -21,16 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AutoReleasedYearController {
 
-    private final AutoReleasedYearService autoReleasedYearService;
-    private final AutoReleasedTearDTOConverter converter;
+  private final AutoReleasedYearService autoReleasedYearService;
+  private final AutoReleasedTearDTOConverter converter;
 
-    @ApiOperation(value = "Get auto released year by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<AutoReleasedYearResponseDTO> getAutoReleasedTearById(@PathVariable Long id) {
-        log.trace("Controller method called to view auto released year with id: {}", id);
-        return new ResponseEntity<>(converter
-                .toDTO(autoReleasedYearService.findAutoReleasedYearById(id)),
-                HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Get auto released year by id")
+  @GetMapping("/{id}")
+  public ResponseEntity<AutoReleasedYearResponseDTO> getAutoReleasedTearById(
+      @PathVariable Long id) {
+    log.trace("Controller method called to view auto released year with id: {}", id);
+    return new ResponseEntity<>(
+        converter.toDTO(autoReleasedYearService.findAutoReleasedYearById(id)), HttpStatus.OK);
+  }
 }

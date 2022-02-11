@@ -14,24 +14,22 @@ import java.util.Set;
 @ToString(exclude = {"password"})
 public class User extends AbstractEntity {
 
-    @Column(unique = true)
-    private String email;
+  @Column(unique = true)
+  private String email;
 
-    @Column(length = 45)
-    private String name;
+  @Column(length = 45)
+  private String name;
 
-    @Column(length = 45)
-    private String surname;
+  @Column(length = 45)
+  private String surname;
 
-    @Column(length = 512)
-    private String password;
+  @Column(length = 512)
+  private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = {@JoinColumn(name = "userId")},
-            inverseJoinColumns = {@JoinColumn(name = "roleId")}
-    )
-    private Set<Role> roles;
-
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "user_roles",
+      joinColumns = {@JoinColumn(name = "userId")},
+      inverseJoinColumns = {@JoinColumn(name = "roleId")})
+  private Set<Role> roles;
 }

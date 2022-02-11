@@ -23,42 +23,40 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
 
-    private final TokenProvider jwtTokenProvider;
+  private final TokenProvider jwtTokenProvider;
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        try {
-            String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
+  @Override
+  public void doFilter(
+      ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+      throws IOException, ServletException {
+    try {
+      String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
 
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                if (authentication != null) {
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            }
-            filterChain.doFilter(servletRequest, servletResponse);
-        } catch (JwtAuthenticationException exception) {
-
-            HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-            ExceptionInfo errorResponse = new ExceptionInfo(
-                    HttpStatus.UNAUTHORIZED,
-                    exception.getMessage()
-            );
-
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.setContentType("application/json");
-            response.getWriter().write(convertObjectToJson(errorResponse));
-
+      if (token != null && jwtTokenProvider.validateToken(token)) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        if (authentication != null) {
+          SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-    }
+      }
+      filterChain.doFilter(servletRequest, servletResponse);
+    } catch (JwtAuthenticationException exception) {
 
-    private String convertObjectToJson(Object object) throws JsonProcessingException {
-        if (object == null) {
-            return null;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
-    }
+      HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+      ExceptionInfo errorResponse =
+          new ExceptionInfo(HttpStatus.UNAUTHORIZED, exception.getMessage());
+
+      response.setStatus(HttpStatus.UNAUTHORIZED.value());
+      response.setContentType("application/json");
+      response.getWriter().write(convertObjectToJson(errorResponse));
+    }
+  }
+
+  private String convertObjectToJson(Object object) throws JsonProcessingException {
+    if (object == null) {
+      return null;
+    }
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsString(object);
+  }
 }

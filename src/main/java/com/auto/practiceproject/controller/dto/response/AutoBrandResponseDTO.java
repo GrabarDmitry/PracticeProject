@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class AutoBrandResponseDTO {
-    private Long id;
-    private String title;
+  private Long id;
+  private String title;
 }

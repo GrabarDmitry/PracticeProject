@@ -21,16 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AutoController {
 
-    private final AutoDTOConverter autoDTOConverter;
-    private final AutoService autoService;
+  private final AutoDTOConverter autoDTOConverter;
+  private final AutoService autoService;
 
-    @ApiOperation(value = "Get auto by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<AutoResponseDTO> getAutoById(@PathVariable Long id) {
-        log.trace("Controller method called to view auto with id: {}", id);
-        return new ResponseEntity<>(autoDTOConverter.
-                toDTO(autoService.findAutoById(id)),
-                HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Get auto by id")
+  @GetMapping("/{id}")
+  public ResponseEntity<AutoResponseDTO> getAutoById(@PathVariable Long id) {
+    log.trace("Controller method called to view auto with id: {}", id);
+    return new ResponseEntity<>(
+        autoDTOConverter.toDTO(autoService.findAutoById(id)), HttpStatus.OK);
+  }
 }

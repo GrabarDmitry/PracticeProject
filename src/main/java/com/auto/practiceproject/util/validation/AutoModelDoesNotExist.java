@@ -19,26 +19,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = AutoModelDoesNotExist.Validator.class)
 public @interface AutoModelDoesNotExist {
 
-    String message() default "Models with installed id don't exist";
+  String message() default "Models with installed id don't exist";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    @RequiredArgsConstructor
-    class Validator implements ConstraintValidator<AutoModelDoesNotExist, Long> {
+  @RequiredArgsConstructor
+  class Validator implements ConstraintValidator<AutoModelDoesNotExist, Long> {
 
-        private final AutoModelService autoModelService;
+    private final AutoModelService autoModelService;
 
-        @Override
-        public void initialize(AutoModelDoesNotExist modelDoesNotExist) {}
+    @Override
+    public void initialize(AutoModelDoesNotExist modelDoesNotExist) {}
 
-        @Override
-        public boolean isValid(Long id, ConstraintValidatorContext context) {
-            return autoModelService.findAutoModel(id)
-                    .isPresent();
-        }
-
+    @Override
+    public boolean isValid(Long id, ConstraintValidatorContext context) {
+      return autoModelService.findAutoModel(id).isPresent();
     }
-
+  }
 }

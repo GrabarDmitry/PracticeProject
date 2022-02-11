@@ -20,46 +20,44 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = CustomsDutyPriceValidator.Validator.class)
 public @interface CustomsDutyPriceValidator {
 
-    String field() default "customsDuty";
+  String field() default "customsDuty";
 
-    String message() default "";
+  String message() default "";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    @RequiredArgsConstructor
-    class Validator implements ConstraintValidator<CustomsDutyPriceValidator, Object> {
+  @RequiredArgsConstructor
+  class Validator implements ConstraintValidator<CustomsDutyPriceValidator, Object> {
 
-        private final RegionService regionService;
-        private static final SpelExpressionParser PARSER = new SpelExpressionParser();
+    private final RegionService regionService;
+    private static final SpelExpressionParser PARSER = new SpelExpressionParser();
 
-        @Override
-        public void initialize(CustomsDutyPriceValidator customsDutyPriceValidator) {
-        }
+    @Override
+    public void initialize(CustomsDutyPriceValidator customsDutyPriceValidator) {}
 
-        @Override
-        public boolean isValid(Object dto, ConstraintValidatorContext context) {
-            context.disableDefaultConstraintViolation();
-            Long regionId = (Long) PARSER.parseExpression("regionId").getValue(dto);
-            Double price = (Double) PARSER.parseExpression("customsDuty").getValue(dto);
-            Region region = regionService.findRegion(regionId)
-                    .orElse(null);
+    @Override
+    public boolean isValid(Object dto, ConstraintValidatorContext context) {
+      context.disableDefaultConstraintViolation();
+      Long regionId = (Long) PARSER.parseExpression("regionId").getValue(dto);
+      Double price = (Double) PARSER.parseExpression("customsDuty").getValue(dto);
+      Region region = regionService.findRegion(regionId).orElse(null);
 
-            if (region != null && region.getTitle().equals("Abroad") && price.equals(0.0)) {
-                context.buildConstraintViolationWithTemplate(
-                        "For a car from abroad, the customs price must be indicated"
-                ).addConstraintViolation();
-                return false;
-            } else if (region != null && !(region.getTitle().equals("Abroad")) && price > 0.0) {
-                context.buildConstraintViolationWithTemplate(
-                        "For a car from a country, the customs price is not indicated"
-                ).addConstraintViolation();
-                return false;
-            }
-            return true;
-        }
-
+      if (region != null && region.getTitle().equals("Abroad") && price.equals(0.0)) {
+        context
+            .buildConstraintViolationWithTemplate(
+                "For a car from abroad, the customs price must be indicated")
+            .addConstraintViolation();
+        return false;
+      } else if (region != null && !(region.getTitle().equals("Abroad")) && price > 0.0) {
+        context
+            .buildConstraintViolationWithTemplate(
+                "For a car from a country, the customs price is not indicated")
+            .addConstraintViolation();
+        return false;
+      }
+      return true;
     }
-
+  }
 }

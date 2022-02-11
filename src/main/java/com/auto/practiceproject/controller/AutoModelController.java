@@ -21,28 +21,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AutoModelController {
 
-    private final AutoModelService autoModelService;
-    private final AutoModelDTOConverter autoModelDTOConverter;
+  private final AutoModelService autoModelService;
+  private final AutoModelDTOConverter autoModelDTOConverter;
 
-    @ApiOperation(value = "View list of auto models")
-    @GetMapping
-    public ResponseEntity<List<AutoModelResponseDTO>> getAllAutoModels(
-            @RequestParam(name = "filter", required = false) String filter) {
-        log.trace("Controller method called to view all Auto models");
-        return new ResponseEntity<>(
-                autoModelService.findAllAutoModel(filter).stream()
-                        .map(autoModelDTOConverter::toDTO)
-                        .collect(Collectors.toList())
-                , HttpStatus.OK);
-    }
+  @ApiOperation(value = "View list of auto models")
+  @GetMapping
+  public ResponseEntity<List<AutoModelResponseDTO>> getAllAutoModels(
+      @RequestParam(name = "filter", required = false) String filter) {
+    log.trace("Controller method called to view all Auto models");
+    return new ResponseEntity<>(
+        autoModelService.findAllAutoModel(filter).stream()
+            .map(autoModelDTOConverter::toDTO)
+            .collect(Collectors.toList()),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Get auto model by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<AutoModelResponseDTO> getAutoModelById(@PathVariable Long id) {
-        log.trace("Controller method called to view auto model with id: {}", id);
-        return new ResponseEntity<>(autoModelDTOConverter.
-                toDTO(autoModelService.findAutoModelById(id)),
-                HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Get auto model by id")
+  @GetMapping("/{id}")
+  public ResponseEntity<AutoModelResponseDTO> getAutoModelById(@PathVariable Long id) {
+    log.trace("Controller method called to view auto model with id: {}", id);
+    return new ResponseEntity<>(
+        autoModelDTOConverter.toDTO(autoModelService.findAutoModelById(id)), HttpStatus.OK);
+  }
 }

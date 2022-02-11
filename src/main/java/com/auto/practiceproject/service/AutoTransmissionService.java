@@ -7,10 +7,9 @@ import java.util.Optional;
 
 public interface AutoTransmissionService {
 
-    Optional<AutoTransmission> findAutoTransmission(Long id);
+  Optional<AutoTransmission> findAutoTransmission(Long id);
 
-    List<AutoTransmission> findAllAutoTransmission();
+  List<AutoTransmission> findAllAutoTransmission();
 
-    AutoTransmission findAutoTransmissionById(Long id);
-
+  AutoTransmission findAutoTransmissionById(Long id);
 }

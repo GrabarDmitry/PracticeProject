@@ -20,28 +20,29 @@ import java.util.Optional;
 @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 public class RegionServiceImpl implements RegionService {
 
-    private final RegionDAO regionDAO;
+  private final RegionDAO regionDAO;
 
-    @Override
-    public Optional<Region> findRegion(Long id) {
-        log.trace("Service method called to view Region with id: {}", id);
-        return regionDAO.findById(id);
-    }
+  @Override
+  public Optional<Region> findRegion(Long id) {
+    log.trace("Service method called to view Region with id: {}", id);
+    return regionDAO.findById(id);
+  }
 
-    @Override
-    public Page<Region> findAllRegion(Pageable pageable) {
-        log.trace("Service method called to find all regions with params: {}", pageable);
-        return regionDAO.findAll(pageable);
-    }
+  @Override
+  public Page<Region> findAllRegion(Pageable pageable) {
+    log.trace("Service method called to find all regions with params: {}", pageable);
+    return regionDAO.findAll(pageable);
+  }
 
-    @Override
-    public Region findRegionById(Long id) {
-        log.info("Service method called to find region with id: {}", id);
-        return regionDAO.findById(id).
-                orElseThrow(() -> {
-                    log.warn("Region with Id: {} not found", id);
-                    throw new ResourceException("Region with Id: " + id + " not found");
-                });
-    }
-
+  @Override
+  public Region findRegionById(Long id) {
+    log.info("Service method called to find region with id: {}", id);
+    return regionDAO
+        .findById(id)
+        .orElseThrow(
+            () -> {
+              log.warn("Region with Id: {} not found", id);
+              throw new ResourceException("Region with Id: " + id + " not found");
+            });
+  }
 }

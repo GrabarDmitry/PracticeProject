@@ -4,6 +4,5 @@ import com.auto.practiceproject.model.Auto;
 
 public interface AutoService {
 
-    Auto findAutoById(Long id);
-
+  Auto findAutoById(Long id);
 }

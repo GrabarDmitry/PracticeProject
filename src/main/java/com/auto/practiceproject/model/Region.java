@@ -17,7 +17,6 @@ import javax.persistence.Table;
 @Table(name = "region")
 public class Region extends AbstractEntity {
 
-    @Column(length = 45)
-    private String title;
-
+  @Column(length = 45)
+  private String title;
 }

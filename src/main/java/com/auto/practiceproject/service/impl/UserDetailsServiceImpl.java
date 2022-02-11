@@ -17,19 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserDAO userDAO;
+  private final UserDAO userDAO;
 
-    @Override
-    public UserDetailsImpl loadUserByUsername(String email) {
-        log.info("Service method called to load User with email: {}", email);
-        User user = userDAO.findUserByEmail(email).
-                orElseThrow(() -> {
-                    log.warn("User not found with email: {}", email);
-                    throw new UsernameNotFoundException("User with email " + email + " not found!");
+  @Override
+  public UserDetailsImpl loadUserByUsername(String email) {
+    log.info("Service method called to load User with email: {}", email);
+    User user =
+        userDAO
+            .findUserByEmail(email)
+            .orElseThrow(
+                () -> {
+                  log.warn("User not found with email: {}", email);
+                  throw new UsernameNotFoundException("User with email " + email + " not found!");
                 });
-        log.trace("Service method to load User with email: {}: ", email);
-        return new UserDetailsImpl(user);
-    }
-
+    log.trace("Service method to load User with email: {}: ", email);
+    return new UserDetailsImpl(user);
+  }
 }
-

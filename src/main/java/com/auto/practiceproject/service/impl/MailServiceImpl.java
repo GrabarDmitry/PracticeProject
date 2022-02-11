@@ -14,19 +14,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    private final JavaMailSender mailSender;
+  private final JavaMailSender mailSender;
 
-    @Override
-    public void sendDataToEmail(MailDataDTO mailDataDTO) {
-        log.info("Service method called to send data on email: {}", mailDataDTO.getRecipient());
-        MimeMessagePreparator messageProperties = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("auto.podbor@mail.com");
-            messageHelper.setSubject(mailDataDTO.getSubject());
-            messageHelper.setTo(mailDataDTO.getRecipient());
-            messageHelper.setText(mailDataDTO.getBody());
+  @Override
+  public void sendDataToEmail(MailDataDTO mailDataDTO) {
+    log.info("Service method called to send data on email: {}", mailDataDTO.getRecipient());
+    MimeMessagePreparator messageProperties =
+        mimeMessage -> {
+          MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+          messageHelper.setFrom("auto.podbor@mail.com");
+          messageHelper.setSubject(mailDataDTO.getSubject());
+          messageHelper.setTo(mailDataDTO.getRecipient());
+          messageHelper.setText(mailDataDTO.getBody());
         };
-        mailSender.send(messageProperties);
-    }
-
+    mailSender.send(messageProperties);
+  }
 }

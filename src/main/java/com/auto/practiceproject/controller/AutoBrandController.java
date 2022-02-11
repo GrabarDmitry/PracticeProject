@@ -24,27 +24,25 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AutoBrandController {
 
-    private final AutoBrandService autoBrandService;
-    private final AutoBrandDTOConverter autoBrandDTOConverter;
+  private final AutoBrandService autoBrandService;
+  private final AutoBrandDTOConverter autoBrandDTOConverter;
 
-    @ApiOperation(value = "View list of auto brand")
-    @GetMapping
-    public ResponseEntity<List<AutoBrandResponseDTO>> getAllAutoBrands() {
-        log.trace("Controller method called to view all autoBrands");
-        return new ResponseEntity<>(
-                autoBrandService.findAll().stream()
-                        .map(autoBrandDTOConverter::toDTO)
-                        .collect(Collectors.toList())
-                , HttpStatus.OK);
-    }
+  @ApiOperation(value = "View list of auto brand")
+  @GetMapping
+  public ResponseEntity<List<AutoBrandResponseDTO>> getAllAutoBrands() {
+    log.trace("Controller method called to view all autoBrands");
+    return new ResponseEntity<>(
+        autoBrandService.findAll().stream()
+            .map(autoBrandDTOConverter::toDTO)
+            .collect(Collectors.toList()),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Get auto brand by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<AutoBrandResponseDTO> getAutoBrandById(@PathVariable Long id) {
-        log.trace("Controller method called to view auto brand with id: {}", id);
-        return new ResponseEntity<>(autoBrandDTOConverter
-                .toDTO(autoBrandService.findAutoBrandById(id)),
-                HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Get auto brand by id")
+  @GetMapping("/{id}")
+  public ResponseEntity<AutoBrandResponseDTO> getAutoBrandById(@PathVariable Long id) {
+    log.trace("Controller method called to view auto brand with id: {}", id);
+    return new ResponseEntity<>(
+        autoBrandDTOConverter.toDTO(autoBrandService.findAutoBrandById(id)), HttpStatus.OK);
+  }
 }

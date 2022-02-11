@@ -17,12 +17,11 @@ import java.util.Optional;
 @Slf4j
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleDAO roleDAO;
+  private final RoleDAO roleDAO;
 
-    @Override
-    public Optional<Role> findRoleByTitle(String title) {
-        log.trace("Service method called to view Role with title: {}", title);
-        return roleDAO.findByTitle(title);
-    }
-
+  @Override
+  public Optional<Role> findRoleByTitle(String title) {
+    log.trace("Service method called to view Role with title: {}", title);
+    return roleDAO.findByTitle(title);
+  }
 }

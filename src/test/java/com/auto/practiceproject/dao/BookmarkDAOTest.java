@@ -18,44 +18,38 @@ import java.util.Optional;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@TestPropertySource(
-        locations = "classpath:application_dao_test.properties")
+@TestPropertySource(locations = "classpath:application_dao_test.properties")
 public class BookmarkDAOTest {
 
-    @Autowired
-    private BookmarkDAO bookmarkDAO;
+  @Autowired private BookmarkDAO bookmarkDAO;
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+  @Autowired private TestEntityManager testEntityManager;
 
-    @Test
-    public void findBookmarkByUserTest() {
-        User userTest1 = new User();
-        userTest1.setEmail("alex@mail.ru");
-        userTest1 = testEntityManager.persistAndFlush(userTest1);
+  @Test
+  public void findBookmarkByUserTest() {
+    User userTest1 = new User();
+    userTest1.setEmail("alex@mail.ru");
+    userTest1 = testEntityManager.persistAndFlush(userTest1);
 
-        User userTest2 = new User();
-        userTest2.setEmail("jon@mail.ru");
-        userTest2 = testEntityManager.persistAndFlush(userTest2);
+    User userTest2 = new User();
+    userTest2.setEmail("jon@mail.ru");
+    userTest2 = testEntityManager.persistAndFlush(userTest2);
 
-        testEntityManager.persistAndFlush(new Bookmark(userTest1, Collections.emptyList()));
-        testEntityManager.persistAndFlush(new Bookmark(userTest2, Collections.emptyList()));
+    testEntityManager.persistAndFlush(new Bookmark(userTest1, Collections.emptyList()));
+    testEntityManager.persistAndFlush(new Bookmark(userTest2, Collections.emptyList()));
 
-        Optional<Bookmark> bookmark = bookmarkDAO.
-                findBookmarkByUser(userTest1);
+    Optional<Bookmark> bookmark = bookmarkDAO.findBookmarkByUser(userTest1);
 
-        Assert.assertTrue(bookmark.isPresent());
-        Assert.assertEquals(bookmark.get().getUser().getEmail(), "alex@mail.ru");
-    }
+    Assert.assertTrue(bookmark.isPresent());
+    Assert.assertEquals(bookmark.get().getUser().getEmail(), "alex@mail.ru");
+  }
 
-    @Test
-    public void findBookmarkByUserIsNullTest() {
-        User user = testEntityManager.persistAndFlush(new User());
+  @Test
+  public void findBookmarkByUserIsNullTest() {
+    User user = testEntityManager.persistAndFlush(new User());
 
-        Optional<Bookmark> bookmark = bookmarkDAO.
-                findBookmarkByUser(user);
+    Optional<Bookmark> bookmark = bookmarkDAO.findBookmarkByUser(user);
 
-        Assert.assertTrue(bookmark.isEmpty());
-    }
-
+    Assert.assertTrue(bookmark.isEmpty());
+  }
 }

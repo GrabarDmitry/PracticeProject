@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface BookmarkDAO extends JpaRepository<Bookmark, Long> {
-    Optional<Bookmark> findBookmarkByUser(User user);
+  Optional<Bookmark> findBookmarkByUser(User user);
 }

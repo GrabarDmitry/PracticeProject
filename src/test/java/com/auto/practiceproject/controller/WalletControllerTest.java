@@ -23,31 +23,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application_test.properties")
+@TestPropertySource(locations = "classpath:application_test.properties")
 @Sql(value = "classpath:init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class WalletControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private TestUtil testUtil;
+  @Autowired private TestUtil testUtil;
 
-    @Autowired
-    private ParseToJSONHelper helper;
+  @Autowired private ParseToJSONHelper helper;
 
-    @Test
-    public void putMoneyToWalletTest() throws Exception {
-        String jsonRequest = helper.moneyTransferDTOToJSON(
-                new MoneyTransferDTO("4903010000000009", LocalDate.now(), 10D));
+  @Test
+  public void putMoneyToWalletTest() throws Exception {
+    String jsonRequest =
+        helper.moneyTransferDTOToJSON(
+            new MoneyTransferDTO("4903010000000009", LocalDate.now(), 10D));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/wallet")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest).with(testUtil.authentication("Dzmitry@mail.ru")))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/api/wallet")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonRequest)
+                .with(testUtil.authentication("Dzmitry@mail.ru")))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
 }

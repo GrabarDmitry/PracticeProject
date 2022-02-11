@@ -1,6 +1,5 @@
 package com.auto.practiceproject.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,11 +15,9 @@ import javax.persistence.*;
 @Table(name = "wallet")
 public class Wallet extends AbstractEntity {
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "userId")
-    private User user;
+  @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @JoinColumn(name = "userId")
+  private User user;
 
-    @Column
-    private Double balance;
-
+  @Column private Double balance;
 }

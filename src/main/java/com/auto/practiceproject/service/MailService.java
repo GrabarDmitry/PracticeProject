@@ -4,6 +4,5 @@ import com.auto.practiceproject.controller.dto.request.MailDataDTO;
 
 public interface MailService {
 
-    void sendDataToEmail(MailDataDTO mailDataDTO);
-
+  void sendDataToEmail(MailDataDTO mailDataDTO);
 }

@@ -11,12 +11,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AutoReleasedTearDTOConverter {
 
-    public AutoReleasedYearResponseDTO toDTO(AutoReleasedYear autoReleasedYear) {
-        log.trace("Convert AutoReleasedYear: {}, to AutoReleasedResponseDTO", autoReleasedYear);
-        return new AutoReleasedYearResponseDTO(
-                autoReleasedYear.getId(),
-                autoReleasedYear.getReleasedYear()
-        );
-    }
-
+  public AutoReleasedYearResponseDTO toDTO(AutoReleasedYear autoReleasedYear) {
+    log.trace("Convert AutoReleasedYear: {}, to AutoReleasedResponseDTO", autoReleasedYear);
+    return new AutoReleasedYearResponseDTO(
+        autoReleasedYear.getId(), autoReleasedYear.getReleasedYear());
+  }
 }

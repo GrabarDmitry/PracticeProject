@@ -20,79 +20,80 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application_test.properties")
+@TestPropertySource(locations = "classpath:application_test.properties")
 @Sql(value = "classpath:init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class ModeratorControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private TestUtil testUtil;
+  @Autowired private TestUtil testUtil;
 
-    @Test
-    public void getAllNotModerationAnnouncementTest() throws Exception {
-        mockMvc.perform(get("/api/moderator/announcement").
-                        with(testUtil.authentication("user@mail.ru")))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.content.[0].id").value(3L));
-    }
+  @Test
+  public void getAllNotModerationAnnouncementTest() throws Exception {
+    mockMvc
+        .perform(get("/api/moderator/announcement").with(testUtil.authentication("user@mail.ru")))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.content.[0].id").value(3L));
+  }
 
-    @Test
-    public void getAllNotModerationAnnouncementWithPageableTest() throws Exception {
-        mockMvc.perform(get("/api/moderator/announcement").
-                        with(testUtil.authentication("user@mail.ru"))
-                        .queryParam("page", "0")
-                        .queryParam("size", "1"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.content.[0].id").value(3L))
-                .andExpect(jsonPath("$.size").value(1))
-                .andExpect(jsonPath("$.number").value(0));
-    }
+  @Test
+  public void getAllNotModerationAnnouncementWithPageableTest() throws Exception {
+    mockMvc
+        .perform(
+            get("/api/moderator/announcement")
+                .with(testUtil.authentication("user@mail.ru"))
+                .queryParam("page", "0")
+                .queryParam("size", "1"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.content.[0].id").value(3L))
+        .andExpect(jsonPath("$.size").value(1))
+        .andExpect(jsonPath("$.number").value(0));
+  }
 
-    @Test
-    public void getAllNotModerationAnnouncementFailPermissionTest() throws Exception {
-        testUtil.exceptionCheck(mockMvc.perform(get("/api/moderator/announcement").
-                                with(testUtil.authentication("Jack@mail.ru")))
-                        .andDo(print())
-                        .andExpect(status().isForbidden())
-                        .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
-                "403",
-                "Forbidden",
-                "You do not have permission to access this resource!"
-        );
-    }
+  @Test
+  public void getAllNotModerationAnnouncementFailPermissionTest() throws Exception {
+    testUtil.exceptionCheck(
+        mockMvc
+            .perform(
+                get("/api/moderator/announcement").with(testUtil.authentication("Jack@mail.ru")))
+            .andDo(print())
+            .andExpect(status().isForbidden())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
+        "403",
+        "Forbidden",
+        "You do not have permission to access this resource!");
+  }
 
-    @Test
-    public void changeAnnouncementIsModerationTest() throws Exception {
-        AnnouncementModerationChangeDTO moderationChangeDTO =
-                new AnnouncementModerationChangeDTO(true);
-        mockMvc.perform(testUtil.
-                        patchJson("/api/moderator/announcement/{id}", moderationChangeDTO, 3L).
-                        with(testUtil.authentication("Dzmitry@mail.ru")))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(3L));
-    }
+  @Test
+  public void changeAnnouncementIsModerationTest() throws Exception {
+    AnnouncementModerationChangeDTO moderationChangeDTO = new AnnouncementModerationChangeDTO(true);
+    mockMvc
+        .perform(
+            testUtil
+                .patchJson("/api/moderator/announcement/{id}", moderationChangeDTO, 3L)
+                .with(testUtil.authentication("Dzmitry@mail.ru")))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(3L));
+  }
 
-    @Test
-    public void changeAnnouncementIsActiveFailPermissionTest() throws Exception {
-        AnnouncementModerationChangeDTO moderationChangeDTO =
-                new AnnouncementModerationChangeDTO(true);
-        testUtil.exceptionCheck(mockMvc.perform(testUtil.
-                                patchJson("/api/moderator/announcement/{id}", moderationChangeDTO, 3L).
-                                with(testUtil.authentication("Jack@mail.ru")))
-                        .andExpect(status().isForbidden())
-                        .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
-                "403",
-                "Forbidden",
-                "You do not have permission to access this resource!");
-    }
-
-
+  @Test
+  public void changeAnnouncementIsActiveFailPermissionTest() throws Exception {
+    AnnouncementModerationChangeDTO moderationChangeDTO = new AnnouncementModerationChangeDTO(true);
+    testUtil.exceptionCheck(
+        mockMvc
+            .perform(
+                testUtil
+                    .patchJson("/api/moderator/announcement/{id}", moderationChangeDTO, 3L)
+                    .with(testUtil.authentication("Jack@mail.ru")))
+            .andExpect(status().isForbidden())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON)),
+        "403",
+        "Forbidden",
+        "You do not have permission to access this resource!");
+  }
 }

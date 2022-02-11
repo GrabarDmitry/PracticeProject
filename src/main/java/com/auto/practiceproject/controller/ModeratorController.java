@@ -27,40 +27,39 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class ModeratorController {
 
-    private final AnnouncementService announcementService;
-    private final AnnouncementDTOConverter announcementDTOConverter;
+  private final AnnouncementService announcementService;
+  private final AnnouncementDTOConverter announcementDTOConverter;
 
-    @PageableSwagger
-    @ApiOperation(value = "View all not moderation announcement")
-    @PreAuthorize("hasPermission(null ,null ,'MODERATOR')")
-    @GetMapping
-    public ResponseEntity<Page<AnnouncementResponseDTO>> getAllNotModerationAnnouncement(
-            @PageableDefault(
-                    page = 0,
-                    size = 5,
-                    sort = "id",
-                    direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(name = "filter", required = false) String filter) {
-        log.trace("Controller method called to view all not moderation Announcement with params: {}", pageable);
-        return new ResponseEntity<>(
-                announcementService.findAllAnnouncementByModeration(true, pageable, filter)
-                        .map(announcementDTOConverter::toDTO)
-                , HttpStatus.OK);
-    }
+  @PageableSwagger
+  @ApiOperation(value = "View all not moderation announcement")
+  @PreAuthorize("hasPermission(null ,null ,'MODERATOR')")
+  @GetMapping
+  public ResponseEntity<Page<AnnouncementResponseDTO>> getAllNotModerationAnnouncement(
+      @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC)
+          Pageable pageable,
+      @RequestParam(name = "filter", required = false) String filter) {
+    log.trace(
+        "Controller method called to view all not moderation Announcement with params: {}",
+        pageable);
+    return new ResponseEntity<>(
+        announcementService
+            .findAllAnnouncementByModeration(true, pageable, filter)
+            .map(announcementDTOConverter::toDTO),
+        HttpStatus.OK);
+  }
 
-    @ApiOperation(value = "Change announcement moderation")
-    @PreAuthorize("hasPermission(#id,'Announcement','MODERATOR')")
-    @PatchMapping("/{id}")
-    public ResponseEntity<AnnouncementResponseDTO> changeAnnouncementModeration(
-            @PathVariable("id") Long id,
-            @RequestBody @Valid AnnouncementModerationChangeDTO moderationChangeDTO
-    ) {
-        log.trace("Controller method called to update isModeration announcement field with id: {}", id);
-        return new ResponseEntity<>(
-                announcementDTOConverter.toDTO(
-                        announcementService.updateAnnouncement(announcementDTOConverter
-                                .toAnnouncementWithEditedIsModeration(id, moderationChangeDTO)))
-                , HttpStatus.OK);
-    }
-
+  @ApiOperation(value = "Change announcement moderation")
+  @PreAuthorize("hasPermission(#id,'Announcement','MODERATOR')")
+  @PatchMapping("/{id}")
+  public ResponseEntity<AnnouncementResponseDTO> changeAnnouncementModeration(
+      @PathVariable("id") Long id,
+      @RequestBody @Valid AnnouncementModerationChangeDTO moderationChangeDTO) {
+    log.trace("Controller method called to update isModeration announcement field with id: {}", id);
+    return new ResponseEntity<>(
+        announcementDTOConverter.toDTO(
+            announcementService.updateAnnouncement(
+                announcementDTOConverter.toAnnouncementWithEditedIsModeration(
+                    id, moderationChangeDTO))),
+        HttpStatus.OK);
+  }
 }

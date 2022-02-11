@@ -23,50 +23,44 @@ import static org.junit.Assert.assertThrows;
 @SpringBootTest
 public class AutoReleasedYearServiceTest {
 
-    @Autowired
-    private AutoReleasedYearService autoReleasedYearService;
+  @Autowired private AutoReleasedYearService autoReleasedYearService;
 
-    @MockBean
-    private AutoReleasedYearDAO releasedYearDAO;
+  @MockBean private AutoReleasedYearDAO releasedYearDAO;
 
-    private List<AutoReleasedYear> autoReleasedYearData;
+  private List<AutoReleasedYear> autoReleasedYearData;
 
-    @Before
-    public void setUp() {
-        autoReleasedYearData = new ArrayList<>();
+  @Before
+  public void setUp() {
+    autoReleasedYearData = new ArrayList<>();
 
-        AutoReleasedYear autoReleasedYear1 = new AutoReleasedYear();
-        autoReleasedYear1.setId(1L);
-        AutoReleasedYear autoReleasedYear2 = new AutoReleasedYear();
-        autoReleasedYear2.setId(2L);
+    AutoReleasedYear autoReleasedYear1 = new AutoReleasedYear();
+    autoReleasedYear1.setId(1L);
+    AutoReleasedYear autoReleasedYear2 = new AutoReleasedYear();
+    autoReleasedYear2.setId(2L);
 
-        autoReleasedYearData.add(autoReleasedYear1);
-        autoReleasedYearData.add(autoReleasedYear2);
-    }
+    autoReleasedYearData.add(autoReleasedYear1);
+    autoReleasedYearData.add(autoReleasedYear2);
+  }
 
-    @Test
-    public void findAutoReleasedYearByIdTest() {
-        Mockito.when(releasedYearDAO.findById(1l))
-                .thenReturn(Optional.of(autoReleasedYearData.get(0)));
+  @Test
+  public void findAutoReleasedYearByIdTest() {
+    Mockito.when(releasedYearDAO.findById(1l)).thenReturn(Optional.of(autoReleasedYearData.get(0)));
 
-        AutoReleasedYear autoReleasedYear = autoReleasedYearService.findAutoReleasedYearById(1L);
+    AutoReleasedYear autoReleasedYear = autoReleasedYearService.findAutoReleasedYearById(1L);
 
-        Assert.assertNotNull(autoReleasedYear);
-        Assert.assertEquals(autoReleasedYear.getId().longValue(), 1L);
-    }
+    Assert.assertNotNull(autoReleasedYear);
+    Assert.assertEquals(autoReleasedYear.getId().longValue(), 1L);
+  }
 
-    @Test(expected = ResourceException.class)
-    public void findAutoReleasedYearByIdIsNullTest() {
-        AutoReleasedYear autoReleasedYear = autoReleasedYearService.findAutoReleasedYearById(3L);
+  @Test(expected = ResourceException.class)
+  public void findAutoReleasedYearByIdIsNullTest() {
+    AutoReleasedYear autoReleasedYear = autoReleasedYearService.findAutoReleasedYearById(3L);
 
-        Assert.assertNull(autoReleasedYear);
+    Assert.assertNull(autoReleasedYear);
 
-        Exception exception = assertThrows(
-                ResourceException.class,
-                () -> autoReleasedYearService.findAutoReleasedYearById(3L));
-        Assert.assertTrue(exception.getMessage().contains(
-                "Auto released year with Id: 3 not found"
-        ));
-    }
-
+    Exception exception =
+        assertThrows(
+            ResourceException.class, () -> autoReleasedYearService.findAutoReleasedYearById(3L));
+    Assert.assertTrue(exception.getMessage().contains("Auto released year with Id: 3 not found"));
+  }
 }

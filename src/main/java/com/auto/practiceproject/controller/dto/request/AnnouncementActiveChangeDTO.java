@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class AnnouncementActiveChangeDTO {
 
-    @NotNull(message = "Is exchange should not be null")
-    private Boolean isActive;
-
+  @NotNull(message = "Is exchange should not be null")
+  private Boolean isActive;
 }

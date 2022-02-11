@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,22 +18,23 @@ import java.util.Optional;
 @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 public class AutoBrandServiceImpl implements AutoBrandService {
 
-    private final AutoBrandDAO autoBrandDAO;
+  private final AutoBrandDAO autoBrandDAO;
 
-    @Override
-    public List<AutoBrand> findAll() {
-        log.trace("Service method called to find all auto brand");
-        return autoBrandDAO.findAll();
-    }
+  @Override
+  public List<AutoBrand> findAll() {
+    log.trace("Service method called to find all auto brand");
+    return autoBrandDAO.findAll();
+  }
 
-    @Override
-    public AutoBrand findAutoBrandById(Long id) {
-        log.info("Service method called to find auto brand with id: {}", id);
-        return autoBrandDAO.findById(id).
-                orElseThrow(() -> {
-                    log.warn("Auto brand with Id: {} not found", id);
-                    throw new ResourceException("Auto brand with Id: " + id + " not found");
-                });
-    }
-
+  @Override
+  public AutoBrand findAutoBrandById(Long id) {
+    log.info("Service method called to find auto brand with id: {}", id);
+    return autoBrandDAO
+        .findById(id)
+        .orElseThrow(
+            () -> {
+              log.warn("Auto brand with Id: {} not found", id);
+              throw new ResourceException("Auto brand with Id: " + id + " not found");
+            });
+  }
 }

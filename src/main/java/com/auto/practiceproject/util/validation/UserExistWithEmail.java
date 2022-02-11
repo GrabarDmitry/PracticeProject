@@ -19,25 +19,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = UserExistWithEmail.Validator.class)
 public @interface UserExistWithEmail {
 
-    String message() default "user with installed email already exists";
+  String message() default "user with installed email already exists";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    @RequiredArgsConstructor
-    class Validator implements ConstraintValidator<UserExistWithEmail, String> {
+  @RequiredArgsConstructor
+  class Validator implements ConstraintValidator<UserExistWithEmail, String> {
 
-        private final UserService userService;
+    private final UserService userService;
 
-        @Override
-        public void initialize(UserExistWithEmail constraintAnnotation) {
+    @Override
+    public void initialize(UserExistWithEmail constraintAnnotation) {}
 
-        }
-
-        @Override
-        public boolean isValid(String email, ConstraintValidatorContext context) {
-            return userService.findUserByEmail(email).isEmpty();
-        }
+    @Override
+    public boolean isValid(String email, ConstraintValidatorContext context) {
+      return userService.findUserByEmail(email).isEmpty();
     }
+  }
 }

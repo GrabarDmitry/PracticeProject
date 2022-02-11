@@ -17,42 +17,37 @@ import java.util.Optional;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@TestPropertySource(
-        locations = "classpath:application_dao_test.properties")
+@TestPropertySource(locations = "classpath:application_dao_test.properties")
 public class UserDAOTest {
 
-    @Autowired
-    private UserDAO userDAO;
+  @Autowired private UserDAO userDAO;
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+  @Autowired private TestEntityManager testEntityManager;
 
-    @Before
-    public void setUp() {
-        User userTest1 = new User();
-        User userTest2 = new User();
-        User userTest3 = new User();
-        userTest1.setEmail("josh@mail.ru");
-        userTest2.setEmail("nick@mail.ru");
-        userTest3.setEmail("tyler@mail.ru");
-        testEntityManager.persistAndFlush(userTest1);
-        testEntityManager.persistAndFlush(userTest2);
-        testEntityManager.persistAndFlush(userTest3);
-    }
+  @Before
+  public void setUp() {
+    User userTest1 = new User();
+    User userTest2 = new User();
+    User userTest3 = new User();
+    userTest1.setEmail("josh@mail.ru");
+    userTest2.setEmail("nick@mail.ru");
+    userTest3.setEmail("tyler@mail.ru");
+    testEntityManager.persistAndFlush(userTest1);
+    testEntityManager.persistAndFlush(userTest2);
+    testEntityManager.persistAndFlush(userTest3);
+  }
 
-    @Test
-    public void findUserByEmailTest() {
-        Optional<User> user = userDAO.findUserByEmail("nick@mail.ru");
+  @Test
+  public void findUserByEmailTest() {
+    Optional<User> user = userDAO.findUserByEmail("nick@mail.ru");
 
-        Assert.assertTrue(user.isPresent());
-        Assert.assertEquals(user.get().getEmail(), "nick@mail.ru");
-    }
+    Assert.assertTrue(user.isPresent());
+    Assert.assertEquals(user.get().getEmail(), "nick@mail.ru");
+  }
 
-    @Test
-    public void findUserByEmailIsNullTest() {
-        Optional<User> user = userDAO.findUserByEmail("test@mail.ru");
-        Assert.assertTrue(user.isEmpty());
-
-    }
-
+  @Test
+  public void findUserByEmailIsNullTest() {
+    Optional<User> user = userDAO.findUserByEmail("test@mail.ru");
+    Assert.assertTrue(user.isEmpty());
+  }
 }

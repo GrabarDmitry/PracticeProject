@@ -11,12 +11,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AutoTransmissionDOCConverter {
 
-    public AutoTransmissionResponseDTO toDTO(AutoTransmission autoTransmission) {
-        log.trace("Convert AutoTransmission: {}, to AutoTransmissionResponseDTO", autoTransmission);
-        return new AutoTransmissionResponseDTO(
-                autoTransmission.getId(),
-                autoTransmission.getType()
-        );
-    }
-
+  public AutoTransmissionResponseDTO toDTO(AutoTransmission autoTransmission) {
+    log.trace("Convert AutoTransmission: {}, to AutoTransmissionResponseDTO", autoTransmission);
+    return new AutoTransmissionResponseDTO(autoTransmission.getId(), autoTransmission.getType());
+  }
 }

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface RoleDAO extends JpaRepository<Role, Long> {
-    Optional<Role> findByTitle(String title);
+  Optional<Role> findByTitle(String title);
 }

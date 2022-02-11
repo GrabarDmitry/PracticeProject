@@ -19,26 +19,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = AutoTransmissionDoesNotExist.Validator.class)
 public @interface AutoTransmissionDoesNotExist {
 
-    String message() default "Auto transmission with installed id don't exist";
+  String message() default "Auto transmission with installed id don't exist";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    @RequiredArgsConstructor
-    class Validator implements ConstraintValidator<AutoTransmissionDoesNotExist, Long> {
+  @RequiredArgsConstructor
+  class Validator implements ConstraintValidator<AutoTransmissionDoesNotExist, Long> {
 
-        private final AutoTransmissionService autoTransmissionService;
+    private final AutoTransmissionService autoTransmissionService;
 
-        @Override
-        public void initialize(AutoTransmissionDoesNotExist autoTransmissionDoesNotExist) {
-        }
+    @Override
+    public void initialize(AutoTransmissionDoesNotExist autoTransmissionDoesNotExist) {}
 
-        @Override
-        public boolean isValid(Long id, ConstraintValidatorContext context) {
-            return autoTransmissionService.findAutoTransmission(id)
-                    .isPresent();
-        }
-
+    @Override
+    public boolean isValid(Long id, ConstraintValidatorContext context) {
+      return autoTransmissionService.findAutoTransmission(id).isPresent();
     }
+  }
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FilterDTO {
-    private String field;
-    private OperationType operationType;
-    private String value;
+  private String field;
+  private OperationType operationType;
+  private String value;
 }

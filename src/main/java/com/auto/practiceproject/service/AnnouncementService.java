@@ -9,18 +9,18 @@ import java.util.Optional;
 
 public interface AnnouncementService {
 
-    Page<Announcement> findAllAnnouncementByModeration(Boolean moderation, Pageable pageable, String filter);
+  Page<Announcement> findAllAnnouncementByModeration(
+      Boolean moderation, Pageable pageable, String filter);
 
-    Announcement createAnnouncement(Announcement announcement);
+  Announcement createAnnouncement(Announcement announcement);
 
-    Announcement findAnnouncementById(Long id);
+  Announcement findAnnouncementById(Long id);
 
-    Announcement updateAnnouncement(Announcement announcement);
+  Announcement updateAnnouncement(Announcement announcement);
 
-    Announcement announcementRatingUp(Long id);
+  Announcement announcementRatingUp(Long id);
 
-    Page<Announcement> findAnnouncementByUserId(User user, Pageable pageable, String filter);
+  Page<Announcement> findAnnouncementByUserId(User user, Pageable pageable, String filter);
 
-    Optional<Announcement> findAnnouncement(Long id);
-
+  Optional<Announcement> findAnnouncement(Long id);
 }

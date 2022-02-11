@@ -1,6 +1,5 @@
 package com.auto.practiceproject.model;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,8 +19,7 @@ import java.time.LocalDate;
 @Table(name = "auto_released_year")
 public class AutoReleasedYear extends AbstractEntity {
 
-    @Column
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate releasedYear;
-
+  @Column
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate releasedYear;
 }

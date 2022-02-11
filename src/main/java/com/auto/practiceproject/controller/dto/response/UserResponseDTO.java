@@ -8,9 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class UserResponseDTO {
-    private Long id;
-    private String email;
-    private String name;
-    private String surname;
-    private Long walletId;
+  private Long id;
+  private String email;
+  private String name;
+  private String surname;
+  private Long walletId;
 }

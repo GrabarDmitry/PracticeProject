@@ -18,32 +18,28 @@ import java.util.Optional;
 @SpringBootTest
 public class RoleServiceTest {
 
-    @Autowired
-    private RoleService roleService;
+  @Autowired private RoleService roleService;
 
-    @MockBean
-    private RoleDAO roleDAO;
+  @MockBean private RoleDAO roleDAO;
 
-    @Before
-    public void setUp() {
-        Role role = new Role("ADMIN");
-        role.setId(1l);
+  @Before
+  public void setUp() {
+    Role role = new Role("ADMIN");
+    role.setId(1l);
 
-        Mockito.when(roleDAO.findByTitle("ADMIN"))
-                .thenReturn(Optional.of(role));
-    }
+    Mockito.when(roleDAO.findByTitle("ADMIN")).thenReturn(Optional.of(role));
+  }
 
-    @Test
-    public void findRoleTest() {
-        Optional<Role> role = roleService.findRoleByTitle("ADMIN");
-        Assert.assertTrue(role.isPresent());
-        Assert.assertEquals(role.get().getTitle(), "ADMIN");
-    }
+  @Test
+  public void findRoleTest() {
+    Optional<Role> role = roleService.findRoleByTitle("ADMIN");
+    Assert.assertTrue(role.isPresent());
+    Assert.assertEquals(role.get().getTitle(), "ADMIN");
+  }
 
-    @Test
-    public void findAutoBrandIsNullTest() {
-        Optional<Role> role = roleService.findRoleByTitle("USER");
-        Assert.assertTrue(role.isEmpty());
-    }
-
+  @Test
+  public void findAutoBrandIsNullTest() {
+    Optional<Role> role = roleService.findRoleByTitle("USER");
+    Assert.assertTrue(role.isEmpty());
+  }
 }

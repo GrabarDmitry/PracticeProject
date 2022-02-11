@@ -25,22 +25,19 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AdminController {
 
-    private final SecurityService securityService;
-    private final UserDTOConverter userDTOConverter;
+  private final SecurityService securityService;
+  private final UserDTOConverter userDTOConverter;
 
-    @ApiOperation(value = "Create moderator user")
-    @PreAuthorize("hasPermission(null,null ,'ADMIN')")
-    @PostMapping("/moderatorUser")
-    public ResponseEntity<UserResponseDTO> createModeratorUser(@RequestBody @Valid ModeratorUserCreateDTO createDTO) {
-        log.trace("Controller method called to create moderator user with email: {}"
-                , createDTO.getEmail());
-        return new ResponseEntity<>(
-                userDTOConverter.toDTO(
-                        securityService.createModeratorUser(
-                                userDTOConverter.toEntityCreate(createDTO)
-                        )
-                )
-                , HttpStatus.CREATED);
-    }
-
+  @ApiOperation(value = "Create moderator user")
+  @PreAuthorize("hasPermission(null,null ,'ADMIN')")
+  @PostMapping("/moderatorUser")
+  public ResponseEntity<UserResponseDTO> createModeratorUser(
+      @RequestBody @Valid ModeratorUserCreateDTO createDTO) {
+    log.trace(
+        "Controller method called to create moderator user with email: {}", createDTO.getEmail());
+    return new ResponseEntity<>(
+        userDTOConverter.toDTO(
+            securityService.createModeratorUser(userDTOConverter.toEntityCreate(createDTO))),
+        HttpStatus.CREATED);
+  }
 }
