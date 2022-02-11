@@ -5,7 +5,7 @@ services:
     image: "mysql:8.0"
     restart: always
     ports:
-      - 3308:3306
+      - 3307:3306
     environment:
       MYSQL_DATABASE: 'app_test'
       MYSQL_USER: 'user'
@@ -16,9 +16,13 @@ services:
     image: "mysql:8.0"
     restart: always
     ports:
-      - 3307:3306
+      - 3306:3306
     environment:
       MYSQL_DATABASE: 'app'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
+#  app:
+#    build: .
+#    ports:
+#      - 8080:8080
