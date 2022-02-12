@@ -2,7 +2,10 @@ package com.auto.practiceproject.service;
 
 import com.auto.practiceproject.model.Auto;
 
-public interface AutoService {
+import java.util.Optional;
 
-  Auto findAutoById(Long id);
+public interface AutoService {
+    Auto findAutoById(Long id);
+
+    Optional<Auto> findAuto(Long id);
 }

@@ -9,8 +9,8 @@ services:
       - 3306:3306
     environment:
       MYSQL_DATABASE: 'app'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'root'
       MYSQL_ROOT_PASSWORD: 'password'
   practiceproject:
     container_name: appcontainer
@@ -20,4 +20,4 @@ services:
     depends_on:
       - mysql_db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db2:3306/app
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/app
