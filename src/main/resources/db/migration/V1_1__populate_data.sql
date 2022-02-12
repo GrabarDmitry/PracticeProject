@@ -167,5 +167,5 @@ VALUES (1, 2),
 
 INSERT INTO app.wallet(user_id, balance)
 VALUES (1, 10),
-       (2, 0),
+       (2, 5),
        (3, 0)
