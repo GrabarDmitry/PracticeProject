@@ -10,10 +10,10 @@ import lombok.*;
 @ToString
 @CustomsDutyPriceValidator
 public class AutoRequestDTO {
-    private Integer mileage;
-    private Integer engineCapacity;
-    private String VIM;
-    private Long autoModelId;
-    private Long autoEngineId;
-    private Long autoTransmissionId;
+  private Integer mileage;
+  private Integer engineCapacity;
+  private String VIM;
+  private Long autoModelId;
+  private Long autoEngineId;
+  private Long autoTransmissionId;
 }
