@@ -13,8 +13,8 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
           MYSQL_DATABASE: app
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
@@ -29,7 +29,7 @@ jobs:
       - name: Verify app_test DB exists
         run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'app_test'"
       - name: Verify permission
-        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "GRANT all privileges on *.* to root@'%'";
+        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "GRANT all privileges on *.* to user@'%'";
       - uses: actions/checkout@v2
       - uses: axel-op/googlejavaformat-action@v3
         with:
