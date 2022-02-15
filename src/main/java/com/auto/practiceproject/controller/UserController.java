@@ -37,8 +37,7 @@ public class UserController {
   @ApiOperation(value = "Get current user information")
   @GetMapping
   public ResponseEntity<UserResponseDTO> getCurrentUser(
-          @ApiIgnore
-      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+      @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
     log.trace("Controller method called to get User: {}", userDetails.getUser());
     return new ResponseEntity<>(userDTOConverter.toDTO(userDetails.getUser()), HttpStatus.OK);
   }
@@ -57,8 +56,7 @@ public class UserController {
   public ResponseEntity<Page<AnnouncementResponseDTO>> getUserAnnouncements(
       @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC)
           Pageable pageable,
-      @ApiIgnore
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestParam(name = "filter", required = false) String filter) {
     log.trace(
         "Controller method called to get current user announcements, current user : {}",

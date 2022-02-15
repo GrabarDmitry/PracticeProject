@@ -30,8 +30,7 @@ public class WalletController {
   @ApiOperation(value = "Put money to wallet")
   @PostMapping
   public ResponseEntity<HttpStatus> putMoneyToWallet(
-          @ApiIgnore
-          @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestBody @Valid MoneyTransferDTO moneyTransferDTO) {
     log.trace("Controller method called to put money on wallet, user : {}", userDetails.getUser());
     walletService.putMoney(moneyTransferDTO.getAmount(), userDetails.getUser());
