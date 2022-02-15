@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -29,7 +30,8 @@ public class WalletController {
   @ApiOperation(value = "Put money to wallet")
   @PostMapping
   public ResponseEntity<HttpStatus> putMoneyToWallet(
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
+          @ApiIgnore
+          @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestBody @Valid MoneyTransferDTO moneyTransferDTO) {
     log.trace("Controller method called to put money on wallet, user : {}", userDetails.getUser());
     walletService.putMoney(moneyTransferDTO.getAmount(), userDetails.getUser());

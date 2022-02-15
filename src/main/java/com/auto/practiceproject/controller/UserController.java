@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = {"User"})
 @RestController
@@ -36,6 +37,7 @@ public class UserController {
   @ApiOperation(value = "Get current user information")
   @GetMapping
   public ResponseEntity<UserResponseDTO> getCurrentUser(
+          @ApiIgnore
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
     log.trace("Controller method called to get User: {}", userDetails.getUser());
     return new ResponseEntity<>(userDTOConverter.toDTO(userDetails.getUser()), HttpStatus.OK);
@@ -55,6 +57,7 @@ public class UserController {
   public ResponseEntity<Page<AnnouncementResponseDTO>> getUserAnnouncements(
       @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC)
           Pageable pageable,
+      @ApiIgnore
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestParam(name = "filter", required = false) String filter) {
     log.trace(

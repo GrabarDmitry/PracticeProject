@@ -161,8 +161,8 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>7.5.3</version>
                 <configuration>
-                    <user>root</user>
-                    <password>root</password>
+                    <user>user</user>
+                    <password>password</password>
                     <url>jdbc:mysql://localhost:3306/app?serverTimezone=UTC</url>
                 </configuration>
             </plugin>

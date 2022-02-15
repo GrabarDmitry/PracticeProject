@@ -1,6 +1,6 @@
-version: "3.7"
+version: "3"
 services:
-  mysql_db:
+  mysql:
     container_name: sqlserver
     image: "mysql:8.0"
     restart: always
@@ -9,15 +9,27 @@ services:
       - 3306:3306
     environment:
       MYSQL_DATABASE: 'app'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'root'
-      MYSQL_ROOT_PASSWORD: 'password'
-  practiceproject:
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+  practicepr:
     container_name: appcontainer
-    build: .
+    image: practiceproject
     ports:
       - 8080:8080
     depends_on:
-      - mysql_db
+      - mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/app
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/app
+  spabackend:
+    container_name: spab
+    image: spaback
+    ports:
+      - 8060:8080
+    depends_on:
+      - mysql
+  spafrontend:
+    container_name: spaf
+    image: spafront
+    ports:
+      - 4200:80
